@@ -1,3 +1,10 @@
+import pixelate from "@/effects/pixelate";
+
+const EFFECT_MAP: Record<string, any> = {
+	PIXELATE: pixelate,
+	NONE: null,
+};
+
 export default class Camera {
 	dataCanvas: HTMLCanvasElement;
 	dataContext: CanvasRenderingContext2D;
@@ -6,11 +13,13 @@ export default class Camera {
 	video: HTMLVideoElement | null;
   height: number;
   width: number;
+  currentEffect: string;
 
 	constructor(canvas: HTMLCanvasElement) {
     this.video = null;
     this.height = 0;
     this.width = 0;
+    this.currentEffect = 'NONE';
 		this.dataCanvas = document.createElement("canvas");
 		this.dataContext = this.dataCanvas.getContext("2d")!;
 		this.canvas = canvas;
@@ -52,9 +61,9 @@ export default class Camera {
 		this.drawVideo();
 	}
 
-	// setEffect(effect) {
-	// 	this.currentEffect = effect;
-	// }
+	setEffect(effect: string) {
+		this.currentEffect = effect;
+	}
 
 	drawVideo(): void {
     if (!this.video) return;
@@ -66,28 +75,27 @@ export default class Camera {
 
 		// data to output
 		this.context.clearRect(0, 0, this.width, this.height);
-		// const newImageData = this.context.createImageData(this.width, this.height);
+		const newImageData = this.context.createImageData(this.width, this.height);
 
 		let finalData;
-		// if (EFFECT_MAP[this.currentEffect]) {
-		// 	finalData = EFFECT_MAP[this.currentEffect](this.dataContext, this.width, this.height);
-		// 	// finalData = EFFECT_MAP[this.currentEffect](imageData, newImageData);
-		// } else {
-		// 	for (let i = 0; i < imageData.data.length; i += 4) {
-		// 		// r
-		// 		newImageData.data[i] = imageData.data[i];
-		// 		// g
-		// 		newImageData.data[i + 1] = imageData.data[i + 1];
-		// 		//b
-		// 		newImageData.data[i + 2] = imageData.data[i + 2];
-		// 		//a
-		// 		newImageData.data[i + 3] = imageData.data[i + 3];
-		// 	}
+		if (EFFECT_MAP[this.currentEffect]) {
+			finalData = EFFECT_MAP[this.currentEffect](this.dataContext, this.width, this.height);
+			// finalData = EFFECT_MAP[this.currentEffect](imageData, newImageData);
+		} else {
+			for (let i = 0; i < imageData.data.length; i += 4) {
+				// r
+				newImageData.data[i] = imageData.data[i];
+				// g
+				newImageData.data[i + 1] = imageData.data[i + 1];
+				//b
+				newImageData.data[i + 2] = imageData.data[i + 2];
+				//a
+				newImageData.data[i + 3] = imageData.data[i + 3];
+			}
 
-		// 	finalData = newImageData;
-		// }
+			finalData = newImageData;
+		}
 
-    finalData = imageData;
 		this.context.putImageData(finalData, 0, 0);
 
 		requestAnimationFrame(() => {
