@@ -7,7 +7,7 @@ export default defineConfig({
   base: "/canvas-screen",
 	resolve: {
 		alias: {
-			"@": path.resolve(__dirname, "./js"),
+			"@": path.resolve(__dirname, "./src"),
 		},
 	},
   plugins: [react()],
