@@ -2,7 +2,7 @@ import pixelate from "@/effects/pixelate";
 
 const EFFECT_MAP: Record<string, any> = {
 	PIXELATE: pixelate,
-	NONE: null,
+	STANDARD: null,
 };
 
 export default class Camera {
@@ -19,7 +19,7 @@ export default class Camera {
     this.video = null;
     this.height = 0;
     this.width = 0;
-    this.currentEffect = 'NONE';
+    this.currentEffect = 'STANDARD';
 		this.dataCanvas = document.createElement("canvas");
 		this.dataContext = this.dataCanvas.getContext("2d")!;
 		this.canvas = canvas;
@@ -75,28 +75,14 @@ export default class Camera {
 
 		// data to output
 		this.context.clearRect(0, 0, this.width, this.height);
-		const newImageData = this.context.createImageData(this.width, this.height);
 
-		let finalData;
 		if (EFFECT_MAP[this.currentEffect]) {
-			finalData = EFFECT_MAP[this.currentEffect](this.dataContext, this.width, this.height);
-			// finalData = EFFECT_MAP[this.currentEffect](imageData, newImageData);
+			const finalData = EFFECT_MAP[this.currentEffect](this.dataContext, this.width, this.height);
+      this.context.putImageData(finalData, 0, 0);
 		} else {
-			for (let i = 0; i < imageData.data.length; i += 4) {
-				// r
-				newImageData.data[i] = imageData.data[i];
-				// g
-				newImageData.data[i + 1] = imageData.data[i + 1];
-				//b
-				newImageData.data[i + 2] = imageData.data[i + 2];
-				//a
-				newImageData.data[i + 3] = imageData.data[i + 3];
-			}
+      this.context.putImageData(imageData, 0, 0);
+    }
 
-			finalData = newImageData;
-		}
-
-		this.context.putImageData(finalData, 0, 0);
 
 		requestAnimationFrame(() => {
 			this.drawVideo();
