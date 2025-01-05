@@ -1,3 +1,4 @@
+import { EFFECTS } from "@/utils/effectList";
 import pixelate from "@/effects/pixelate";
 
 const EFFECT_MAP: Record<string, any> = {
@@ -19,11 +20,11 @@ export default class Camera {
     this.video = null;
     this.height = 0;
     this.width = 0;
-    this.currentEffect = 'STANDARD';
+    this.currentEffect = EFFECTS.STANDARD;
 		this.dataCanvas = document.createElement("canvas");
-		this.dataContext = this.dataCanvas.getContext("2d")!;
+		this.dataContext = this.dataCanvas.getContext("2d", { willReadFrequently: true })!;
 		this.canvas = canvas;
-		this.context = this.canvas.getContext("2d")!;
+		this.context = this.canvas.getContext("2d", { willReadFrequently: true })!;
 	}
 
 	async init(): Promise<void> {
@@ -61,7 +62,7 @@ export default class Camera {
 		this.drawVideo();
 	}
 
-	setEffect(effect: string) {
+	setEffect(effect: string): void {
 		this.currentEffect = effect;
 	}
 

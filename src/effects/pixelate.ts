@@ -1,7 +1,9 @@
 import { getBrightness } from "@/utils/pixel";
 
-// XbyX squares of pixels
-const SIZE = 5;
+// allow editing options
+export const config = {
+  size: 5
+}
 
 function calculateValue(dataArray: Uint8ClampedArray): number {
 	const length = dataArray.length;
@@ -11,17 +13,17 @@ function calculateValue(dataArray: Uint8ClampedArray): number {
 		total += getBrightness(dataArray[i], dataArray[i + 1], dataArray[i + 2]);
 	}
 
-	return Math.round(total / (SIZE * SIZE));
+	return Math.round(total / (config.size * config.size));
 }
 
 export default function pixelate(dataContext: CanvasRenderingContext2D, width: number, height: number): ImageData {
 	const outputs: number[][] = [];
-	for (let i = 0; i < width; i += SIZE) {
+	for (let i = 0; i < width; i += config.size) {
 		outputs.push([]);
-		for (let j = 0; j < height; j += SIZE) {
-			const content = dataContext.getImageData(i, j, SIZE, SIZE);
-			// get brightness of sized block
-			outputs[i / SIZE].push(calculateValue(content.data));
+		for (let j = 0; j < height; j += config.size) {
+			const content = dataContext.getImageData(i, j, config.size, config.size);
+			// get brightness of config.sized block
+			outputs[i / config.size].push(calculateValue(content.data));
 		}
 	}
 
@@ -35,11 +37,11 @@ export default function pixelate(dataContext: CanvasRenderingContext2D, width: n
 			// 0 - 255
 			const fill = outputs[i][j];
 			dataContext.fillStyle = fill < 125 ? "black" : fill < 190 ? "grey" : "white";
-			dataContext.fillRect(i * SIZE, j * SIZE, SIZE, SIZE);
+			dataContext.fillRect(i * config.size, j * config.size, config.size, config.size);
 
 			// TODO: circles - make option
 			// dataContext.beginPath();
-			// dataContext.ellipse(i * SIZE, j * SIZE, SIZE / 2, SIZE / 2, 0, 0, Math.PI * 2);
+			// dataContext.ellipse(i * size, j * size, size / 2, size / 2, 0, 0, Math.PI * 2);
 			// dataContext.fill();
 		}
 	}

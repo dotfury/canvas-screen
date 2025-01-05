@@ -1,13 +1,12 @@
-import { useCamera } from '@/hooks/camera';
+import Controls from '@/components/controls';
+
 import './App.css'
 
 function App() {
-  const camera = useCamera();
-
   return (
     <>
-      <canvas></canvas>
-      <button onClick={ () => camera?.setEffect('PIXELATE') }>HI</button>
+      <canvas />
+      <Controls />
     </>
   )
 }
