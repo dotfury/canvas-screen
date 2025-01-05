@@ -1,4 +1,8 @@
-export default function color(dataContext: CanvasRenderingContext2D, width: number, height: number): ImageData {
+export default function color(
+  dataContext: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): ImageData {
   const imageData = dataContext.getImageData(0, 0, width, height);
   const newImageData = dataContext.createImageData(width, height);
 
@@ -8,7 +12,7 @@ export default function color(dataContext: CanvasRenderingContext2D, width: numb
     // g
     newImageData.data[i + 1] = imageData.data[i + 1];
     //b
-    newImageData.data[i + 2] = imageData.data[i + 2] /  - 100;
+    newImageData.data[i + 2] = imageData.data[i + 2] / -100;
     //a
     newImageData.data[i + 3] = imageData.data[i + 3];
   }

@@ -2,13 +2,13 @@ import { ChangeEvent, useState } from 'react';
 import { config } from '@/effects/pixelate';
 
 function PixelateOptions() {
-  const [pixelation, setPixelation] = useState<number>(5)
+  const [pixelation, setPixelation] = useState<number>(5);
 
   const handleSlider = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.currentTarget.value)
+    const value = Number(e.currentTarget.value);
     config.size = value;
-    setPixelation(value)
-  }
+    setPixelation(value);
+  };
 
   return (
     <>
@@ -18,11 +18,11 @@ function PixelateOptions() {
         name="pixelation"
         min="3"
         max="20"
-        value={ pixelation }
-        onChange={ handleSlider }
+        value={pixelation}
+        onChange={handleSlider}
       />
     </>
-  )
+  );
 }
 
-export default PixelateOptions
+export default PixelateOptions;

@@ -1,9 +1,6 @@
 export enum EFFECTS {
   STANDARD = 'STANDARD',
-  PIXELATE = 'PIXELATE'
+  PIXELATE = 'PIXELATE',
 }
 
-export const effectsList =  [
-  EFFECTS.PIXELATE
-];
-
+export const effectsList = [EFFECTS.PIXELATE];

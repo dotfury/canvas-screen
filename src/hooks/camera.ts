@@ -6,14 +6,14 @@ export function useCamera() {
 
   useEffect(() => {
     const setup = async () => {
-      const canvas = document.querySelector("canvas")!;
+      const canvas = document.querySelector('canvas')!;
       const camera = new Camera(canvas);
 
       await camera.init();
       camera.startVideo();
 
       setCamera(camera);
-    }
+    };
 
     setup();
   }, []);

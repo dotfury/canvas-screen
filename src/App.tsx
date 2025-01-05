@@ -1,6 +1,6 @@
 import Controls from '@/components/controls';
 
-import './App.css'
+import './App.css';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <canvas />
       <Controls />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
