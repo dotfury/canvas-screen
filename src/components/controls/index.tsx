@@ -15,15 +15,26 @@ function Controls() {
   };
 
   return (
-    <>
-      {effectsList.map((effectName) => (
-        <button key={effectName} onClick={handleEffect} data-id={effectName}>
-          {effectName}
-        </button>
-      ))}
+    <div className="controls">
+      <div className="effects-container">
+        {effectsList.map((effectName) => {
+          const activeClassName = effect === effectName ? 'active' : '';
+
+          return (
+            <button
+              className={activeClassName}
+              key={effectName}
+              onClick={handleEffect}
+              data-id={effectName}
+            >
+              {effectName}
+            </button>
+          );
+        })}
+      </div>
 
       <Options currentEffect={effect} />
-    </>
+    </div>
   );
 }
 

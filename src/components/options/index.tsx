@@ -22,7 +22,11 @@ function Options({ currentEffect }: Props) {
     importComponent();
   }, [currentEffect]);
 
-  return optionsComponent;
+  return (
+    <div className="options-container">
+      { optionsComponent }
+    </div>
+  );
 }
 
 export default Options;

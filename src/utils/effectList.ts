@@ -3,4 +3,4 @@ export enum EFFECTS {
   PIXELATE = 'PIXELATE',
 }
 
-export const effectsList = [EFFECTS.PIXELATE];
+export const effectsList = [EFFECTS.STANDARD, EFFECTS.PIXELATE];

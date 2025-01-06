@@ -1,8 +1,25 @@
 import { getBrightness } from '@/utils/pixel';
 
 // allow editing options
-export const config = {
+interface PixelateConfig {
+  size: number;
+  dark: number;
+  light: number;
+  darkColor: string;
+  midColor: string;
+  lightColor: string;
+}
+
+export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
+export type NumberTypes = 'dark' | 'light';
+
+export const config: PixelateConfig = {
   size: 5,
+  dark: 125,
+  light: 190,
+  darkColor: '#000000',
+  midColor: '#999999',
+  lightColor: '#ffffff',
 };
 
 function calculateValue(dataArray: Uint8ClampedArray): number {
@@ -40,8 +57,14 @@ export default function pixelate(
     for (let j = 0; j < innerLength; j++) {
       // 0 - 255
       const fill = outputs[i][j];
+
       dataContext.fillStyle =
-        fill < 125 ? 'black' : fill < 190 ? 'grey' : 'white';
+        fill < config.dark
+          ? config.darkColor
+          : fill < config.light
+            ? config.midColor
+            : config.lightColor;
+
       dataContext.fillRect(
         i * config.size,
         j * config.size,
