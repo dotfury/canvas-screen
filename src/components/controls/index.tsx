@@ -1,11 +1,14 @@
 import { MouseEvent, useState } from 'react';
-import { useCamera } from '@/hooks/camera';
 import { effectsList, EFFECTS } from '@/utils/effectList';
 import Options from '@/components/options';
+import Camera from '@/utils/camera';
 
-function Controls() {
+interface Props {
+  camera: Camera | null;
+}
+
+function Controls({ camera }: Props) {
   const [effect, setEffect] = useState<string>(EFFECTS.STANDARD);
-  const camera = useCamera();
 
   const handleEffect = (e: MouseEvent<HTMLButtonElement>) => {
     const effect = e.currentTarget.dataset.id!;

@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { config, type ColorTypes, NumberTypes } from '@/effects/pixelate';
+import { config, type ColorTypes, NumberTypes } from '@/cameraEffects/pixelate';
 
 function PixelateOptions() {
   const [pixelation, setPixelation] = useState<number>(config.size);

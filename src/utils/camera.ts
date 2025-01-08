@@ -1,5 +1,5 @@
 import { EFFECTS } from '@/utils/effectList';
-import pixelate from '@/effects/pixelate';
+import pixelate from '@/cameraEffects/pixelate';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
