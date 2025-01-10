@@ -1,5 +1,10 @@
 import { ChangeEvent, useState } from 'react';
-import { config, type ColorTypes, NumberTypes } from '@/cameraEffects/pixelate';
+import {
+  config,
+  type ColorTypes,
+  type NumberTypes,
+  type ShapeTypes,
+} from '@/cameraEffects/pixelate';
 
 function PixelateOptions() {
   const [pixelation, setPixelation] = useState<number>(config.size);
@@ -8,6 +13,7 @@ function PixelateOptions() {
   const [lightColor, setLightColor] = useState<string>(config.lightColor);
   const [darkThreshold, setDarkThreshold] = useState<number>(config.dark);
   const [lightThreshold, setLightThreshold] = useState<number>(config.light);
+  const [shape, setShape] = useState<string>(config.shape);
 
   const colorOptions: {
     label: string;
@@ -39,6 +45,11 @@ function PixelateOptions() {
     light: setLightThreshold,
   };
 
+  const shapeOptions: { label: string; key: ShapeTypes }[] = [
+    { label: 'Square', key: 'square' },
+    { label: 'circle', key: 'circle' },
+  ];
+
   const handleSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.currentTarget.value);
     config.size = value;
@@ -56,6 +67,11 @@ function PixelateOptions() {
     thresholdMap[property](numValue);
   };
 
+  const handleShape = (value: string) => {
+    config.shape = value;
+    setShape(value);
+  };
+
   return (
     <>
       <fieldset>
@@ -69,7 +85,7 @@ function PixelateOptions() {
         />
       </fieldset>
       {colorOptions.map(({ label, value, key }) => (
-        <fieldset>
+        <fieldset key={key}>
           <legend>{label}</legend>
           <input
             type="color"
@@ -79,7 +95,7 @@ function PixelateOptions() {
         </fieldset>
       ))}
       {thresholdOptions.map(({ label, value, key }) => (
-        <fieldset>
+        <fieldset key={key}>
           <legend>{label}</legend>
           <input
             type="range"
@@ -90,6 +106,22 @@ function PixelateOptions() {
           />
         </fieldset>
       ))}
+      <fieldset>
+        <legend>Shape</legend>
+        {shapeOptions.map(({ label, key }) => (
+          <div key={key}>
+            <input
+              type="radio"
+              id={key}
+              name={key}
+              value={key}
+              checked={shape === key}
+              onChange={(e) => handleShape(e.currentTarget.value)}
+            />
+            <label htmlFor={key}>{label}</label>
+          </div>
+        ))}
+      </fieldset>
     </>
   );
 }

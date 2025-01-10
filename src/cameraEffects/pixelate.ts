@@ -8,10 +8,12 @@ interface PixelateConfig {
   darkColor: string;
   midColor: string;
   lightColor: string;
+  shape: string;
 }
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
 export type NumberTypes = 'dark' | 'light';
+export type ShapeTypes = 'square' | 'circle';
 
 export const config: PixelateConfig = {
   size: 5,
@@ -20,6 +22,7 @@ export const config: PixelateConfig = {
   darkColor: '#000000',
   midColor: '#999999',
   lightColor: '#ffffff',
+  shape: 'square',
 };
 
 function calculateValue(dataArray: Uint8ClampedArray): number {
@@ -65,17 +68,26 @@ export default function pixelate(
             ? config.midColor
             : config.lightColor;
 
-      dataContext.fillRect(
-        i * config.size,
-        j * config.size,
-        config.size,
-        config.size
-      );
-
-      // TODO: circles - make option
-      // dataContext.beginPath();
-      // dataContext.ellipse(i * size, j * size, size / 2, size / 2, 0, 0, Math.PI * 2);
-      // dataContext.fill();
+      if (config.shape === 'square') {
+        dataContext.fillRect(
+          i * config.size,
+          j * config.size,
+          config.size,
+          config.size
+        );
+      } else {
+        dataContext.beginPath();
+        dataContext.ellipse(
+          i * config.size,
+          j * config.size,
+          config.size / 2,
+          config.size / 2,
+          0,
+          0,
+          Math.PI * 2
+        );
+        dataContext.fill();
+      }
     }
   }
 
