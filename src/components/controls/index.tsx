@@ -37,6 +37,7 @@ function Controls({ camera }: Props) {
       </div>
 
       <Options currentEffect={effect} />
+      <button onClick={() => camera?.takeSnapshot()}>Picture</button>
     </div>
   );
 }

@@ -68,6 +68,19 @@ export default class Camera {
     this.currentEffect = effect;
   }
 
+  takeSnapshot(): void {
+    const dataURL = this.canvas.toDataURL('image/jpeg', 1.0);
+
+    this.downloadImage(dataURL);
+  }
+
+  downloadImage(data: string, filename = 'image.jpeg') {
+    const a = document.createElement('a');
+    a.href = data;
+    a.download = filename;
+    a.click();
+  }
+
   drawVideo(): void {
     if (!this.video) return;
 
