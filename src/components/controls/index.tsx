@@ -1,7 +1,8 @@
 import { MouseEvent, useState } from 'react';
 import { effectsList, EFFECTS } from '@/utils/effectList';
-import Options from '@/components/options';
 import Camera from '@/utils/camera';
+import Options from '@/components/options';
+import Snapshot from '@/components/snapshot';
 
 interface Props {
   camera: Camera | null;
@@ -19,25 +20,27 @@ function Controls({ camera }: Props) {
 
   return (
     <div className="controls">
-      <div className="effects-container">
-        {effectsList.map((effectName) => {
-          const activeClassName = effect === effectName ? 'active' : '';
+      <div className="controls-main">
+        <div className="effects-container">
+          {effectsList.map((effectName) => {
+            const activeClassName = effect === effectName ? 'active' : '';
 
-          return (
-            <button
-              className={activeClassName}
-              key={effectName}
-              onClick={handleEffect}
-              data-id={effectName}
-            >
-              {effectName}
-            </button>
-          );
-        })}
+            return (
+              <button
+                className={activeClassName}
+                key={effectName}
+                onClick={handleEffect}
+                data-id={effectName}
+              >
+                {effectName}
+              </button>
+            );
+          })}
+        </div>
+
+        <Options currentEffect={effect} />
       </div>
-
-      <Options currentEffect={effect} />
-      <button onClick={() => camera?.takeSnapshot()}>Picture</button>
+      <Snapshot takeSnapshot={() => camera?.takeSnapshot()} />
     </div>
   );
 }

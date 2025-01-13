@@ -14,10 +14,14 @@ canvas {
 }
 
 .controls {
+  align-self: center;
+  flex: 1;
+}
+
+.controls-main {
   display: flex;
   align-items: center;
   gap: 5px;
-  flex: 1;
 }
 
 button {
