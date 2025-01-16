@@ -1,15 +1,17 @@
 interface Props {
   takeSnapshot: () => void;
+  setTimer: (time: number) => void;
 }
-function Snapshot({ takeSnapshot }: Props) {
-  const setTimer = () => {
-    setTimeout(takeSnapshot, 2000);
+
+function Snapshot({ takeSnapshot, setTimer }: Props) {
+  const setSnapTimer = () => {
+    setTimer(5000);
   };
 
   return (
     <>
       <button onClick={takeSnapshot}>take picture</button>
-      <button onClick={setTimer}>5</button>
+      <button onClick={setSnapTimer}>5</button>
     </>
   );
 }

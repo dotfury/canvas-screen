@@ -6,9 +6,10 @@ import Snapshot from '@/components/snapshot';
 
 interface Props {
   camera: Camera | null;
+  setTimer: (time: number) => void;
 }
 
-function Controls({ camera }: Props) {
+function Controls({ camera, setTimer }: Props) {
   const [effect, setEffect] = useState<string>(EFFECTS.STANDARD);
 
   const handleEffect = (e: MouseEvent<HTMLButtonElement>) => {
@@ -40,7 +41,10 @@ function Controls({ camera }: Props) {
 
         <Options currentEffect={effect} />
       </div>
-      <Snapshot takeSnapshot={() => camera?.takeSnapshot()} />
+      <Snapshot
+        takeSnapshot={() => camera?.takeSnapshot()}
+        setTimer={setTimer}
+      />
     </div>
   );
 }
