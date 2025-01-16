@@ -1,18 +1,30 @@
+import { useEffect } from 'react';
 import { useCamera } from '@/hooks/camera';
 import { useSnapshot } from '@/hooks/snapshot';
 import Controls from '@/components/controls';
 
 import './App.css';
 
+// TODO: disable UI buttons when snapshot timer runs (context api?)
+// TODO: adjust snapshot button UI elements
+
 function App() {
   const [camera, cameraError] = useCamera();
-  const { showOverlay, remainingTime, setTimer } = useSnapshot();
+  const { showOverlay, takeSnapshot, remainingTime, setTimer } = useSnapshot();
+
+  useEffect(() => {
+    if (takeSnapshot) {
+      camera?.takeSnapshot();
+    }
+  }, [takeSnapshot]);
 
   const renderApp = () => (
     <>
       <div className="canvas-container">
         <canvas />
-        {showOverlay && <div className="snapshot-timer">{remainingTime}</div>}
+        {showOverlay && (
+          <div className="snapshot-timer">{String(remainingTime / 1000)}</div>
+        )}
       </div>
       <Controls camera={camera} setTimer={setTimer} />
     </>
