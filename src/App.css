@@ -60,3 +60,8 @@ fieldset {
   font-size: 3rem;
   font-weight: 700;
 }
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+}

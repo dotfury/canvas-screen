@@ -1,6 +1,7 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useState, useContext } from 'react';
 import { effectsList, EFFECTS } from '@/utils/effectList';
 import Camera from '@/utils/camera';
+import { AppContext } from '@/context/appContext';
 import Options from '@/components/options';
 import Snapshot from '@/components/snapshot';
 
@@ -11,6 +12,7 @@ interface Props {
 
 function Controls({ camera, setTimer }: Props) {
   const [effect, setEffect] = useState<string>(EFFECTS.STANDARD);
+  const appContext = useContext(AppContext);
 
   const handleEffect = (e: MouseEvent<HTMLButtonElement>) => {
     const effect = e.currentTarget.dataset.id!;
@@ -32,6 +34,7 @@ function Controls({ camera, setTimer }: Props) {
                 key={effectName}
                 onClick={handleEffect}
                 data-id={effectName}
+                disabled={appContext?.showOverlay}
               >
                 {effectName}
               </button>

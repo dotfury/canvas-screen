@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useContext } from 'react';
+import { AppContext } from '@/context/appContext';
 import {
   config,
   type ColorTypes,
@@ -7,6 +8,7 @@ import {
 } from '@/cameraEffects/pixelate';
 
 function PixelateOptions() {
+  const appContext = useContext(AppContext);
   const [pixelation, setPixelation] = useState<number>(config.size);
   const [darkColor, setDarkColor] = useState<string>(config.darkColor);
   const [midColor, setMidColor] = useState<string>(config.midColor);
@@ -82,6 +84,7 @@ function PixelateOptions() {
           max="20"
           value={pixelation}
           onChange={handleSlider}
+          disabled={appContext?.showOverlay}
         />
       </fieldset>
       {colorOptions.map(({ label, value, key }) => (
@@ -91,6 +94,7 @@ function PixelateOptions() {
             type="color"
             value={value}
             onChange={(e) => handleColor(key, e.currentTarget.value)}
+            disabled={appContext?.showOverlay}
           />
         </fieldset>
       ))}
@@ -103,6 +107,7 @@ function PixelateOptions() {
             min="0"
             max="255"
             onChange={(e) => handleThreshold(key, e.currentTarget.value)}
+            disabled={appContext?.showOverlay}
           />
         </fieldset>
       ))}
@@ -117,6 +122,7 @@ function PixelateOptions() {
               value={key}
               checked={shape === key}
               onChange={(e) => handleShape(e.currentTarget.value)}
+              disabled={appContext?.showOverlay}
             />
             <label htmlFor={key}>{label}</label>
           </div>

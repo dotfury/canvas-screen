@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useCamera } from '@/hooks/camera';
 import { useSnapshot } from '@/hooks/snapshot';
+import { AppContext } from '@/context/appContext';
 import Controls from '@/components/controls';
 
 import './App.css';
 
-// TODO: disable UI buttons when snapshot timer runs (context api?)
 // TODO: adjust snapshot button UI elements
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   }, [takeSnapshot]);
 
   const renderApp = () => (
-    <>
+    <AppContext.Provider value={{ showOverlay }}>
       <div className="canvas-container">
         <canvas />
         {showOverlay && (
@@ -27,7 +27,7 @@ function App() {
         )}
       </div>
       <Controls camera={camera} setTimer={setTimer} />
-    </>
+    </AppContext.Provider>
   );
   const renderError = () => <p>A camera is required for this application.</p>;
 
