@@ -1,18 +1,13 @@
 import { MouseEvent, useState, useContext } from 'react';
 import { effectsList, EFFECTS } from '@/utils/effectList';
-import Camera from '@/utils/camera';
 import { AppContext } from '@/context/appContext';
 import Options from '@/components/options';
 import Snapshot from '@/components/snapshot';
 
-interface Props {
-  camera: Camera | null;
-  setTimer: (time: number) => void;
-}
-
-function Controls({ camera, setTimer }: Props) {
+function Controls() {
   const [effect, setEffect] = useState<string>(EFFECTS.STANDARD);
   const appContext = useContext(AppContext);
+  const camera = appContext?.camera;
 
   const handleEffect = (e: MouseEvent<HTMLButtonElement>) => {
     const effect = e.currentTarget.dataset.id!;
@@ -44,10 +39,7 @@ function Controls({ camera, setTimer }: Props) {
 
         <Options currentEffect={effect} />
       </div>
-      <Snapshot
-        takeSnapshot={() => camera?.takeSnapshot()}
-        setTimer={setTimer}
-      />
+      <Snapshot />
     </div>
   );
 }

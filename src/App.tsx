@@ -19,14 +19,14 @@ function App() {
   }, [takeSnapshot]);
 
   const renderApp = () => (
-    <AppContext.Provider value={{ showOverlay }}>
+    <AppContext.Provider value={{ showOverlay, camera, setTimer }}>
       <div className="canvas-container">
         <canvas />
         {showOverlay && (
           <div className="snapshot-timer">{String(remainingTime / 1000)}</div>
         )}
       </div>
-      <Controls camera={camera} setTimer={setTimer} />
+      <Controls />
     </AppContext.Provider>
   );
   const renderError = () => <p>A camera is required for this application.</p>;
