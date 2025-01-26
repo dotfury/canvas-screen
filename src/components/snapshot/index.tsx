@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
+import cameraIcon from '@/assets/icons/camera.svg';
+import clockIcon from '@/assets/icons/clock.svg';
 
 function Snapshot() {
   const appContext = useContext(AppContext);
@@ -14,14 +16,23 @@ function Snapshot() {
   const takeSnapshot = () => camera?.takeSnapshot();
 
   return (
-    <>
-      <button onClick={takeSnapshot} disabled={showOverlay}>
+    <div className="snapshot-container">
+      <button
+        className="with-icon"
+        onClick={takeSnapshot}
+        disabled={showOverlay}
+      >
+        <img src={cameraIcon} alt="take snapshot" />
         take picture
       </button>
-      <button onClick={setSnapTimer} disabled={showOverlay}>
-        5
+      <button
+        className="with-icon"
+        onClick={setSnapTimer}
+        disabled={showOverlay}
+      >
+        <img src={clockIcon} alt="set timer" />5
       </button>
-    </>
+    </div>
   );
 }
 

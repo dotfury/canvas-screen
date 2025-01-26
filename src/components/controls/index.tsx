@@ -2,7 +2,6 @@ import { MouseEvent, useState, useContext } from 'react';
 import { effectsList, EFFECTS } from '@/utils/effectList';
 import { AppContext } from '@/context/appContext';
 import Options from '@/components/options';
-import Snapshot from '@/components/snapshot';
 
 function Controls() {
   const [effect, setEffect] = useState<string>(EFFECTS.STANDARD);
@@ -18,28 +17,24 @@ function Controls() {
 
   return (
     <div className="controls">
-      <div className="controls-main">
-        <div className="effects-container">
-          {effectsList.map((effectName) => {
-            const activeClassName = effect === effectName ? 'active' : '';
+      <div className="effects-container">
+        {effectsList.map((effectName) => {
+          const activeClassName = effect === effectName ? 'active' : '';
 
-            return (
-              <button
-                className={activeClassName}
-                key={effectName}
-                onClick={handleEffect}
-                data-id={effectName}
-                disabled={appContext?.showOverlay}
-              >
-                {effectName}
-              </button>
-            );
-          })}
-        </div>
-
-        <Options currentEffect={effect} />
+          return (
+            <button
+              className={activeClassName}
+              key={effectName}
+              onClick={handleEffect}
+              data-id={effectName}
+              disabled={appContext?.showOverlay}
+            >
+              {effectName}
+            </button>
+          );
+        })}
       </div>
-      <Snapshot />
+      <Options currentEffect={effect} />
     </div>
   );
 }
