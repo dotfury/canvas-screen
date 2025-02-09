@@ -25,6 +25,9 @@ export const config: PixelateConfig = {
   shape: 'square',
 };
 
+// reuse outputs memory
+let outputs: number[][] = [];
+
 function calculateValue(dataArray: Uint8ClampedArray): number {
   const length = dataArray.length;
   let total = 0;
@@ -41,7 +44,6 @@ export default function pixelate(
   width: number,
   height: number
 ): ImageData {
-  const outputs: number[][] = [];
   for (let i = 0; i < width; i += config.size) {
     outputs.push([]);
     for (let j = 0; j < height; j += config.size) {
@@ -91,5 +93,6 @@ export default function pixelate(
     }
   }
 
+  outputs = [];
   return dataContext.getImageData(0, 0, width, height);
 }

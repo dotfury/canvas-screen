@@ -15,6 +15,7 @@ export default class Camera {
   height: number;
   width: number;
   currentEffect: string;
+  worker: Worker | null;
 
   constructor(canvas: HTMLCanvasElement) {
     this.video = null;
@@ -27,6 +28,7 @@ export default class Camera {
     })!;
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d', { willReadFrequently: true })!;
+    this.worker = null;
   }
 
   async init(): Promise<void> {
@@ -83,6 +85,21 @@ export default class Camera {
 
   drawVideo(): void {
     if (!this.video) return;
+
+    // if (!this.worker) {
+    //   this.worker = new Worker(
+    //     new URL('../cameraEffects/testWorker.ts', import.meta.url)
+    //   );
+
+    //   this.worker.addEventListener('message', ({ data }) => {
+    //     // Echoes "Hello, window!" to the console from the worker.
+    //     console.log(data);
+    //   });
+
+    //   this.worker.postMessage('message');
+    // } else {
+    //   // console.log('already has worker');
+    // }
 
     // data to read from
     this.dataContext.clearRect(0, 0, this.width, this.height);
