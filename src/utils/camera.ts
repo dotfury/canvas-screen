@@ -1,8 +1,13 @@
 import { EFFECTS } from '@/utils/effectList';
-import pixelate from '@/cameraEffects/pixelate';
+import pixelate, { endPixelate } from '@/cameraEffects/pixelate';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
+  STANDARD: null,
+};
+
+const WORKER_MAP: Record<string, any> = {
+  PIXELATE: endPixelate,
   STANDARD: null,
 };
 
@@ -67,6 +72,10 @@ export default class Camera {
   }
 
   setEffect(effect: string): void {
+    if (WORKER_MAP[this.currentEffect]) {
+      WORKER_MAP[this.currentEffect]();
+    }
+
     this.currentEffect = effect;
   }
 
@@ -86,30 +95,9 @@ export default class Camera {
   drawVideo(): void {
     if (!this.video) return;
 
-    // if (!this.worker) {
-    //   this.worker = new Worker(
-    //     new URL('../cameraEffects/testWorker.ts', import.meta.url)
-    //   );
-
-    //   this.worker.addEventListener('message', ({ data }) => {
-    //     // Echoes "Hello, window!" to the console from the worker.
-    //     console.log(data);
-    //   });
-
-    //   this.worker.postMessage('message');
-    // } else {
-    //   // console.log('already has worker');
-    // }
-
     // data to read from
     this.dataContext.clearRect(0, 0, this.width, this.height);
     this.dataContext.drawImage(this.video, 0, 0);
-    const imageData = this.dataContext.getImageData(
-      0,
-      0,
-      this.width,
-      this.height
-    );
 
     // data to output
     this.context.clearRect(0, 0, this.width, this.height);
@@ -122,6 +110,12 @@ export default class Camera {
       );
       this.context.putImageData(finalData, 0, 0);
     } else {
+      const imageData = this.dataContext.getImageData(
+        0,
+        0,
+        this.width,
+        this.height
+      );
       this.context.putImageData(imageData, 0, 0);
     }
 
