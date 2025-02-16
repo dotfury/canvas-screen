@@ -1,13 +1,8 @@
 import { EFFECTS } from '@/utils/effectList';
-import pixelate, { endPixelate } from '@/cameraEffects/pixelate';
+import pixelate from '@/cameraEffects/pixelate';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
-  STANDARD: null,
-};
-
-const WORKER_MAP: Record<string, any> = {
-  PIXELATE: endPixelate,
   STANDARD: null,
 };
 
@@ -21,7 +16,7 @@ export default class Camera {
   width: number;
   currentEffect: string;
   worker: Worker | null;
-
+  // TODO: try to make singleton - conflicting effect?
   constructor(canvas: HTMLCanvasElement) {
     this.video = null;
     this.height = 0;
@@ -45,6 +40,14 @@ export default class Camera {
     this.dataCanvas.height = this.height;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
+
+    this.worker = new Worker(
+      new URL('../cameraEffects/testWorker.ts', import.meta.url)
+    );
+
+    this.worker.addEventListener('message', ({ data }) => {
+      this.renderEffectedVideo(data);
+    });
   }
 
   async getVideo(): Promise<HTMLVideoElement> {
@@ -72,10 +75,6 @@ export default class Camera {
   }
 
   setEffect(effect: string): void {
-    if (WORKER_MAP[this.currentEffect]) {
-      WORKER_MAP[this.currentEffect]();
-    }
-
     this.currentEffect = effect;
   }
 
@@ -92,35 +91,37 @@ export default class Camera {
     a.click();
   }
 
+  renderEffectedVideo(data: any): void {
+    const pixels = new ImageData(this.width, this.height);
+    pixels.data.set(new Uint8ClampedArray(data.pixels));
+
+    this.context.clearRect(0, 0, this.width, this.height);
+    this.context.putImageData(pixels, 0, 0);
+
+    requestAnimationFrame(() => this.drawVideo());
+  }
+
   drawVideo(): void {
     if (!this.video) return;
 
-    // data to read from
     this.dataContext.clearRect(0, 0, this.width, this.height);
     this.dataContext.drawImage(this.video, 0, 0);
 
-    // data to output
-    this.context.clearRect(0, 0, this.width, this.height);
+    const imageData = this.dataContext.getImageData(
+      0,
+      0,
+      this.width,
+      this.height
+    );
 
-    if (EFFECT_MAP[this.currentEffect]) {
-      const finalData = EFFECT_MAP[this.currentEffect](
-        this.dataContext,
-        this.width,
-        this.height
-      );
-      this.context.putImageData(finalData, 0, 0);
-    } else {
-      const imageData = this.dataContext.getImageData(
-        0,
-        0,
-        this.width,
-        this.height
-      );
-      this.context.putImageData(imageData, 0, 0);
-    }
-
-    requestAnimationFrame(() => {
-      this.drawVideo();
-    });
+    this.worker!.postMessage(
+      {
+        effect: this.currentEffect,
+        pixels: imageData.data.buffer,
+        height: this.height,
+        width: this.width,
+      },
+      [imageData.data.buffer]
+    );
   }
 }

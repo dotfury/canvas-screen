@@ -34,9 +34,6 @@ export const config: PixelateConfig = {
 // reuse outputs memory
 let outputs: number[][] = [];
 
-// worker
-let worker: Worker | null = null;
-
 function calculateValue(dataArray: Uint8ClampedArray): number {
   const length = dataArray.length;
   let total = 0;
@@ -53,17 +50,6 @@ export default function pixelate(
   width: number,
   height: number
 ): ImageData {
-  if (!worker) {
-    worker = new Worker(new URL('./testWorker.ts', import.meta.url));
-  }
-
-  worker.addEventListener('message', ({ data }) => {
-    // Echoes "Hello, window!" to the console from the worker.
-    console.log(data);
-  });
-
-  worker.postMessage('message');
-
   for (let i = 0; i < width; i += config.size) {
     outputs.push([]);
     for (let j = 0; j < height; j += config.size) {
@@ -115,14 +101,4 @@ export default function pixelate(
 
   outputs = [];
   return dataContext.getImageData(0, 0, width, height);
-}
-
-export function endPixelate() {
-  if (worker) {
-    console.log('TERMINATE');
-    worker.terminate();
-    worker = null;
-  }
-
-  console.log(worker);
 }

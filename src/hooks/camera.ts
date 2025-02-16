@@ -16,6 +16,7 @@ export function useCamera(): [Camera | null, boolean] {
 
         setCamera(camera);
       } catch (error: any) {
+        console.log('hey: ', error);
         setCameraError(true);
       }
     };
