@@ -7,6 +7,7 @@ const EFFECT_MAP: Record<string, any> = {
 };
 
 export default class Camera {
+  private static instance: Camera;
   dataCanvas: HTMLCanvasElement;
   dataContext: CanvasRenderingContext2D;
   canvas: HTMLCanvasElement;
@@ -16,8 +17,11 @@ export default class Camera {
   width: number;
   currentEffect: string;
   worker: Worker | null;
-  // TODO: try to make singleton - conflicting effect?
+
   constructor(canvas: HTMLCanvasElement) {
+    if (!Camera.instance) {
+      Camera.instance = this;
+    }
     this.video = null;
     this.height = 0;
     this.width = 0;
@@ -29,6 +33,8 @@ export default class Camera {
     this.canvas = canvas;
     this.context = this.canvas.getContext('2d', { willReadFrequently: true })!;
     this.worker = null;
+
+    return Camera.instance;
   }
 
   async init(): Promise<void> {

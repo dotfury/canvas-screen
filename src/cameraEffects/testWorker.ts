@@ -1,9 +1,5 @@
-let effect = 'STANDARD';
-
 self.addEventListener('message', ({ data }) => {
-  effect = data.effect;
-  console.log('effect: ', effect);
-  if (effect === 'STANDARD') {
+  if (data.effect === 'STANDARD') {
     self.postMessage({
       pixels: data.pixels,
       effect: data.effect,
