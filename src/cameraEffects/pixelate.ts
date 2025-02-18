@@ -49,7 +49,7 @@ export default function pixelate(
   dataContext: CanvasRenderingContext2D,
   width: number,
   height: number
-): ImageData {
+): void {
   for (let i = 0; i < width; i += config.size) {
     outputs.push([]);
     for (let j = 0; j < height; j += config.size) {
@@ -100,5 +100,4 @@ export default function pixelate(
   }
 
   outputs = [];
-  return dataContext.getImageData(0, 0, width, height);
 }
