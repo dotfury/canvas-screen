@@ -1,10 +1,4 @@
-// ARTICLE 1: https://stackoverflow.com/questions/41722068/getimagedata-web-workers-how-can-i-reduce-garbage-collection
-// ARTICLE 2: https://gist.github.com/krhoyt/2c3514f20a05e4916a1caade0782953f
-
-// OFFSCREEN CANVAS: https://web.dev/articles/offscreen-canvas
-// Import scripts: https://developer.mozilla.org/en-US/docs/Web/API/WorkerGlobalScope/importScripts
-// MODULE workers: https://web.dev/articles/module-workers
-import { getBrightness } from '@/utils/pixel';
+import { getBrightness, processImageData } from '@/utils/pixel';
 
 // allow editing options
 interface PixelateConfig {
@@ -34,7 +28,7 @@ export const config: PixelateConfig = {
 // reuse outputs memory
 let outputs: number[][] = [];
 
-function calculateValue(dataArray: Uint8ClampedArray): number {
+function getAverageBrightness(dataArray: number[]): number {
   const length = dataArray.length;
   let total = 0;
 
@@ -50,12 +44,13 @@ export default function pixelate(
   width: number,
   height: number
 ): void {
+  const data = dataContext.getImageData(0, 0, width, height);
+
   for (let i = 0; i < width; i += config.size) {
     outputs.push([]);
     for (let j = 0; j < height; j += config.size) {
-      const content = dataContext.getImageData(i, j, config.size, config.size);
-      // get brightness of config.sized block
-      outputs[i / config.size].push(calculateValue(content.data));
+      const content = processImageData(data, i, j, config.size, config.size);
+      outputs[i / config.size].push(getAverageBrightness(content));
     }
   }
 
