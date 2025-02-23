@@ -1,4 +1,4 @@
-import { getBrightness, processImageData } from '@/utils/pixel';
+import { getPixelOutputs } from '@/utils/pixel';
 
 // allow editing options
 interface PixelateConfig {
@@ -28,17 +28,6 @@ export const config: PixelateConfig = {
 // reuse outputs memory
 let outputs: number[][] = [];
 
-function getAverageBrightness(dataArray: number[]): number {
-  const length = dataArray.length;
-  let total = 0;
-
-  for (let i = 0; i < length; i += 4) {
-    total += getBrightness(dataArray[i], dataArray[i + 1], dataArray[i + 2]);
-  }
-
-  return Math.round(total / (config.size * config.size));
-}
-
 export default function pixelate(
   dataContext: CanvasRenderingContext2D,
   width: number,
@@ -46,13 +35,7 @@ export default function pixelate(
 ): void {
   const data = dataContext.getImageData(0, 0, width, height);
 
-  for (let i = 0; i < width; i += config.size) {
-    outputs.push([]);
-    for (let j = 0; j < height; j += config.size) {
-      const content = processImageData(data, i, j, config.size, config.size);
-      outputs[i / config.size].push(getAverageBrightness(content));
-    }
-  }
+  getPixelOutputs(data, outputs, width, height, config.size);
 
   const outputLength = outputs.length;
   dataContext.clearRect(0, 0, width, height);
