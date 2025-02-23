@@ -1,6 +1,7 @@
 export enum EFFECTS {
   STANDARD = 'STANDARD',
   PIXELATE = 'PIXELATE',
+  ASCII = 'ASCII',
 }
 
-export const effectsList = [EFFECTS.STANDARD, EFFECTS.PIXELATE];
+export const effectsList = [EFFECTS.STANDARD, EFFECTS.PIXELATE, EFFECTS.ASCII];
