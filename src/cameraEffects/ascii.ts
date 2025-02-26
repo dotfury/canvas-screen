@@ -1,4 +1,5 @@
 import { getPixelOutputs } from '@/utils/pixel';
+import { map } from '@/utils/map';
 
 // allow editing options
 interface AsciiConfig {
@@ -28,6 +29,7 @@ export const config: AsciiConfig = {
 let outputs: number[][] = [];
 
 const characters = ']N@#W$9876543210?!abc;:+=-,._   ';
+const charLength = characters.length;
 
 export default function ascii(
   dataContext: CanvasRenderingContext2D,
@@ -46,7 +48,6 @@ export default function ascii(
     const innerLength = outputs[i].length;
 
     for (let j = 0; j < innerLength; j++) {
-      // 0 - 255
       const fill = outputs[i][j];
 
       dataContext.fillStyle =
@@ -56,10 +57,12 @@ export default function ascii(
             ? config.midColor
             : config.lightColor;
 
-      // get character (use a map function)
-
-      // write text
-      dataContext.fillText('P', i * config.size, j * config.size);
+      const charIndex = Math.floor(map(fill, 0, 255, charLength, 0));
+      dataContext.fillText(
+        characters[charIndex],
+        i * config.size,
+        j * config.size
+      );
     }
   }
 
