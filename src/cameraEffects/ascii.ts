@@ -28,7 +28,14 @@ export const config: AsciiConfig = {
 // reuse outputs memory
 let outputs: number[][] = [];
 
-const characters = ']N@#W$9876543210?!abc;:+=-,._   ';
+// TODO: add cleanup to reset these
+let characterIndex = 0;
+let frameCount = 0;
+
+// TODO: make flowing chars optional
+const characters = ']N@#W$9876543210?!abc;:+=-,._ ';
+const density = [...characters.split('')];
+const densityCopy = [...density, ...'[)(&%^*`~defABCDEF¥|><'.split('')];
 const charLength = characters.length;
 
 export default function ascii(
@@ -57,9 +64,10 @@ export default function ascii(
             ? config.midColor
             : config.lightColor;
 
-      const charIndex = Math.floor(map(fill, 0, 255, charLength, 0));
+      // protect against NaN
+      const charIndex = Math.floor(map(fill, 0, 255, charLength, 0)) || 0;
       dataContext.fillText(
-        characters[charIndex],
+        density[charIndex],
         i * config.size,
         j * config.size
       );
@@ -67,4 +75,10 @@ export default function ascii(
   }
 
   outputs = [];
+
+  if (++frameCount % 10 === 0) {
+    characterIndex++;
+    density.shift();
+    density.push(densityCopy[characterIndex % charLength]);
+  }
 }
