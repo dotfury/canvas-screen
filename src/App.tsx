@@ -6,6 +6,7 @@ import Snapshot from '@/components/snapshot';
 import Controls from '@/components/controls';
 
 import './App.css';
+import './fonts.css';
 
 function App() {
   const [camera, cameraError] = useCamera();
