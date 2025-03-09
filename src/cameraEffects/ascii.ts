@@ -10,10 +10,12 @@ interface AsciiConfig {
   midColor: string;
   lightColor: string;
   font: string;
+  flow: boolean;
 }
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
 export type NumberTypes = 'dark' | 'light';
+export type FontTypes = 'sans-serif' | 'acer';
 
 export const config: AsciiConfig = {
   size: 5,
@@ -23,16 +25,15 @@ export const config: AsciiConfig = {
   midColor: '#999999',
   lightColor: '#ffffff',
   font: 'sans-serif',
+  flow: false,
 };
 
 // reuse outputs memory
 let outputs: number[][] = [];
 
-// TODO: add cleanup to reset these
 let characterIndex = 0;
 let frameCount = 0;
 
-// TODO: make flowing chars optional
 const characters = ']N@#W$9876543210?!abc;:+=-,._ ';
 const density = [...characters.split('')];
 const densityCopy = [...density, ...'[)(&%^*`~defABCDEF¥|><'.split('')];
@@ -76,9 +77,16 @@ export default function ascii(
 
   outputs = [];
 
-  if (++frameCount % 10 === 0) {
-    characterIndex++;
-    density.shift();
-    density.push(densityCopy[characterIndex % charLength]);
+  if (config.flow) {
+    if (++frameCount % 5 === 0) {
+      characterIndex++;
+      density.shift();
+      density.push(densityCopy[characterIndex % charLength]);
+    }
   }
+}
+
+export function asciiCleanup() {
+  frameCount = 0;
+  characterIndex = 0;
 }

@@ -1,11 +1,15 @@
 import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
-import ascii from '@/cameraEffects/ascii';
+import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
   ASCII: ascii,
   STANDARD: null,
+};
+
+const CLEANUP_MAP: Record<string, any> = {
+  ASCII: asciiCleanup,
 };
 
 export default class Camera {
@@ -70,6 +74,9 @@ export default class Camera {
   }
 
   setEffect(effect: string): void {
+    if (CLEANUP_MAP[this.currentEffect]) {
+      CLEANUP_MAP[this.currentEffect]();
+    }
     this.currentEffect = effect;
   }
 

@@ -4,6 +4,7 @@ import {
   config,
   type ColorTypes,
   type NumberTypes,
+  type FontTypes,
 } from '@/cameraEffects/ascii';
 
 function AsciiOptions() {
@@ -14,6 +15,8 @@ function AsciiOptions() {
   const [lightColor, setLightColor] = useState<string>(config.lightColor);
   const [darkThreshold, setDarkThreshold] = useState<number>(config.dark);
   const [lightThreshold, setLightThreshold] = useState<number>(config.light);
+  const [font, setFont] = useState<string>(config.font);
+  const [flow, setFlow] = useState<boolean>(config.flow);
 
   const colorOptions: {
     label: string;
@@ -45,6 +48,11 @@ function AsciiOptions() {
     light: setLightThreshold,
   };
 
+  const fontOptions: { label: string; key: FontTypes }[] = [
+    { label: 'Sans', key: 'sans-serif' },
+    { label: 'Acer', key: 'acer' },
+  ];
+
   const handleSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.currentTarget.value);
     config.size = value;
@@ -60,6 +68,17 @@ function AsciiOptions() {
     const numValue = Number(value);
     config[property] = numValue;
     thresholdMap[property](numValue);
+  };
+
+  const handleFont = (value: string) => {
+    config.font = value;
+    setFont(value);
+  };
+
+  const handleFlow = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.checked;
+    config.flow = value;
+    setFlow(value);
   };
 
   return (
@@ -99,6 +118,32 @@ function AsciiOptions() {
           />
         </fieldset>
       ))}
+      <fieldset>
+        <legend>Font</legend>
+        {fontOptions.map(({ label, key }) => (
+          <div key={key}>
+            <input
+              type="radio"
+              id={key}
+              name={key}
+              value={key}
+              checked={font === key}
+              onChange={(e) => handleFont(e.currentTarget.value)}
+              disabled={appContext?.showOverlay}
+            />
+            <label htmlFor={key}>{label}</label>
+          </div>
+        ))}
+      </fieldset>
+      <fieldset>
+        <legend>Flow</legend>
+        <input
+          type="checkbox"
+          onChange={handleFlow}
+          checked={flow}
+          disabled={appContext?.showOverlay}
+        />
+      </fieldset>
     </>
   );
 }
