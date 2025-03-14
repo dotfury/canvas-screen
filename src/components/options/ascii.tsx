@@ -51,6 +51,8 @@ function AsciiOptions() {
   const fontOptions: { label: string; key: FontTypes }[] = [
     { label: 'Sans', key: 'sans-serif' },
     { label: 'Acer', key: 'acer' },
+    { label: 'Geist', key: 'geist' },
+    { label: 'Fira', key: 'fira' },
   ];
 
   const handleSlider = (e: ChangeEvent<HTMLInputElement>) => {

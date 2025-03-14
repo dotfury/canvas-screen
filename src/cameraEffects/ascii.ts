@@ -15,7 +15,7 @@ interface AsciiConfig {
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
 export type NumberTypes = 'dark' | 'light';
-export type FontTypes = 'sans-serif' | 'acer';
+export type FontTypes = 'sans-serif' | 'acer' | 'geist' | 'fira';
 
 export const config: AsciiConfig = {
   size: 5,
