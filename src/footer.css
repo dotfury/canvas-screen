@@ -1,0 +1,42 @@
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #ffffff;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  width: 100%;
+}
+
+footer h1 {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+  padding-left: 10px;
+}
+
+footer img,
+footer a {
+  width: 30px;
+  height: 30px;
+}
+
+footer .social {
+  display: flex;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+footer a {
+  display: block;
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity 0.2s linear;
+}
+
+footer a:hover {
+  opacity: 1;
+}
