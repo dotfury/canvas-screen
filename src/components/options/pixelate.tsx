@@ -80,7 +80,7 @@ function PixelateOptions() {
         <legend>Size</legend>
         <input
           type="range"
-          min="3"
+          min={config.minSize}
           max="20"
           value={pixelation}
           onChange={handleSlider}

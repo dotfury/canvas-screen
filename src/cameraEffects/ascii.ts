@@ -1,8 +1,10 @@
 import { getPixelOutputs } from '@/utils/pixel';
 import { map } from '@/utils/map';
+import AppConfig from '@/utils/appConfig.ts';
 
 // allow editing options
 interface AsciiConfig {
+  minSize: number;
   size: number;
   dark: number;
   light: number;
@@ -18,6 +20,7 @@ export type NumberTypes = 'dark' | 'light';
 export type FontTypes = 'sans-serif' | 'acer' | 'geist' | 'fira';
 
 export const config: AsciiConfig = {
+  minSize: AppConfig.isMobile ? 5 : 3,
   size: 5,
   dark: 125,
   light: 190,

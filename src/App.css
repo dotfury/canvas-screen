@@ -71,3 +71,32 @@ button:disabled,
 input:disabled {
   cursor: not-allowed;
 }
+
+@media screen and (max-width: 768px) {
+  body {
+    display: block;
+  }
+
+  #root {
+    display: block;
+    padding: 0;
+  }
+
+  canvas {
+    width: 100%;
+  }
+
+  .controls {
+    margin: 5px;
+  }
+
+  .effects-container {
+    flex: 1;
+  }
+
+  .options-container {
+    flex: 1;
+    height: 250px;
+    overflow-y: scroll;
+  }
+}

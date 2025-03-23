@@ -1,7 +1,9 @@
 import { getPixelOutputs } from '@/utils/pixel';
+import AppConfig from '@/utils/appConfig.ts';
 
 // allow editing options
 interface PixelateConfig {
+  minSize: number;
   size: number;
   dark: number;
   light: number;
@@ -16,6 +18,7 @@ export type NumberTypes = 'dark' | 'light';
 export type ShapeTypes = 'square' | 'circle';
 
 export const config: PixelateConfig = {
+  minSize: AppConfig.isMobile ? 5 : 3,
   size: 5,
   dark: 125,
   light: 190,
