@@ -12,3 +12,8 @@
   font-family: 'fira';
   src: url('assets/fonts/FiraCode-Regular.woff');
 }
+
+@font-face {
+  font-family: 'apricot';
+  src: url('assets/fonts/ApricotPortable.woff');
+}

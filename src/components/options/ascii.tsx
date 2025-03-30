@@ -53,6 +53,7 @@ function AsciiOptions() {
     { label: 'Acer', key: 'acer' },
     { label: 'Geist', key: 'geist' },
     { label: 'Fira', key: 'fira' },
+    { label: 'Apricot', key: 'apricot' },
   ];
 
   const handleSlider = (e: ChangeEvent<HTMLInputElement>) => {

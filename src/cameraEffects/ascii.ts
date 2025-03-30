@@ -17,10 +17,10 @@ interface AsciiConfig {
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
 export type NumberTypes = 'dark' | 'light';
-export type FontTypes = 'sans-serif' | 'acer' | 'geist' | 'fira';
+export type FontTypes = 'sans-serif' | 'acer' | 'geist' | 'fira' | 'apricot';
 
 export const config: AsciiConfig = {
-  minSize: AppConfig.isMobile ? 5 : 3,
+  minSize: AppConfig.isMobile ? 7 : 5,
   size: 5,
   dark: 125,
   light: 190,
