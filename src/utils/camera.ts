@@ -1,10 +1,12 @@
 import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
+import slitscan from '@/cameraEffects/slitscan';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
   ASCII: ascii,
+  SLITSCAN: slitscan,
   STANDARD: null,
 };
 
