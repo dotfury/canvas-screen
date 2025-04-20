@@ -98,7 +98,7 @@ export default class Camera {
   drawVideo(): void {
     if (!this.video) return;
 
-    this.dataContext.clearRect(0, 0, this.width, this.height);
+    // this.dataContext.clearRect(0, 0, this.width, this.height);
     this.dataContext.drawImage(this.video, 0, 0);
 
     if (EFFECT_MAP[this.currentEffect]) {
