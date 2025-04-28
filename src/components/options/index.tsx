@@ -1,5 +1,12 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { EFFECTS } from '@/utils/effectList';
+import AsciiOptions from '@/components/options/ascii';
+import PixelateOptions from '@/components/options/pixelate';
+
+const optionsMap: Record<string, ReactElement> = {
+  [EFFECTS.ASCII]: <AsciiOptions />,
+  [EFFECTS.PIXELATE]: <PixelateOptions />,
+};
 
 interface Props {
   currentEffect: string;
@@ -13,13 +20,7 @@ function Options({ currentEffect }: Props) {
   useEffect(() => {
     if (currentEffect === EFFECTS.STANDARD) return setOptionsComponent(null);
 
-    const importComponent = async () => {
-      const module = await import(`./${currentEffect.toLowerCase()}`);
-      const OptionsComponent = module.default;
-      setOptionsComponent(<OptionsComponent />);
-    };
-
-    importComponent();
+    setOptionsComponent(optionsMap[currentEffect]);
   }, [currentEffect]);
 
   return <div className="options-container">{optionsComponent}</div>;
