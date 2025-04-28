@@ -1,9 +1,15 @@
 import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
+import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
+  ASCII: ascii,
   STANDARD: null,
+};
+
+const CLEANUP_MAP: Record<string, any> = {
+  ASCII: asciiCleanup,
 };
 
 export default class Camera {
@@ -15,7 +21,6 @@ export default class Camera {
   height: number;
   width: number;
   currentEffect: string;
-  worker: Worker | null;
 
   constructor(canvas: HTMLCanvasElement) {
     if (!Camera.instance) {
@@ -30,7 +35,6 @@ export default class Camera {
     this.dataContext = this.dataCanvas.getContext('2d', {
       willReadFrequently: true,
     })!;
-    this.worker = null;
 
     return Camera.instance;
   }
@@ -70,6 +74,9 @@ export default class Camera {
   }
 
   setEffect(effect: string): void {
+    if (CLEANUP_MAP[this.currentEffect]) {
+      CLEANUP_MAP[this.currentEffect]();
+    }
     this.currentEffect = effect;
   }
 

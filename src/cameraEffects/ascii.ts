@@ -1,8 +1,9 @@
 import { getPixelOutputs } from '@/utils/pixel';
+import { map } from '@/utils/map';
 import AppConfig from '@/utils/appConfig.ts';
 
 // allow editing options
-interface PixelateConfig {
+interface AsciiConfig {
   minSize: number;
   size: number;
   dark: number;
@@ -10,28 +11,38 @@ interface PixelateConfig {
   darkColor: string;
   midColor: string;
   lightColor: string;
-  shape: string;
+  font: string;
+  flow: boolean;
 }
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
 export type NumberTypes = 'dark' | 'light';
-export type ShapeTypes = 'square' | 'circle';
+export type FontTypes = 'sans-serif' | 'acer' | 'geist' | 'fira' | 'apricot';
 
-export const config: PixelateConfig = {
-  minSize: AppConfig.isMobile ? 5 : 3,
+export const config: AsciiConfig = {
+  minSize: AppConfig.isMobile ? 7 : 5,
   size: 5,
   dark: 125,
   light: 190,
   darkColor: '#000000',
   midColor: '#999999',
   lightColor: '#ffffff',
-  shape: 'square',
+  font: 'sans-serif',
+  flow: false,
 };
 
 // reuse outputs memory
 let outputs: number[][] = [];
 
-export default function pixelate(
+let characterIndex = 0;
+let frameCount = 0;
+
+const characters = ']N@#W$9876543210?!abc;:+=-,._ ';
+const density = [...characters.split('')];
+const densityCopy = [...density, ...'[)(&%^*`~defABCDEF¥|><'.split('')];
+const charLength = characters.length;
+
+export default function ascii(
   dataContext: CanvasRenderingContext2D,
   width: number,
   height: number
@@ -42,12 +53,12 @@ export default function pixelate(
 
   const outputLength = outputs.length;
   dataContext.clearRect(0, 0, width, height);
+  dataContext.font = `${config.size}px ${config.font}`;
 
   for (let i = 0; i < outputLength; i++) {
     const innerLength = outputs[i].length;
 
     for (let j = 0; j < innerLength; j++) {
-      // 0 - 255
       const fill = outputs[i][j];
 
       dataContext.fillStyle =
@@ -57,28 +68,28 @@ export default function pixelate(
             ? config.midColor
             : config.lightColor;
 
-      if (config.shape === 'square') {
-        dataContext.fillRect(
-          i * config.size,
-          j * config.size,
-          config.size,
-          config.size
-        );
-      } else {
-        dataContext.beginPath();
-        dataContext.ellipse(
-          i * config.size,
-          j * config.size,
-          config.size / 2,
-          config.size / 2,
-          0,
-          0,
-          Math.PI * 2
-        );
-        dataContext.fill();
-      }
+      // protect against NaN
+      const charIndex = Math.floor(map(fill, 0, 255, charLength, 0)) || 0;
+      dataContext.fillText(
+        density[charIndex],
+        i * config.size,
+        j * config.size
+      );
     }
   }
 
   outputs = [];
+
+  if (config.flow) {
+    if (++frameCount % 5 === 0) {
+      characterIndex++;
+      density.shift();
+      density.push(densityCopy[characterIndex % charLength]);
+    }
+  }
+}
+
+export function asciiCleanup() {
+  frameCount = 0;
+  characterIndex = 0;
 }

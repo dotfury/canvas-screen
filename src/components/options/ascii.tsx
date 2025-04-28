@@ -4,10 +4,10 @@ import {
   config,
   type ColorTypes,
   type NumberTypes,
-  type ShapeTypes,
-} from '@/cameraEffects/pixelate';
+  type FontTypes,
+} from '@/cameraEffects/ascii';
 
-function PixelateOptions() {
+function AsciiOptions() {
   const appContext = useContext(AppContext);
   const [pixelation, setPixelation] = useState<number>(config.size);
   const [darkColor, setDarkColor] = useState<string>(config.darkColor);
@@ -15,7 +15,8 @@ function PixelateOptions() {
   const [lightColor, setLightColor] = useState<string>(config.lightColor);
   const [darkThreshold, setDarkThreshold] = useState<number>(config.dark);
   const [lightThreshold, setLightThreshold] = useState<number>(config.light);
-  const [shape, setShape] = useState<string>(config.shape);
+  const [font, setFont] = useState<string>(config.font);
+  const [flow, setFlow] = useState<boolean>(config.flow);
 
   const colorOptions: {
     label: string;
@@ -47,9 +48,12 @@ function PixelateOptions() {
     light: setLightThreshold,
   };
 
-  const shapeOptions: { label: string; key: ShapeTypes }[] = [
-    { label: 'Square', key: 'square' },
-    { label: 'circle', key: 'circle' },
+  const fontOptions: { label: string; key: FontTypes }[] = [
+    { label: 'Sans', key: 'sans-serif' },
+    { label: 'Acer', key: 'acer' },
+    { label: 'Geist', key: 'geist' },
+    { label: 'Fira', key: 'fira' },
+    { label: 'Apricot', key: 'apricot' },
   ];
 
   const handleSlider = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,9 +73,15 @@ function PixelateOptions() {
     thresholdMap[property](numValue);
   };
 
-  const handleShape = (value: string) => {
-    config.shape = value;
-    setShape(value);
+  const handleFont = (value: string) => {
+    config.font = value;
+    setFont(value);
+  };
+
+  const handleFlow = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.checked;
+    config.flow = value;
+    setFlow(value);
   };
 
   return (
@@ -112,24 +122,33 @@ function PixelateOptions() {
         </fieldset>
       ))}
       <fieldset>
-        <legend>Shape</legend>
-        {shapeOptions.map(({ label, key }) => (
+        <legend>Font</legend>
+        {fontOptions.map(({ label, key }) => (
           <div key={key}>
             <input
               type="radio"
               id={key}
               name={key}
               value={key}
-              checked={shape === key}
-              onChange={(e) => handleShape(e.currentTarget.value)}
+              checked={font === key}
+              onChange={(e) => handleFont(e.currentTarget.value)}
               disabled={appContext?.showOverlay}
             />
             <label htmlFor={key}>{label}</label>
           </div>
         ))}
       </fieldset>
+      <fieldset>
+        <legend>Flow</legend>
+        <input
+          type="checkbox"
+          onChange={handleFlow}
+          checked={flow}
+          disabled={appContext?.showOverlay}
+        />
+      </fieldset>
     </>
   );
 }
 
-export default PixelateOptions;
+export default AsciiOptions;

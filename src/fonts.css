@@ -1,0 +1,19 @@
+@font-face {
+  font-family: 'acer';
+  src: url('assets/fonts/acer.woff');
+}
+
+@font-face {
+  font-family: 'geist';
+  src: url('assets/fonts/geist-regular.woff2');
+}
+
+@font-face {
+  font-family: 'fira';
+  src: url('assets/fonts/FiraCode-Regular.woff');
+}
+
+@font-face {
+  font-family: 'apricot';
+  src: url('assets/fonts/ApricotPortable.woff');
+}
