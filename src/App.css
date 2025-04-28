@@ -87,6 +87,7 @@ input:disabled {
   }
 
   .controls {
+    align-items: flex-start;
     margin: 5px;
   }
 
