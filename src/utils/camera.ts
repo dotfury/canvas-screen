@@ -2,16 +2,19 @@ import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 import slitscan from '@/cameraEffects/slitscan';
+import grid, { gridCleanup } from '@/cameraEffects/grid';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
   ASCII: ascii,
   SLITSCAN: slitscan,
+  GRID: grid,
   STANDARD: null,
 };
 
 const CLEANUP_MAP: Record<string, any> = {
   ASCII: asciiCleanup,
+  GRID: gridCleanup,
 };
 
 export default class Camera {
@@ -106,7 +109,7 @@ export default class Camera {
   drawVideo(): void {
     if (!this.video) return;
 
-    if (this.currentEffect === 'SLITSCAN') {
+    if (this.currentEffect === 'SLITSCAN' || this.currentEffect === 'GRID') {
       // this.offscreenContext?.clearRect(0, 0, this.width, this.height);
       this.offscreenContext?.drawImage(this.video, 0, 0);
 
