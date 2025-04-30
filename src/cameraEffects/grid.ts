@@ -2,18 +2,16 @@ import AppConfig from '@/utils/appConfig.ts';
 
 // allow editing options
 interface GridConfig {
-  minSize: number;
-  size: number;
+  minwidth: number;
+  width: number;
 }
 
-// TODO - maintain aspect ratio width and height
 export const config: GridConfig = {
-  minSize: AppConfig.isMobile ? 100 : 100,
-  size: 100,
+  minwidth: AppConfig.isMobile ? 100 : 100,
+  width: 100,
 };
 
 let history: ImageBitmap[] = [];
-let minFrames;
 
 export default async function grid(
   offscreenContext: OffscreenCanvasRenderingContext2D,
@@ -22,39 +20,48 @@ export default async function grid(
   height: number
 ): Promise<void> {
   dataContext.imageSmoothingEnabled = false;
-  const columns = Math.floor(width / config.size);
-  const rows = Math.floor(height / config.size);
-  const xOffset = Math.floor((width - columns * config.size) / columns);
-  const yOffset = Math.floor((height - rows * config.size) / rows);
+  let currentFrame = 0;
+  const aspectRatio = width / height;
+  const aspectHeight = config.width / aspectRatio;
+  const columns = Math.floor(width / config.width);
+  const rows = Math.floor(height / aspectHeight);
+  const minFrames = columns * rows;
+  const xOffset = Math.floor((width - columns * config.width) / columns);
+  const yOffset = Math.floor((height - rows * aspectHeight) / rows);
 
-  minFrames = columns * rows;
-  history.push(
-    await createImageBitmap(
-      offscreenContext.getImageData(0, 0, width, height),
-      0,
-      0,
-      width,
-      height
-    )
+  const data = await createImageBitmap(
+    offscreenContext.getImageData(0, 0, width, height),
+    0,
+    0,
+    width,
+    height
   );
+  history = [data, ...history];
+  const length = history.length;
 
   dataContext.fillRect(0, 0, width, height);
   dataContext.save();
-  dataContext.translate(xOffset / 2, yOffset / 2);
+  dataContext.translate(xOffset * 0.75, yOffset / 2);
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {
       dataContext.drawImage(
-        history[0],
-        j * config.size + xOffset * j,
-        i * config.size + yOffset * i,
-        config.size,
-        config.size
+        history[currentFrame],
+        j * config.width + xOffset * j,
+        i * aspectHeight + yOffset * i,
+        config.width,
+        aspectHeight
       );
+
+      if (length >= minFrames) {
+        currentFrame++;
+      }
     }
   }
   dataContext.restore();
 
-  history = history.slice(1);
+  if (length >= minFrames) {
+    history = history.slice(0, -1);
+  }
 }
 
 export function gridCleanup() {
