@@ -17,6 +17,8 @@ const CLEANUP_MAP: Record<string, any> = {
   GRID: gridCleanup,
 };
 
+const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID];
+
 export default class Camera {
   private static instance: Camera;
   initialized: boolean;
@@ -109,8 +111,7 @@ export default class Camera {
   drawVideo(): void {
     if (!this.video) return;
 
-    if (this.currentEffect === 'SLITSCAN' || this.currentEffect === 'GRID') {
-      // this.offscreenContext?.clearRect(0, 0, this.width, this.height);
+    if (NEEDS_OFFSCREEN.includes(this.currentEffect)) {
       this.offscreenContext?.drawImage(this.video, 0, 0);
 
       EFFECT_MAP[this.currentEffect](

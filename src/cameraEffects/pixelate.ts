@@ -4,6 +4,7 @@ import AppConfig from '@/utils/appConfig.ts';
 // allow editing options
 interface PixelateConfig {
   minSize: number;
+  maxSize: number;
   size: number;
   dark: number;
   light: number;
@@ -19,6 +20,7 @@ export type ShapeTypes = 'square' | 'circle';
 
 export const config: PixelateConfig = {
   minSize: AppConfig.isMobile ? 5 : 3,
+  maxSize: 20,
   size: 5,
   dark: 125,
   light: 190,

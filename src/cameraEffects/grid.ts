@@ -1,17 +1,18 @@
-import AppConfig from '@/utils/appConfig.ts';
-
 // allow editing options
 interface GridConfig {
-  minwidth: number;
+  minWidth: number;
+  maxWidth: number;
   width: number;
 }
 
 export const config: GridConfig = {
-  minwidth: AppConfig.isMobile ? 100 : 100,
+  minWidth: 50,
+  maxWidth: 300,
   width: 100,
 };
 
 let history: ImageBitmap[] = [];
+let lastWidth = config.width;
 
 export default async function grid(
   offscreenContext: OffscreenCanvasRenderingContext2D,
@@ -29,6 +30,11 @@ export default async function grid(
   const xOffset = Math.floor((width - columns * config.width) / columns);
   const yOffset = Math.floor((height - rows * aspectHeight) / rows);
 
+  if (config.width != lastWidth) {
+    history = [];
+    lastWidth = config.width;
+  }
+
   const data = await createImageBitmap(
     offscreenContext.getImageData(0, 0, width, height),
     0,
@@ -39,6 +45,7 @@ export default async function grid(
   history = [data, ...history];
   const length = history.length;
 
+  dataContext.fillStyle = '#000000';
   dataContext.fillRect(0, 0, width, height);
   dataContext.save();
   dataContext.translate(xOffset * 0.75, yOffset / 2);
@@ -66,4 +73,5 @@ export default async function grid(
 
 export function gridCleanup() {
   history = [];
+  config.width = 100;
 }
