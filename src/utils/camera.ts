@@ -79,6 +79,10 @@ export default class Camera {
       video.src = window.URL.createObjectURL(avStream as any);
     }
 
+    // iOS fix - https://github.com/mebjas/html5-qrcode/issues/9
+    video.muted = true;
+    video.playsInline = true;
+    // end iOS fix ----------
     await video.play();
 
     return video;
