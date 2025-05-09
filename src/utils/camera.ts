@@ -81,13 +81,11 @@ export default class Camera {
   }
 
   async changeFacingMode(): Promise<void> {
-    alert(this.facingMode);
     if (this.facingMode === 'user') {
       this.facingMode = 'environment';
-      return;
+    } else {
+      this.facingMode = 'user';
     }
-
-    this.facingMode = 'user';
 
     this.video = await this.getVideo();
   }
