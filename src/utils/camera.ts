@@ -30,7 +30,7 @@ export default class Camera {
       Camera.instance = this;
     }
     this.initialized = false;
-    this.facingMode = 'user';
+    this.facingMode = 'environment';
     this.video = null;
     this.height = 0;
     this.width = 0;
@@ -80,7 +80,7 @@ export default class Camera {
     return video;
   }
 
-  changeFacingMode(): void {
+  async changeFacingMode(): Promise<void> {
     if (this.facingMode === 'user') {
       this.facingMode = 'environment';
       return;
@@ -88,7 +88,7 @@ export default class Camera {
 
     this.facingMode = 'user';
 
-    this.getVideo();
+    this.video = await this.getVideo();
   }
 
   startVideo(): void {
