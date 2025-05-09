@@ -30,7 +30,7 @@ export default class Camera {
       Camera.instance = this;
     }
     this.initialized = false;
-    this.facingMode = 'environment';
+    this.facingMode = 'user';
     this.video = null;
     this.height = 0;
     this.width = 0;
