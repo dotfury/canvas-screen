@@ -1,13 +1,11 @@
 import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
-import slitscan from '@/cameraEffects/slitscan';
 import grid, { gridCleanup } from '@/cameraEffects/grid';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
   ASCII: ascii,
-  SLITSCAN: slitscan,
   GRID: grid,
   STANDARD: null,
 };

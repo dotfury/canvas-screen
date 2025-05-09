@@ -2,7 +2,6 @@ export enum EFFECTS {
   STANDARD = 'STANDARD',
   PIXELATE = 'PIXELATE',
   ASCII = 'ASCII',
-  // SLITSCAN = 'SLITSCAN',
   GRID = 'GRID',
 }
 
@@ -10,6 +9,5 @@ export const effectsList = [
   EFFECTS.STANDARD,
   EFFECTS.PIXELATE,
   EFFECTS.ASCII,
-  // EFFECTS.SLITSCAN,
   EFFECTS.GRID,
 ];

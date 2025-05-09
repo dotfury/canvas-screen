@@ -1,8 +1,4 @@
-// VIDEO: https://www.youtube.com/watch?v=hckvHFDGiJk&list=PLRqwX-V7Uu6ZiZxtDDRCi6uhfTH4FilpH&index=223
-import { processImageData } from '@/utils/pixel';
 import AppConfig from '@/utils/appConfig.ts';
-import { randomRange } from '@/utils/random';
-import { map } from '@/utils/map';
 
 // allow editing options
 interface SlitscanConfig {
@@ -18,7 +14,6 @@ export const config: SlitscanConfig = {
 };
 
 let frameCount = 0;
-let angle = 0;
 let slices: Array<ImageData[]> = [];
 
 export default function slitscan(
@@ -97,5 +92,4 @@ export default function slitscan(
 export function cleanupSlitscan() {
   slices = [];
   frameCount = 0;
-  angle = 0;
 }

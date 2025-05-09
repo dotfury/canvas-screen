@@ -20,11 +20,7 @@ function Options({ currentEffect }: Props) {
   );
 
   useEffect(() => {
-    if (
-      currentEffect === EFFECTS.STANDARD
-      // currentEffect === EFFECTS.SLITSCAN ||
-    )
-      return setOptionsComponent(null);
+    if (currentEffect === EFFECTS.STANDARD) return setOptionsComponent(null);
 
     setOptionsComponent(optionsMap[currentEffect]);
   }, [currentEffect]);
