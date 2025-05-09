@@ -19,6 +19,8 @@ const CLEANUP_MAP: Record<string, any> = {
 
 const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID];
 
+type FacingMode = 'user' | 'environment';
+
 export default class Camera {
   private static instance: Camera;
   initialized: boolean;
@@ -30,12 +32,14 @@ export default class Camera {
   height: number;
   width: number;
   currentEffect: string;
+  facingMode: FacingMode;
 
   constructor(canvas: HTMLCanvasElement) {
     if (!Camera.instance) {
       Camera.instance = this;
     }
     this.initialized = false;
+    this.facingMode = 'user';
     this.video = null;
     this.height = 0;
     this.width = 0;
@@ -66,7 +70,10 @@ export default class Camera {
 
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
+      audio: false,
+      video: {
+        facingMode: this.facingMode,
+      },
     });
 
     const video = document.createElement('video');
@@ -86,6 +93,16 @@ export default class Camera {
     await video.play();
 
     return video;
+  }
+
+  async changeFacingMode(): Promise<void> {
+    if (this.facingMode === 'user') {
+      this.facingMode = 'environment';
+    } else {
+      this.facingMode = 'user';
+    }
+
+    this.video = await this.getVideo();
   }
 
   startVideo(): void {

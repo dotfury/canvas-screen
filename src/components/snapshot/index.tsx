@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
+import appConfig from '@/utils/appConfig';
 import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
+import reverseIcon from '@/assets/icons/circle_arrows.svg';
 
 function Snapshot() {
   const appContext = useContext(AppContext);
@@ -15,8 +17,19 @@ function Snapshot() {
 
   const takeSnapshot = () => camera?.takeSnapshot();
 
+  const switchCamera = () => camera?.changeFacingMode();
+
   return (
     <div className="snapshot-container">
+      {appConfig.isMobile && (
+        <button
+          className="with-icon"
+          onClick={switchCamera}
+          disabled={showOverlay}
+        >
+          <img src={reverseIcon} width={20} height={20} alt="switch camera" />
+        </button>
+      )}
       <button
         className="with-icon"
         onClick={takeSnapshot}
