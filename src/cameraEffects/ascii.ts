@@ -5,6 +5,7 @@ import AppConfig from '@/utils/appConfig.ts';
 // allow editing options
 interface AsciiConfig {
   minSize: number;
+  maxSize: number;
   size: number;
   dark: number;
   light: number;
@@ -21,6 +22,7 @@ export type FontTypes = 'sans-serif' | 'acer' | 'geist' | 'fira' | 'apricot';
 
 export const config: AsciiConfig = {
   minSize: AppConfig.isMobile ? 7 : 5,
+  maxSize: 20,
   size: 5,
   dark: 125,
   light: 190,

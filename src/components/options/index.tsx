@@ -2,10 +2,12 @@ import { ReactElement, useEffect, useState } from 'react';
 import { EFFECTS } from '@/utils/effectList';
 import AsciiOptions from '@/components/options/ascii';
 import PixelateOptions from '@/components/options/pixelate';
+import GridOptions from '@/components/options/grid';
 
 const optionsMap: Record<string, ReactElement> = {
   [EFFECTS.ASCII]: <AsciiOptions />,
   [EFFECTS.PIXELATE]: <PixelateOptions />,
+  [EFFECTS.GRID]: <GridOptions />,
 };
 
 interface Props {

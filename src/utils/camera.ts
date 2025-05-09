@@ -1,16 +1,21 @@
 import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
+import grid, { gridCleanup } from '@/cameraEffects/grid';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
   ASCII: ascii,
+  GRID: grid,
   STANDARD: null,
 };
 
 const CLEANUP_MAP: Record<string, any> = {
   ASCII: asciiCleanup,
+  GRID: gridCleanup,
 };
+
+const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID];
 
 type FacingMode = 'user' | 'environment';
 
@@ -19,6 +24,8 @@ export default class Camera {
   initialized: boolean;
   dataCanvas: HTMLCanvasElement;
   dataContext: CanvasRenderingContext2D;
+  offscreenCanvas: OffscreenCanvas | null;
+  offscreenContext: OffscreenCanvasRenderingContext2D | null;
   video: HTMLVideoElement | null;
   height: number;
   width: number;
@@ -39,6 +46,8 @@ export default class Camera {
     this.dataContext = this.dataCanvas.getContext('2d', {
       willReadFrequently: true,
     })!;
+    this.offscreenCanvas = null;
+    this.offscreenContext = null;
 
     return Camera.instance;
   }
@@ -51,6 +60,10 @@ export default class Camera {
     this.width = this.video.videoWidth;
     this.dataCanvas.width = this.width;
     this.dataCanvas.height = this.height;
+    this.offscreenCanvas = new OffscreenCanvas(this.width, this.height);
+    this.offscreenContext = this.offscreenCanvas.getContext('2d', {
+      willReadFrequently: true,
+    });
   }
 
   async getVideo(): Promise<HTMLVideoElement> {
@@ -117,11 +130,26 @@ export default class Camera {
   drawVideo(): void {
     if (!this.video) return;
 
-    this.dataContext.clearRect(0, 0, this.width, this.height);
-    this.dataContext.drawImage(this.video, 0, 0);
+    if (NEEDS_OFFSCREEN.includes(this.currentEffect)) {
+      this.offscreenContext?.drawImage(this.video, 0, 0);
 
-    if (EFFECT_MAP[this.currentEffect]) {
-      EFFECT_MAP[this.currentEffect](this.dataContext, this.width, this.height);
+      EFFECT_MAP[this.currentEffect](
+        this.offscreenContext,
+        this.dataContext,
+        this.width,
+        this.height
+      );
+    } else {
+      this.dataContext.clearRect(0, 0, this.width, this.height);
+      this.dataContext.drawImage(this.video, 0, 0);
+
+      if (EFFECT_MAP[this.currentEffect]) {
+        EFFECT_MAP[this.currentEffect](
+          this.dataContext,
+          this.width,
+          this.height
+        );
+      }
     }
 
     requestAnimationFrame(() => this.drawVideo());

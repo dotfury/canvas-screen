@@ -91,7 +91,7 @@ function AsciiOptions() {
         <input
           type="range"
           min={config.minSize}
-          max="20"
+          max={config.maxSize}
           value={pixelation}
           onChange={handleSlider}
           disabled={appContext?.showOverlay}

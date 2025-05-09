@@ -13,7 +13,7 @@ const getAverageBrightness = (dataArray: number[], size: number): number => {
 };
 
 // Solution found here: https://stackoverflow.com/questions/46863683/speed-up-canvass-getimagedata
-const processImageData = (
+export const processImageData = (
   imageData: ImageData,
   x: number,
   y: number,
