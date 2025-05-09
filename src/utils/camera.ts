@@ -81,6 +81,7 @@ export default class Camera {
   }
 
   changeFacingMode(): void {
+    alert(this.facingMode);
     if (this.facingMode === 'user') {
       this.facingMode = 'environment';
       return;
