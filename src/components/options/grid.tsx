@@ -21,6 +21,7 @@ function PixelateOptions() {
           min={config.minWidth}
           max={config.maxWidth}
           value={width}
+          step="10"
           onChange={handleSlider}
           disabled={appContext?.showOverlay}
         />
