@@ -19,6 +19,11 @@ function hasTouchSupport(): boolean {
   return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 }
 
+export function isIOSDevice(): boolean {
+  const regex = /iPhone|iPad|iPod/i;
+  return regex.test(navigator.userAgent);
+}
+
 export function isMobileDevice(): boolean {
   if ('userAgentData' in navigator) {
     return (navigator.userAgentData as NavigatorUAData).mobile;

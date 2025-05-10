@@ -1,4 +1,6 @@
+import appConfig from '@/utils/appConfig';
 import { EFFECTS } from '@/utils/effectList';
+import { openBase64InNewTab } from '@/utils/image';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 import grid, { gridCleanup } from '@/cameraEffects/grid';
@@ -117,7 +119,11 @@ export default class Camera {
   takeSnapshot(): void {
     const dataURL = this.dataCanvas.toDataURL('image/jpeg', 1.0);
 
-    this.downloadImage(dataURL);
+    if (appConfig.isMobile && appConfig.isIOS) {
+      openBase64InNewTab(dataURL, 'image/jpeg');
+    } else {
+      this.downloadImage(dataURL);
+    }
   }
 
   downloadImage(data: string, filename = 'image.jpeg') {
