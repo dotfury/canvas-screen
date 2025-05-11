@@ -9,13 +9,22 @@ function Snapshot() {
   const appContext = useContext(AppContext);
   const showOverlay = appContext?.showOverlay;
   const setTimer = appContext?.setTimer;
+  const updateDownloadImageModal = appContext?.updateDownloadImageModal;
   const camera = appContext?.camera;
 
   const setSnapTimer = () => {
     if (setTimer) setTimer(5000);
   };
 
-  const takeSnapshot = () => camera?.takeSnapshot();
+  const takeSnapshot = () => {
+    if (appConfig.isMobile && appConfig.isIOS) {
+      if (updateDownloadImageModal) {
+        updateDownloadImageModal(camera?.createImageDataURL() ?? '');
+      }
+    } else {
+      camera?.takeSnapshot();
+    }
+  };
 
   const switchCamera = () => camera?.changeFacingMode();
 

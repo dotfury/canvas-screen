@@ -1,6 +1,4 @@
-import appConfig from '@/utils/appConfig';
 import { EFFECTS } from '@/utils/effectList';
-import { openBase64InNewTab } from '@/utils/image';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 import grid, { gridCleanup } from '@/cameraEffects/grid';
@@ -89,7 +87,7 @@ export default class Camera {
     // iOS fix - https://github.com/mebjas/html5-qrcode/issues/9
     video.muted = true;
     video.playsInline = true;
-    // end iOS fix ----------
+
     await video.play();
 
     return video;
@@ -116,14 +114,14 @@ export default class Camera {
     this.currentEffect = effect;
   }
 
-  takeSnapshot(): void {
-    const dataURL = this.dataCanvas.toDataURL('image/jpeg', 1.0);
+  createImageDataURL(): string {
+    return this.dataCanvas.toDataURL('image/jpeg', 1.0);
+  }
 
-    if (appConfig.isMobile && appConfig.isIOS) {
-      openBase64InNewTab(dataURL, 'image/jpeg');
-    } else {
-      this.downloadImage(dataURL);
-    }
+  takeSnapshot(): void {
+    const dataURL = this.createImageDataURL();
+
+    this.downloadImage(dataURL);
   }
 
   downloadImage(data: string, filename = 'image.jpeg') {

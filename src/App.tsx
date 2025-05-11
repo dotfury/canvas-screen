@@ -1,24 +1,48 @@
 import { useEffect } from 'react';
+
+import appConfig from '@/utils/appConfig';
 import { useCamera } from '@/hooks/camera';
 import { useSnapshot } from '@/hooks/snapshot';
 import { AppContext } from '@/context/appContext';
 import Snapshot from '@/components/snapshot';
 import Controls from '@/components/controls';
+import Download from '@/components/download';
 
 import './App.css';
 
 function App() {
   const [camera, cameraError] = useCamera();
-  const { showOverlay, takeSnapshot, remainingTime, setTimer } = useSnapshot();
+  const {
+    imageURL,
+    showDownloadModal,
+    showOverlay,
+    takeSnapshot,
+    remainingTime,
+    setTimer,
+    updateDownloadImageModal,
+  } = useSnapshot();
 
   useEffect(() => {
     if (takeSnapshot) {
-      camera?.takeSnapshot();
+      if (appConfig.isMobile && appConfig.isIOS) {
+        updateDownloadImageModal(camera?.createImageDataURL() ?? '');
+      } else {
+        camera?.takeSnapshot();
+      }
     }
   }, [takeSnapshot]);
 
   const renderApp = () => (
-    <AppContext.Provider value={{ showOverlay, camera, setTimer }}>
+    <AppContext.Provider
+      value={{
+        imageURL,
+        showDownloadModal,
+        updateDownloadImageModal,
+        showOverlay,
+        camera,
+        setTimer,
+      }}
+    >
       <div className="canvas-container">
         <canvas />
         {showOverlay && (
@@ -27,6 +51,7 @@ function App() {
         <Snapshot />
       </div>
       <Controls />
+      <Download />
     </AppContext.Provider>
   );
 
