@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     if (takeSnapshot) {
-      if (appConfig.isMobile && appConfig.isIOS) {
+      if (appConfig.isMobile) {
         updateDownloadImageModal(camera?.createImageDataURL() ?? '');
       } else {
         camera?.takeSnapshot();

@@ -17,7 +17,7 @@ function Snapshot() {
   };
 
   const takeSnapshot = () => {
-    if (appConfig.isMobile && appConfig.isIOS) {
+    if (appConfig.isMobile) {
       if (updateDownloadImageModal) {
         updateDownloadImageModal(camera?.createImageDataURL() ?? '');
       }
