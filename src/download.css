@@ -33,13 +33,14 @@
   background-color: white;
   border: 1px solid #999;
   color: #646cff;
+  cursor: pointer;
   flex: 1;
   padding: 10px;
   text-align: center;
   font-weight: 600;
 }
 
-.download-navigation div {
+.download-navigation div:first-child {
   border-right: none;
   border-bottom-left-radius: 5px;
 }
