@@ -1,22 +1,22 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import { AppContext } from '@/context/appContext';
 
 import '@/download.css';
 
 function Download() {
-  const [canShare, _] = useState<boolean>(navigator.canShare());
   const appContext = useContext(AppContext);
   const showDownloadModal = appContext?.showDownloadModal;
   const updateDownloadImageModal = appContext?.updateDownloadImageModal;
   const imageURL = appContext?.imageURL;
+  const canShowShare = 'canShare' in navigator;
 
   const clearImage = () => {
     if (updateDownloadImageModal) updateDownloadImageModal('');
   };
 
   const shareImage = async () => {
-    if (canShare && imageURL) {
+    if (canShowShare && imageURL) {
       const blob = await (await fetch(imageURL)).blob();
       const filesArray = [
         new File([blob], 'image.jpeg', {
@@ -46,7 +46,7 @@ function Download() {
           </p>
           <nav className="download-navigation">
             <div onClick={clearImage}>Cancel</div>
-            {canShare && <div onClick={shareImage}>Share</div>}
+            {canShowShare && <div onClick={shareImage}>Share</div>}
             <a href={imageURL} download="image.jpeg" onClick={clearImage}>
               Download
             </a>
