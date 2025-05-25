@@ -16,14 +16,14 @@ function Controls() {
   };
 
   return (
-    <div className="controls">
-      <div className="effects-container">
+    <div className="controls flex flex-1 gap-2 mx-1 h-48 overflow-scroll md:h-auto md:mx-2.5">
+      <div className="effects-container flex-1 pl-0.5">
         {effectsList.map((effectName) => {
           const activeClassName = effect === effectName ? 'active' : '';
 
           return (
             <button
-              className={activeClassName}
+              className={`standard-button block ${activeClassName}`}
               key={effectName}
               onClick={handleEffect}
               data-id={effectName}

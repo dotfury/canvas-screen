@@ -25,7 +25,7 @@ function Options({ currentEffect }: Props) {
     setOptionsComponent(optionsMap[currentEffect]);
   }, [currentEffect]);
 
-  return <div className="options-container">{optionsComponent}</div>;
+  return <div className="options-container flex-1">{optionsComponent}</div>;
 }
 
 export default Options;

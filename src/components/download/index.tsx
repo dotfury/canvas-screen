@@ -39,15 +39,32 @@ function Download() {
 
   {
     return showDownloadModal && imageURL ? (
-      <div className="download-container" onClick={clearImage}>
-        <div className="download-content">
-          <p className="download-description">
+      <div
+        className="download-container fixed w-full h-full top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black/90"
+        onClick={clearImage}
+      >
+        <div className="download-content text-[#333] w-fit max-w-4/5 bg-white rounded-xl">
+          <p className="download-description m-0 p-2.5">
             Downloaded images will be in your downloads or files folder.
           </p>
-          <nav className="download-navigation">
-            <div onClick={clearImage}>Cancel</div>
-            {canShowShare && <div onClick={shareImage}>Share</div>}
-            <a href={imageURL} download="image.jpeg" onClick={clearImage}>
+          <nav className="download-navigation flex justify-around">
+            <div
+              className="download-button border-r-0 rounded-bl-sm"
+              onClick={clearImage}
+            >
+              Cancel
+            </div>
+            {canShowShare && (
+              <div className="download-button border-r-0" onClick={shareImage}>
+                Share
+              </div>
+            )}
+            <a
+              className="download-button rounded-br-sm"
+              href={imageURL}
+              download="image.jpeg"
+              onClick={clearImage}
+            >
               Download
             </a>
           </nav>
