@@ -25,7 +25,11 @@ function Options({ currentEffect }: Props) {
     setOptionsComponent(optionsMap[currentEffect]);
   }, [currentEffect]);
 
-  return <div className="options-container flex-1">{optionsComponent}</div>;
+  return (
+    <div className="options-container flex-1 h-48 pb-1.5 overflow-scroll md:h-auto md:overflow-hidden">
+      {optionsComponent}
+    </div>
+  );
 }
 
 export default Options;

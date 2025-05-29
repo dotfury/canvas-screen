@@ -48,4 +48,21 @@
   footer a {
     @apply transition-opacity duration-200 ease-linear block opacity-50 hover:opacity-100;
   }
+
+  fieldset {
+    @apply mb-1;
+  }
+
+  fieldset > div {
+    @apply flex items-center gap-1;
+  }
+
+  legend {
+    @apply font-bold drop-shadow-sm drop-shadow-black/40;
+  }
+
+  input[type='radio'],
+  input[type='checkbox'] {
+    @apply w-5 h-5;
+  }
 }

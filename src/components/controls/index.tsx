@@ -16,8 +16,8 @@ function Controls() {
   };
 
   return (
-    <div className="controls flex flex-1 gap-2 mx-1 h-48 overflow-scroll md:h-auto md:mx-2.5">
-      <div className="effects-container flex-1 pl-0.5">
+    <div className="controls relative pl-1 md:flex md:flex-1 md:gap-2">
+      <div className="effects-container flex gap-2 flex-1 md:block">
         {effectsList.map((effectName) => {
           const activeClassName = effect === effectName ? 'active' : '';
 
@@ -35,6 +35,7 @@ function Controls() {
         })}
       </div>
       <Options currentEffect={effect} />
+      <div className="absolute left-0 bottom-0 w-full h-2 bg-gradient-to-t from-black/30 to-transparent md:hidden"></div>
     </div>
   );
 }

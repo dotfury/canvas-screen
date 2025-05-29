@@ -2,8 +2,6 @@ import { useContext } from 'react';
 
 import { AppContext } from '@/context/appContext';
 
-import '@/download.css';
-
 function Download() {
   const appContext = useContext(AppContext);
   const showDownloadModal = appContext?.showDownloadModal;
