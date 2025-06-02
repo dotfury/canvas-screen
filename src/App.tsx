@@ -43,7 +43,7 @@ function App() {
         setTimer,
       }}
     >
-      <div className="canvas-container relative">
+      <div className="canvas-container">
         <canvas />
         {showOverlay && (
           <div className="snapshot-timer">{String(remainingTime / 1000)}</div>
