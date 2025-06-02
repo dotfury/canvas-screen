@@ -29,10 +29,10 @@ function Snapshot() {
   const switchCamera = () => camera?.changeFacingMode();
 
   return (
-    <div className="snapshot-container">
+    <div className="flex gap-2 mx-1">
       {appConfig.isMobile && (
         <button
-          className="with-icon"
+          className="standard-button"
           onClick={switchCamera}
           disabled={showOverlay}
         >
@@ -40,15 +40,15 @@ function Snapshot() {
         </button>
       )}
       <button
-        className="with-icon"
+        className="standard-button"
         onClick={takeSnapshot}
         disabled={showOverlay}
       >
         <img src={cameraIcon} alt="take snapshot" />
-        take picture
+        picture
       </button>
       <button
-        className="with-icon"
+        className="standard-button"
         onClick={setSnapTimer}
         disabled={showOverlay}
       >
