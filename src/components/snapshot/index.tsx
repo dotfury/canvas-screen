@@ -29,7 +29,7 @@ function Snapshot() {
   const switchCamera = () => camera?.changeFacingMode();
 
   return (
-    <div className="snapshot-container flex gap-2 mx-1">
+    <div className="flex gap-2 mx-1">
       {appConfig.isMobile && (
         <button
           className="standard-button"

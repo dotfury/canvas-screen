@@ -16,8 +16,8 @@ function Controls() {
   };
 
   return (
-    <div className="controls relative pl-1 md:flex md:flex-1 md:gap-2">
-      <div className="effects-container flex gap-2 flex-1 md:block">
+    <div className="relative pl-1 md:flex md:flex-1 md:gap-2">
+      <div className="flex gap-2 flex-1 md:block">
         {effectsList.map((effectName) => {
           const activeClassName = effect === effectName ? 'active' : '';
 
