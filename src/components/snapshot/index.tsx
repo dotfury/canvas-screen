@@ -54,6 +54,13 @@ function Snapshot() {
       >
         <img src={clockIcon} alt="set timer" />5
       </button>
+      <button
+        className="standard-button md:hidden"
+        popoverTarget="popover"
+        popoverTargetAction="toggle"
+      >
+        Open Popover
+      </button>
     </div>
   );
 }
