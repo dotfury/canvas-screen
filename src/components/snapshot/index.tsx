@@ -59,7 +59,7 @@ function Snapshot() {
         popoverTarget="popover"
         popoverTargetAction="toggle"
       >
-        Open Popover
+        controls
       </button>
     </div>
   );

@@ -69,4 +69,8 @@
   input[type='checkbox'] {
     @apply w-5 h-5;
   }
+
+  :popover-open {
+    @apply absolute h-1/2 w-full top-[calc(100%-50%)] bottom-0 left-0 pt-2 rounded-t-lg;
+  }
 }

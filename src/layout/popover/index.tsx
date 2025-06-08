@@ -13,17 +13,12 @@ function Popover({ id, children }: Props) {
     useState(isMobileWidth);
 
   useEffect(() => {
-    console.log('MOBILE: ', isMobileWidth);
     setRenderMobileComponent(isMobileWidth);
   }, [isMobileWidth]);
 
   {
     return renderMobileComponent ? (
-      <div
-        id={id}
-        popover="auto"
-        className="popover flex-1 w-full md:w-auto md:block"
-      >
+      <div id={id} popover="auto" className="relative overflow-hidden">
         {children}
       </div>
     ) : (

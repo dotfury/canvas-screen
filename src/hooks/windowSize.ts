@@ -14,7 +14,7 @@ function useWindowSize(minWidth: number): {
 
     const debouncedResizeHandler = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(resizeHandler, 200);
+      resizeTimeout = setTimeout(resizeHandler, 50);
     };
 
     window.addEventListener('resize', debouncedResizeHandler);
