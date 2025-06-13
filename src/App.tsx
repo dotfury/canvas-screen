@@ -7,6 +7,7 @@ import { AppContext } from '@/context/appContext';
 import Snapshot from '@/components/snapshot';
 import Controls from '@/components/controls';
 import Download from '@/components/download';
+import Popover from '@/layout/popover';
 
 import './App.css';
 
@@ -50,7 +51,9 @@ function App() {
         )}
         <Snapshot />
       </div>
-      <Controls />
+      <Popover id="popover">
+        <Controls />
+      </Popover>
       <Download />
     </AppContext.Provider>
   );

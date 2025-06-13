@@ -69,4 +69,20 @@
   input[type='checkbox'] {
     @apply w-5 h-5;
   }
+
+  [popover]:popover-open {
+    @apply translate-y-0 starting:translate-y-full;
+  }
+
+  [popover] {
+    @apply absolute h-1/2 w-full top-[calc(100%-50%)] bottom-0 left-0 pt-2 rounded-t-lg ring-1 ring-white/20 shadow-[0_-8px_5px_rgba(0,0,0,0.4)] transition-all transition-discrete duration-200 translate-y-full;
+  }
+
+  [popover]:popover-open::backdrop {
+    @apply opacity-100 starting:opacity-0;
+  }
+
+  [popover]::backdrop {
+    @apply bg-black/60 opacity-0 duration-200 transition-discrete;
+  }
 }

@@ -48,7 +48,7 @@ function PixelateOptions() {
   };
 
   const shapeOptions: { label: string; key: ShapeTypes }[] = [
-    { label: 'Square', key: 'square' },
+    { label: 'square', key: 'square' },
     { label: 'circle', key: 'circle' },
   ];
 

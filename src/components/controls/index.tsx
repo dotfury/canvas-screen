@@ -16,27 +16,29 @@ function Controls() {
   };
 
   return (
-    <div className="relative pl-1 md:flex md:flex-1 md:gap-2">
-      <div className="flex gap-2 flex-1 md:block">
-        {effectsList.map((effectName) => {
-          const activeClassName = effect === effectName ? 'active' : '';
+    <>
+      <div className="md:flex md:flex-1 md:gap-2">
+        <div className="flex pl-2 gap-2 flex-1 md:block">
+          {effectsList.map((effectName) => {
+            const activeClassName = effect === effectName ? 'active' : '';
 
-          return (
-            <button
-              className={`standard-button block ${activeClassName}`}
-              key={effectName}
-              onClick={handleEffect}
-              data-id={effectName}
-              disabled={appContext?.showOverlay}
-            >
-              {effectName}
-            </button>
-          );
-        })}
+            return (
+              <button
+                className={`standard-button block ${activeClassName}`}
+                key={effectName}
+                onClick={handleEffect}
+                data-id={effectName}
+                disabled={appContext?.showOverlay}
+              >
+                {effectName}
+              </button>
+            );
+          })}
+        </div>
       </div>
       <Options currentEffect={effect} />
-      <div className="absolute left-0 bottom-0 w-full h-2 bg-gradient-to-t from-black/30 to-transparent md:hidden"></div>
-    </div>
+      <div className="fixed left-0 bottom-0 w-full h-2 bg-gradient-to-t from-black/30 to-transparent md:hidden" />
+    </>
   );
 }
 
