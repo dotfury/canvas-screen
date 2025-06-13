@@ -26,7 +26,7 @@ function Options({ currentEffect }: Props) {
   }, [currentEffect]);
 
   return (
-    <div className="flex-1 pl-2 pb-10 h-full overflow-scroll md:h-auto md:overflow-hidden">
+    <div className="flex-1 pl-2 pb-12 h-full overflow-scroll md:h-auto md:overflow-hidden">
       {optionsComponent}
     </div>
   );
