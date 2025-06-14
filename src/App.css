@@ -32,7 +32,7 @@
   }
 
   .snapshot-timer {
-    @apply absolute top-0 left-0 bg-black/50 w-full h-11/12 flex justify-center items-center text-5xl font-bold;
+    @apply absolute top-0 left-0 bg-black/50 w-full h-[87%] flex justify-center items-center text-5xl font-bold md:h-11/12;
   }
 
   .download-button {
@@ -75,7 +75,7 @@
   }
 
   [popover] {
-    @apply absolute h-1/3 w-full top-[calc(100%-33%)] bottom-0 left-0 pt-2 rounded-t-lg ring-1 ring-white/20 shadow-[0_-8px_5px_rgba(0,0,0,0.4)] transition-all transition-discrete duration-200 translate-y-full;
+    @apply absolute h-2/5 w-full top-[calc(100%-40%)] bottom-0 left-0 pt-2 rounded-t-lg ring-1 ring-white/20 shadow-[0_-8px_5px_rgba(0,0,0,0.4)] transition-all transition-discrete duration-200 translate-y-full bg-[#242424];
   }
 
   [popover]:popover-open::backdrop {
