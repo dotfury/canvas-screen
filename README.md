@@ -2,7 +2,7 @@
 
 ## Tech Stack
 
-- React, TypeScript, Vite, GitHub actions
+- React, TypeScript, Tailwind, Vite, GitHub actions
 
 ## Attribution
 
