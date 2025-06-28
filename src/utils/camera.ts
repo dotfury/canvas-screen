@@ -66,6 +66,10 @@ export default class Camera {
     });
   }
 
+  get effect(): string {
+    return this.currentEffect;
+  }
+
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
       audio: false,

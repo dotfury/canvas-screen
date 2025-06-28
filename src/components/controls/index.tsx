@@ -4,9 +4,11 @@ import { AppContext } from '@/context/appContext';
 import Options from '@/components/options';
 
 function Controls() {
-  const [effect, setEffect] = useState<string>(EFFECTS.STANDARD);
   const appContext = useContext(AppContext);
   const camera = appContext?.camera;
+  const [effect, setEffect] = useState<string>(
+    camera?.effect || EFFECTS.STANDARD
+  );
 
   const handleEffect = (e: MouseEvent<HTMLButtonElement>) => {
     const effect = e.currentTarget.dataset.id!;
