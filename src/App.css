@@ -32,7 +32,7 @@
   }
 
   .snapshot-timer {
-    @apply absolute top-0 left-0 bg-black/50 w-full h-[87%] flex justify-center items-center text-5xl font-bold md:h-11/12;
+    @apply absolute top-0 left-0 bg-black/50 w-full h-full flex justify-center items-center text-5xl font-bold md:h-11/12;
   }
 
   .download-button {
