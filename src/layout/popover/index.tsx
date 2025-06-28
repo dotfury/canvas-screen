@@ -1,5 +1,6 @@
 import { ReactElement, useEffect, useState, useRef } from 'react';
 
+import appConfig from '@/utils/appConfig';
 import useWindowSize from '@/hooks/windowSize';
 
 type Props = {
@@ -18,7 +19,7 @@ function Popover({ id, children }: Props) {
   }, [isMobileWidth]);
 
   {
-    return renderMobileComponent ? (
+    return renderMobileComponent && appConfig.hasPopover ? (
       <div
         id={id}
         popover="auto"
