@@ -20,6 +20,52 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
+      includeAssets: [
+        'favicon.ico',
+        'apple-touch-icon.png',
+        'maskable-icon-512x512.svg',
+      ],
+      manifest: {
+        name: 'Canvas Screen',
+        short_name: 'Canvas Screen',
+        description: 'Canvas filters for camera',
+        theme_color: '#242424',
+        icons: [
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+        screenshots: [
+          {
+            src: 'screenshots/desk1.jpg',
+            sizes: '1280x720',
+            type: 'image/jpg',
+            form_factor: 'wide',
+            label: 'Example of pixelate filter',
+          },
+          {
+            src: 'screenshots/desk2.jpg',
+            sizes: '1280x720',
+            type: 'image/jpg',
+            form_factor: 'wide',
+            label: 'Example of ascii filter',
+          },
+          {
+            src: 'screenshots/mobile.jpg',
+            sizes: '327x706',
+            type: 'image/jpg',
+            form_factor: 'narrow',
+            label: 'Example of mobile screen',
+          },
+        ],
+      },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
       },
