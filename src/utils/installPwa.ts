@@ -1,11 +1,7 @@
-let deferredPrompt: any;
-let isInstallable = false;
+import appConfig from '@/utils/appConfig';
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
-  deferredPrompt = e;
-  isInstallable = true;
+  (appConfig.deferredPrompt as any) = e;
+  appConfig.isInstallable = true;
 });
-
-export function getInstallable() {
-  return { deferredPrompt, isInstallable };
-}

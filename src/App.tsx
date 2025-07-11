@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import '@/utils/installPwa';
 import appConfig from '@/utils/appConfig';
 import { useCamera } from '@/hooks/camera';
 import { useSnapshot } from '@/hooks/snapshot';

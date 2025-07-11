@@ -28,6 +28,14 @@ function Snapshot() {
 
   const switchCamera = () => camera?.changeFacingMode();
 
+  const installApp = () => {
+    if (appConfig.deferredPrompt) {
+      (appConfig.deferredPrompt as any).prompt();
+    } else {
+      alert('no install');
+    }
+  };
+
   return (
     <div className="flex gap-2 mx-1">
       {appConfig.isMobile && (
@@ -60,6 +68,13 @@ function Snapshot() {
         popoverTargetAction="toggle"
       >
         controls
+      </button>
+      <button
+        className="standard-button"
+        onClick={installApp}
+        disabled={showOverlay}
+      >
+        install
       </button>
     </div>
   );
