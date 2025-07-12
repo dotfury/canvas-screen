@@ -5,7 +5,7 @@ import appConfig from '@/utils/appConfig';
 import { useCamera } from '@/hooks/camera';
 import { useSnapshot } from '@/hooks/snapshot';
 import { AppContext } from '@/context/appContext';
-import Snapshot from '@/components/snapshot';
+import MainControls from '@/components/mainControls';
 import Controls from '@/components/controls';
 import Download from '@/components/download';
 import Popover from '@/layout/popover';
@@ -50,7 +50,7 @@ function App() {
         {showOverlay && (
           <div className="snapshot-timer">{String(remainingTime / 1000)}</div>
         )}
-        <Snapshot />
+        <MainControls />
       </div>
       <Popover id="popover">
         <Controls />

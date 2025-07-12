@@ -5,7 +5,7 @@ import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
 
-function Snapshot() {
+function MainControls() {
   const appContext = useContext(AppContext);
   const showOverlay = appContext?.showOverlay;
   const setTimer = appContext?.setTimer;
@@ -82,4 +82,4 @@ function Snapshot() {
   );
 }
 
-export default Snapshot;
+export default MainControls;
