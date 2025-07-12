@@ -5,7 +5,7 @@ import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
 
-function Snapshot() {
+function MainControls() {
   const appContext = useContext(AppContext);
   const showOverlay = appContext?.showOverlay;
   const setTimer = appContext?.setTimer;
@@ -27,6 +27,16 @@ function Snapshot() {
   };
 
   const switchCamera = () => camera?.changeFacingMode();
+
+  const installApp = () => {
+    if (appConfig.deferredPrompt) {
+      (appConfig.deferredPrompt as any).prompt();
+    } else {
+      alert(
+        'Native install not available. Please install by adding this page to the home screen.'
+      );
+    }
+  };
 
   return (
     <div className="flex gap-2 mx-1">
@@ -61,8 +71,15 @@ function Snapshot() {
       >
         controls
       </button>
+      <button
+        className="standard-button"
+        onClick={installApp}
+        disabled={showOverlay}
+      >
+        install
+      </button>
     </div>
   );
 }
 
-export default Snapshot;
+export default MainControls;

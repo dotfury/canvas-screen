@@ -8,4 +8,6 @@ export default {
   isMobile,
   isIOS,
   hasPopover,
+  deferredPrompt: null,
+  isInstallable: false,
 };
