@@ -32,7 +32,9 @@ function Snapshot() {
     if (appConfig.deferredPrompt) {
       (appConfig.deferredPrompt as any).prompt();
     } else {
-      alert('no install');
+      alert(
+        'Native install not available. Please install by adding this page to the home screen.'
+      );
     }
   };
 
