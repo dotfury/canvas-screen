@@ -85,4 +85,14 @@
   [popover]::backdrop {
     @apply bg-black/60 opacity-0 duration-200 transition-discrete;
   }
+
+  #install-app-button {
+    @apply hidden;
+  }
+
+  @media (display-mode: browser) {
+    #install-app-button {
+      @apply block;
+    }
+  }
 }

@@ -38,6 +38,10 @@ function MainControls() {
     }
   };
 
+  const displayAgent = () => {
+    alert(navigator.userAgent);
+  };
+
   return (
     <div className="flex gap-2 mx-1">
       {appConfig.isMobile && (
@@ -72,11 +76,19 @@ function MainControls() {
         controls
       </button>
       <button
+        id="install-app-button"
         className="standard-button"
         onClick={installApp}
         disabled={showOverlay}
       >
-        install
+        install app
+      </button>
+      <button
+        className="standard-button"
+        onClick={displayAgent}
+        disabled={showOverlay}
+      >
+        check agent
       </button>
     </div>
   );
