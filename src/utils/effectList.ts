@@ -3,6 +3,7 @@ export enum EFFECTS {
   PIXELATE = 'PIXELATE',
   ASCII = 'ASCII',
   GRID = 'GRID',
+  SLITSCAN = 'SLITSCAN',
 }
 
 export const effectsList = [
@@ -10,4 +11,5 @@ export const effectsList = [
   EFFECTS.PIXELATE,
   EFFECTS.ASCII,
   EFFECTS.GRID,
+  EFFECTS.SLITSCAN,
 ];

@@ -1,4 +1,9 @@
+// https://www.youtube.com/watch?v=hckvHFDGiJk
+// 13:19
+// https://www.flong.com/archive/texts/lists/slit_scan/index.html
 import AppConfig from '@/utils/appConfig.ts';
+import { randomRange } from '@/utils/random';
+import { map } from '@/utils/map';
 
 // allow editing options
 interface SlitscanConfig {
@@ -15,6 +20,7 @@ export const config: SlitscanConfig = {
 
 let frameCount = 0;
 let slices: Array<ImageData[]> = [];
+let angle = 0;
 
 export default function slitscan(
   offscreenContext: OffscreenCanvasRenderingContext2D,
@@ -24,28 +30,31 @@ export default function slitscan(
 ): void {
   const columns = width / config.width;
   const sliceIndex = frameCount % columns;
+  const x = (frameCount * config.width) % width;
+  dataContext.strokeStyle = 'black';
 
-  for (let i = 0; i < columns; i++) {
-    const x = i * config.width;
-    const data = offscreenContext.getImageData(x, 0, config.width, height);
-
-    if (!slices[sliceIndex]) {
-      slices[sliceIndex] = [];
-    }
-
-    slices[sliceIndex].push(data);
+  // dataContext.clearRect(0, 0, width, height);
+  for (let x = 0; x < width; x += config.width) {
+    const factor = map(x, 0, width, 0.1, 2);
+    const offset = Math.round(map(Math.sin(angle * factor), -1, 1, 0, columns));
+    const sx = (x + offset * config.width) % width;
+    const data = offscreenContext.getImageData(sx, 0, config.width, height);
+    dataContext.putImageData(data, x, 0);
   }
 
-  if (frameCount >= config.historyLength) {
-    for (let i = 0; i < slices.length; i++) {
-      const x = i * config.width;
-      const savedSlice = slices[i].shift();
-      if (savedSlice) {
-        // dataContext.fillRect(x, 0, config.width, height);
-        dataContext.putImageData(savedSlice, x, 0);
-      }
-    }
-  }
+  // if (!slices[sliceIndex]) {
+  //   slices[sliceIndex] = [];
+  // }
+
+  // slices[sliceIndex].push(data);
+
+  // for (let i = 0; i < slices.length; i++) {
+  //   const x = i * config.width;
+  //   const savedSlice = slices[i].shift();
+  //   if (savedSlice) {
+  //     dataContext.putImageData(savedSlice, x, 0);
+  //   }
+  // }
 
   // if (sliceIndex > 0) {
   //   dataContext.putImageData(slices[(sliceIndex - 1) % width], x, 0);
@@ -66,6 +75,7 @@ export default function slitscan(
   // }
 
   frameCount++;
+  angle += 0.01;
 
   // for (let i = 0; i < width; i += config.width) {
   //   // const random = Math.round(randomRange(0, width - config.width));
@@ -89,7 +99,7 @@ export default function slitscan(
   // angle += 0.1;
 }
 
-export function cleanupSlitscan() {
+export function slitscanCleanup() {
   slices = [];
   frameCount = 0;
 }

@@ -2,20 +2,23 @@ import { EFFECTS } from '@/utils/effectList';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 import grid, { gridCleanup } from '@/cameraEffects/grid';
+import slitscan, { slitscanCleanup } from '@/cameraEffects/slitscan';
 
 const EFFECT_MAP: Record<string, any> = {
   PIXELATE: pixelate,
   ASCII: ascii,
   GRID: grid,
+  SLITSCAN: slitscan,
   STANDARD: null,
 };
 
 const CLEANUP_MAP: Record<string, any> = {
   ASCII: asciiCleanup,
   GRID: gridCleanup,
+  SLITSCAN: slitscanCleanup,
 };
 
-const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID];
+const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID, EFFECTS.SLITSCAN];
 
 type FacingMode = 'user' | 'environment';
 
