@@ -1,4 +1,3 @@
-// https://www.flong.com/archive/texts/lists/slit_scan/index.html
 import AppConfig from '@/utils/appConfig.ts';
 
 export enum Directions {
