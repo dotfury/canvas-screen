@@ -1,24 +1,29 @@
-// https://www.youtube.com/watch?v=hckvHFDGiJk
 // https://www.flong.com/archive/texts/lists/slit_scan/index.html
 import AppConfig from '@/utils/appConfig.ts';
 
+export enum Directions {
+  HORIZONTAL = 'horizontal',
+  VERTICAL = 'vertical',
+}
 // allow editing options
 interface SlitscanConfig {
-  minWidth: number;
-  width: number;
+  minSize: number;
+  size: number;
   historyLength: number;
+  direction: Directions;
 }
 
 export const config: SlitscanConfig = {
-  minWidth: AppConfig.isMobile ? 5 : 2,
-  width: 5,
+  minSize: AppConfig.isMobile ? 5 : 2,
+  size: 5,
   historyLength: 3,
+  direction: Directions.HORIZONTAL,
 };
 
-const FONT_SIZE = AppConfig.isMobile ? '24px' : '32px';
 let slices: ImageData[] = [];
 let sliceIndex = 0;
 let offset = 0;
+let lastDirection = config.direction;
 
 export default function slitscan(
   offscreenContext: OffscreenCanvasRenderingContext2D,
@@ -26,38 +31,73 @@ export default function slitscan(
   width: number,
   height: number
 ): void {
-  const columns = width / config.width;
+  if (lastDirection !== config.direction) {
+    slitscanCleanup();
+    lastDirection = config.direction;
+  }
+
   slices[sliceIndex] = offscreenContext.getImageData(0, 0, width, height);
+
+  if (config.direction === Directions.VERTICAL) {
+    renderVertical(dataContext, width, height);
+  } else {
+    renderHorizontal(dataContext, width, height);
+  }
+
+  offset++;
+}
+
+function renderHorizontal(
+  dataContext: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  const columns = width / config.size;
   sliceIndex = (sliceIndex + 1) % columns;
 
-  if (slices.length >= columns) {
-    for (let i = 0; i < columns; i++) {
-      const w = i * config.width;
-      const currentIndex = (i + offset) % columns;
+  for (let i = 0; i < columns; i++) {
+    const w = i * config.size;
+    const currentIndex = (i + offset) % columns;
+    if (slices[currentIndex]) {
       dataContext.putImageData(
         slices[currentIndex],
         0,
         0,
         w,
         0,
-        config.width,
+        config.size,
         height
       );
     }
-    offset++;
-  } else {
-    // wait to get enough slices
-    dataContext.fillStyle = '#000000';
-    dataContext.fillRect(0, 0, width, height);
-    dataContext.font = `${FONT_SIZE} sans-serif`;
-    dataContext.fillStyle = '#ffffff';
-    dataContext.textAlign = 'center';
-    dataContext.textBaseline = 'middle';
-    dataContext.fillText('...loading', width / 2, height / 2);
   }
 }
 
-export function slitscanCleanup() {
+function renderVertical(
+  dataContext: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  const rows = height / config.size;
+  sliceIndex = (sliceIndex + 1) % rows;
+
+  for (let i = 0; i < rows; i++) {
+    const h = i * config.size;
+    const currentIndex = (i + offset) % rows;
+    if (slices[currentIndex]) {
+      dataContext.putImageData(
+        slices[currentIndex],
+        0,
+        0,
+        0,
+        h,
+        width,
+        config.size
+      );
+    }
+  }
+}
+
+export function slitscanCleanup(): void {
   slices = [];
   sliceIndex = 0;
   offset = 0;
