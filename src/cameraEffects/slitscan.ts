@@ -8,6 +8,7 @@ export enum Directions {
 // allow editing options
 interface SlitscanConfig {
   minSize: number;
+  maxSize: number;
   size: number;
   historyLength: number;
   direction: Directions;
@@ -15,6 +16,7 @@ interface SlitscanConfig {
 
 export const config: SlitscanConfig = {
   minSize: AppConfig.isMobile ? 5 : 2,
+  maxSize: 20,
   size: 5,
   historyLength: 3,
   direction: Directions.HORIZONTAL,
@@ -24,6 +26,7 @@ let slices: ImageData[] = [];
 let sliceIndex = 0;
 let offset = 0;
 let lastDirection = config.direction;
+let lastSize = config.size;
 
 export default function slitscan(
   offscreenContext: OffscreenCanvasRenderingContext2D,
@@ -31,9 +34,10 @@ export default function slitscan(
   width: number,
   height: number
 ): void {
-  if (lastDirection !== config.direction) {
+  if (lastDirection !== config.direction || lastSize !== config.size) {
     slitscanCleanup();
     lastDirection = config.direction;
+    lastSize = config.size;
   }
 
   slices[sliceIndex] = offscreenContext.getImageData(0, 0, width, height);
@@ -58,9 +62,9 @@ function renderHorizontal(
   for (let i = 0; i < columns; i++) {
     const w = i * config.size;
     const currentIndex = (i + offset) % columns;
-    if (slices[currentIndex]) {
+    if (slices[currentIndex + 1]) {
       dataContext.putImageData(
-        slices[currentIndex],
+        slices[currentIndex + 1],
         0,
         0,
         w,
@@ -83,9 +87,9 @@ function renderVertical(
   for (let i = 0; i < rows; i++) {
     const h = i * config.size;
     const currentIndex = (i + offset) % rows;
-    if (slices[currentIndex]) {
+    if (slices[currentIndex + 1]) {
       dataContext.putImageData(
-        slices[currentIndex],
+        slices[currentIndex + 1],
         0,
         0,
         0,
