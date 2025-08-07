@@ -34,9 +34,9 @@ export default function slitscan(
   height: number
 ): void {
   if (lastDirection !== config.direction || lastSize !== config.size) {
-    slitscanCleanup();
     lastDirection = config.direction;
     lastSize = config.size;
+    slitscanCleanup();
   }
 
   slices[sliceIndex] = offscreenContext.getImageData(0, 0, width, height);
@@ -55,7 +55,7 @@ function renderHorizontal(
   width: number,
   height: number
 ): void {
-  const columns = width / config.size;
+  const columns = Math.round(width / config.size);
   sliceIndex = (sliceIndex + 1) % columns;
 
   for (let i = 0; i < columns; i++) {
@@ -80,7 +80,7 @@ function renderVertical(
   width: number,
   height: number
 ): void {
-  const rows = height / config.size;
+  const rows = Math.round(height / config.size);
   sliceIndex = (sliceIndex + 1) % rows;
 
   for (let i = 0; i < rows; i++) {
