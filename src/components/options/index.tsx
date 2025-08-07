@@ -3,11 +3,13 @@ import { EFFECTS } from '@/utils/effectList';
 import AsciiOptions from '@/components/options/ascii';
 import PixelateOptions from '@/components/options/pixelate';
 import GridOptions from '@/components/options/grid';
+import SlitscanOptions from '@/components/options/slitscan';
 
 const optionsMap: Record<string, ReactElement> = {
   [EFFECTS.ASCII]: <AsciiOptions />,
   [EFFECTS.PIXELATE]: <PixelateOptions />,
   [EFFECTS.GRID]: <GridOptions />,
+  [EFFECTS.SLITSCAN]: <SlitscanOptions />,
 };
 
 interface Props {

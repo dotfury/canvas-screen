@@ -1,20 +1,32 @@
+// https://www.flong.com/archive/texts/lists/slit_scan/index.html
 import AppConfig from '@/utils/appConfig.ts';
 
+export enum Directions {
+  HORIZONTAL = 'horizontal',
+  VERTICAL = 'vertical',
+}
 // allow editing options
 interface SlitscanConfig {
-  minWidth: number;
-  width: number;
+  minSize: number;
+  maxSize: number;
+  size: number;
   historyLength: number;
+  direction: Directions;
 }
 
 export const config: SlitscanConfig = {
-  minWidth: AppConfig.isMobile ? 7 : 5,
-  width: 5,
+  minSize: AppConfig.isMobile ? 5 : 2,
+  maxSize: 20,
+  size: 5,
   historyLength: 3,
+  direction: Directions.HORIZONTAL,
 };
 
-let frameCount = 0;
-let slices: Array<ImageData[]> = [];
+let slices: ImageData[] = [];
+let sliceIndex = 0;
+let offset = 0;
+let lastDirection = config.direction;
+let lastSize = config.size;
 
 export default function slitscan(
   offscreenContext: OffscreenCanvasRenderingContext2D,
@@ -22,74 +34,75 @@ export default function slitscan(
   width: number,
   height: number
 ): void {
-  const columns = width / config.width;
-  const sliceIndex = frameCount % columns;
-
-  for (let i = 0; i < columns; i++) {
-    const x = i * config.width;
-    const data = offscreenContext.getImageData(x, 0, config.width, height);
-
-    if (!slices[sliceIndex]) {
-      slices[sliceIndex] = [];
-    }
-
-    slices[sliceIndex].push(data);
+  if (lastDirection !== config.direction || lastSize !== config.size) {
+    slitscanCleanup();
+    lastDirection = config.direction;
+    lastSize = config.size;
   }
 
-  if (frameCount >= config.historyLength) {
-    for (let i = 0; i < slices.length; i++) {
-      const x = i * config.width;
-      const savedSlice = slices[i].shift();
-      if (savedSlice) {
-        // dataContext.fillRect(x, 0, config.width, height);
-        dataContext.putImageData(savedSlice, x, 0);
-      }
-    }
+  slices[sliceIndex] = offscreenContext.getImageData(0, 0, width, height);
+
+  if (config.direction === Directions.VERTICAL) {
+    renderVertical(dataContext, width, height);
+  } else {
+    renderHorizontal(dataContext, width, height);
   }
 
-  // if (sliceIndex > 0) {
-  //   dataContext.putImageData(slices[(sliceIndex - 1) % width], x, 0);
-  // }
-  // console.log('data: ', data);
-
-  // const data = dataContext.getImageData(0, 0, width, height);
-  // slices[sliceIndex % columns] = data;
-  // // dataContext.clearRect(0, 0, width, height);
-
-  // for (let i = 0; i < slices.length; i++) {
-  //   const x = i * config.width;
-  //   const savedSlices = slices[i];
-  //   const savedSlice = savedSlices.shift();
-  //   if (savedSlice) {
-  //     dataContext.putImageData(savedSlice, x, 0);
-  //   }
-  // }
-
-  frameCount++;
-
-  // for (let i = 0; i < width; i += config.width) {
-  //   // const random = Math.round(randomRange(0, width - config.width));
-  //   const offset = Math.round(map(Math.sin(angle), -1, 1, 0, columns));
-  //   const sourceX = (i + offset * config.width) % width;
-  //   const image = processImageData(data, sourceX, 0, config.width, height);
-  //   const imageData = dataContext.createImageData(config.width, height);
-  //   const length = imageData.data.length;
-
-  //   for (let j = 0; j < length; j += 4) {
-  //     imageData.data[j] = image[j];
-  //     imageData.data[j + 1] = image[j + 1];
-  //     imageData.data[j + 2] = image[j + 2];
-  //     imageData.data[j + 3] = image[j + 3];
-  //   }
-
-  //   dataContext.putImageData(imageData, i, 0);
-  // }
-
-  // frameCount++;
-  // angle += 0.1;
+  offset++;
 }
 
-export function cleanupSlitscan() {
+function renderHorizontal(
+  dataContext: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  const columns = width / config.size;
+  sliceIndex = (sliceIndex + 1) % columns;
+
+  for (let i = 0; i < columns; i++) {
+    const w = i * config.size;
+    const currentIndex = (i + offset) % columns;
+    if (slices[currentIndex + 1]) {
+      dataContext.putImageData(
+        slices[currentIndex + 1],
+        0,
+        0,
+        w,
+        0,
+        config.size,
+        height
+      );
+    }
+  }
+}
+
+function renderVertical(
+  dataContext: CanvasRenderingContext2D,
+  width: number,
+  height: number
+): void {
+  const rows = height / config.size;
+  sliceIndex = (sliceIndex + 1) % rows;
+
+  for (let i = 0; i < rows; i++) {
+    const h = i * config.size;
+    const currentIndex = (i + offset) % rows;
+    if (slices[currentIndex + 1]) {
+      dataContext.putImageData(
+        slices[currentIndex + 1],
+        0,
+        0,
+        0,
+        h,
+        width,
+        config.size
+      );
+    }
+  }
+}
+
+export function slitscanCleanup(): void {
   slices = [];
-  frameCount = 0;
+  sliceIndex = 0;
+  offset = 0;
 }
