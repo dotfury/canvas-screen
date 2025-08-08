@@ -26,11 +26,19 @@ function App() {
   } = useSnapshot();
 
   useEffect(() => {
-    if (localStorage.getItem(HAS_SEEN_MESSAGE) !== 'true') {
-      alert(
-        'Open this application in a dedicated browser for the best experience'
-      );
-      localStorage.setItem(HAS_SEEN_MESSAGE, 'true');
+    if (appConfig.isMobile) {
+      try {
+        if (localStorage.getItem(HAS_SEEN_MESSAGE) !== 'true') {
+          alert(
+            'Open this application in a dedicated browser for the best experience'
+          );
+          localStorage.setItem(HAS_SEEN_MESSAGE, 'true');
+        }
+      } catch (e) {
+        alert(
+          'Open this application in a dedicated browser for the best experience'
+        );
+      }
     }
   }, []);
 
