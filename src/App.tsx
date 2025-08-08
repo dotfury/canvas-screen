@@ -11,6 +11,7 @@ import Download from '@/components/download';
 import Popover from '@/layout/popover';
 
 import './App.css';
+const HAS_SEEN_MESSAGE = 'canvas-screen:hasSeenBrowserMessage';
 
 function App() {
   const [camera, cameraError] = useCamera();
@@ -23,6 +24,15 @@ function App() {
     setTimer,
     updateDownloadImageModal,
   } = useSnapshot();
+
+  useEffect(() => {
+    if (localStorage.getItem(HAS_SEEN_MESSAGE) !== 'true') {
+      alert(
+        'Open this application in a dedicated browser for the best experience'
+      );
+      localStorage.setItem(HAS_SEEN_MESSAGE, 'true');
+    }
+  }, []);
 
   useEffect(() => {
     if (takeSnapshot) {
