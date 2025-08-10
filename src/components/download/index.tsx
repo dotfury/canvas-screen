@@ -8,6 +8,8 @@ function Download() {
   const updateDownloadImageModal = appContext?.updateDownloadImageModal;
   const imageURL = appContext?.imageURL;
   const canShowShare = !!navigator.canShare;
+  // Firefox cannot attach files to share
+  const isFF = navigator.userAgent.includes('Firefox');
 
   const clearImage = () => {
     if (updateDownloadImageModal) updateDownloadImageModal('');
@@ -23,12 +25,19 @@ function Download() {
         }),
       ];
       try {
-        await navigator.share({
-          files: filesArray,
-          title: 'Image',
-          text: 'canvas screen',
-          url: imageURL,
-        });
+        if (isFF) {
+          await navigator.share({
+            url: imageURL,
+            title: 'Image',
+            text: 'canvas screen',
+          });
+        } else {
+          await navigator.share({
+            files: filesArray,
+            title: 'Image',
+            text: 'canvas screen',
+          });
+        }
         clearImage();
       } catch (error) {
         console.error('error');
