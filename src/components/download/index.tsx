@@ -7,17 +7,15 @@ function Download() {
   const showDownloadModal = appContext?.showDownloadModal;
   const updateDownloadImageModal = appContext?.updateDownloadImageModal;
   const imageURL = appContext?.imageURL;
-  const canShowShare = 'canShare' in navigator;
+  const canShowShare = !!navigator.canShare;
 
   const clearImage = () => {
     if (updateDownloadImageModal) updateDownloadImageModal('');
   };
 
   const shareImage = async () => {
-    alert('CAN SHARE: ' + 'canShare' in navigator);
     if (canShowShare && imageURL) {
       const blob = await (await fetch(imageURL)).blob();
-      alert('BLOB: ' + blob.size);
       const filesArray = [
         new File([blob], 'image.jpeg', {
           type: blob.type,
@@ -31,8 +29,9 @@ function Download() {
           text: 'canvas screen',
         });
         clearImage();
-      } catch (error) {
+      } catch (error: any) {
         console.error('error');
+        alert(error.mesasge);
       }
     }
   };
