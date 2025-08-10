@@ -14,8 +14,10 @@ function Download() {
   };
 
   const shareImage = async () => {
+    alert('CAN SHARE: ' + 'canShare' in navigator);
     if (canShowShare && imageURL) {
       const blob = await (await fetch(imageURL)).blob();
+      alert('BLOB: ' + blob.size);
       const filesArray = [
         new File([blob], 'image.jpeg', {
           type: blob.type,
