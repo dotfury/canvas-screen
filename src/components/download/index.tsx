@@ -30,7 +30,7 @@ function Download() {
           url: imageURL,
         });
         clearImage();
-      } catch (error) {
+      } catch (error: any) {
         console.error('error');
         alert(error);
       }
