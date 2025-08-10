@@ -13,6 +13,10 @@ import Popover from '@/layout/popover';
 import './App.css';
 const HAS_SEEN_MESSAGE = 'canvas-screen:hasSeenBrowserMessage';
 
+const showAlert = () => {
+  alert('Open this application in a dedicated browser for the best experience');
+};
+
 function App() {
   const [camera, cameraError] = useCamera();
   const {
@@ -29,15 +33,13 @@ function App() {
     if (appConfig.isMobile) {
       try {
         if (localStorage.getItem(HAS_SEEN_MESSAGE) !== 'true') {
-          alert(
-            'Open this application in a dedicated browser for the best experience'
-          );
+          showAlert();
           localStorage.setItem(HAS_SEEN_MESSAGE, 'true');
+        } else if (cameraError) {
+          showAlert();
         }
       } catch (e) {
-        alert(
-          'Open this application in a dedicated browser for the best experience'
-        );
+        showAlert();
       }
     }
   }, []);
