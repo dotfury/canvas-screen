@@ -27,11 +27,12 @@ function Download() {
           files: filesArray,
           title: 'Image',
           text: 'canvas screen',
+          url: imageURL,
         });
         clearImage();
-      } catch (error: any) {
+      } catch (error) {
         console.error('error');
-        alert(error.mesasge);
+        alert(error);
       }
     }
   };

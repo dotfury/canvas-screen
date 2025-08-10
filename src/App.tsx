@@ -79,7 +79,12 @@ function App() {
     </AppContext.Provider>
   );
 
-  const renderError = () => <p>A camera is required for this application.</p>;
+  const renderError = () => (
+    <p>
+      A camera is required for this application. If on mobile, please open this
+      application in a dedicated browser for the best experience.
+    </p>
+  );
 
   return !cameraError ? renderApp() : renderError();
 }
