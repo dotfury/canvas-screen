@@ -30,6 +30,7 @@ export default defineConfig({
         short_name: 'Canvas Screen',
         description: 'Canvas filters for camera',
         theme_color: '#242424',
+        background_color: '#242424',
         icons: [
           {
             src: 'pwa-192x192.png',
