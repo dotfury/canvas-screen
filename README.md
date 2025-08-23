@@ -1,8 +1,11 @@
 # Canvas Screen
 
+Interactive filters with the camera and HTML Canvas
+
 ## Tech Stack
 
 - React, TypeScript, Tailwind, Vite, GitHub actions
+- PWA (installable, offline)
 
 ## Attribution
 
