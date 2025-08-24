@@ -1,9 +1,11 @@
 import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
 import appConfig from '@/utils/appConfig';
+import setupVideoStream from '@/utils/videoStream';
 import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
+import videoIcon from '@/assets/icons/video.svg';
 
 function MainControls() {
   const appContext = useContext(AppContext);
@@ -24,6 +26,20 @@ function MainControls() {
     } else {
       camera?.takeSnapshot();
     }
+  };
+
+  const takeVideo = () => {
+    console.log('video');
+    const mediaSource = setupVideoStream();
+
+    console.log('m: ', mediaSource);
+    // if (appConfig.isMobile) {
+    //   if (updateDownloadImageModal) {
+    //     updateDownloadImageModal(camera?.createImageDataURL() ?? '');
+    //   }
+    // } else {
+    //   camera?.takeSnapshot();
+    // }
   };
 
   const switchCamera = () => camera?.changeFacingMode();
@@ -63,6 +79,14 @@ function MainControls() {
         disabled={showOverlay}
       >
         <img src={clockIcon} alt="set timer" />5
+      </button>
+      <button
+        className="standard-button"
+        onClick={takeVideo}
+        disabled={showOverlay}
+      >
+        <img src={videoIcon} alt="take video" />
+        video
       </button>
       <button
         className="standard-button md:hidden"
