@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
 import appConfig from '@/utils/appConfig';
-import setupVideoStream from '@/utils/videoStream';
+import VideoRecorder from '@/utils/VideoRecorder';
 import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
@@ -13,6 +13,7 @@ function MainControls() {
   const setTimer = appContext?.setTimer;
   const updateDownloadImageModal = appContext?.updateDownloadImageModal;
   const camera = appContext?.camera;
+  const recorder = new VideoRecorder(camera?.canvas ?? null);
 
   const setSnapTimer = () => {
     if (setTimer) setTimer(5000);
@@ -30,9 +31,7 @@ function MainControls() {
 
   const takeVideo = () => {
     console.log('video');
-    const mediaSource = setupVideoStream();
-
-    console.log('m: ', mediaSource);
+    console.log('m: ', recorder);
     // if (appConfig.isMobile) {
     //   if (updateDownloadImageModal) {
     //     updateDownloadImageModal(camera?.createImageDataURL() ?? '');

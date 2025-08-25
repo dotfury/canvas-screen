@@ -73,6 +73,10 @@ export default class Camera {
     return this.currentEffect;
   }
 
+  get canvas(): HTMLCanvasElement {
+    return this.dataCanvas;
+  }
+
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
       audio: false,

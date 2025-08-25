@@ -1,4 +1,4 @@
-import Camera from '@/utils/camera';
+import Camera from '@/utils/Camera';
 import { createContext, useContext } from 'react';
 
 interface AppContextType {
