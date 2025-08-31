@@ -30,8 +30,7 @@ function MainControls() {
   };
 
   const takeVideo = () => {
-    console.log('video');
-    console.log('m: ', recorder);
+    recorder.recordCanvas();
     // if (appConfig.isMobile) {
     //   if (updateDownloadImageModal) {
     //     updateDownloadImageModal(camera?.createImageDataURL() ?? '');
