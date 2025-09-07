@@ -20,13 +20,13 @@ function MainControls() {
   };
 
   const takeSnapshot = () => {
-    if (appConfig.isMobile) {
-      if (updateDownloadImageModal) {
-        updateDownloadImageModal(camera?.createImageDataURL() ?? '');
-      }
-    } else {
-      camera?.takeSnapshot();
+    if (updateDownloadImageModal) {
+      updateDownloadImageModal(camera?.createImageDataURL() ?? '');
     }
+    // if (appConfig.isMobile) {
+    // } else {
+    //   camera?.takeSnapshot();
+    // }
   };
 
   const takeVideo = () => {
