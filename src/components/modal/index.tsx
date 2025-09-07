@@ -1,17 +1,22 @@
 import { useContext } from 'react';
+import classNames from 'classnames';
 
 import { AppContext } from '@/context/appContext';
+import { Modals } from '@/layout/modals';
 
 function Modal() {
   const appContext = useContext(AppContext);
   const setShowModal = appContext?.setShowModal;
+  const showModal = appContext?.showModal;
 
   return (
     <div
       id="modal"
-      className="fixed w-full h-full top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-black/90"
+      className={classNames({ 'modal-active': showModal })}
       onClick={() => setShowModal && setShowModal(false)}
-    ></div>
+    >
+      <Modals />
+    </div>
   );
 }
 

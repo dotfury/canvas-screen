@@ -4,12 +4,13 @@ import { createContext, useContext } from 'react';
 interface AppContextType {
   imageURL: string;
   showModal: boolean;
-  showDownloadModal: boolean;
   showOverlay: boolean;
   camera: Camera | null;
+  activeModal: string;
   setTimer: (time: number) => void;
   setShowModal: (display: boolean) => void;
-  updateDownloadImageModal: (url: string) => void;
+  setActiveModal: (modal: string) => void;
+  setImageURL: (url: string) => void;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);

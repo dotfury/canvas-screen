@@ -3,13 +3,12 @@ import { useEffect } from 'react';
 import '@/utils/installPwa';
 import appConfig from '@/utils/appConfig';
 import { useCamera } from '@/hooks/camera';
-import { useModal } from './hooks/modal';
+import { useModal } from '@/hooks/modal';
 import { useSnapshot } from '@/hooks/snapshot';
 import { AppContext } from '@/context/appContext';
 import MainControls from '@/components/mainControls';
 import Controls from '@/components/controls';
 import Modal from '@/components/modal';
-import { Modals } from '@/layout/modals';
 import Popover from '@/layout/popover';
 
 import './App.css';
@@ -21,15 +20,14 @@ const showAlert = () => {
 
 function App() {
   const [camera, cameraError] = useCamera();
-  const [showModal, setShowModal] = useModal();
+  const { showModal, setShowModal, activeModal, setActiveModal } = useModal();
   const {
     imageURL,
-    showDownloadModal,
     showOverlay,
     takeSnapshot,
     remainingTime,
     setTimer,
-    updateDownloadImageModal,
+    setImageURL,
   } = useSnapshot();
 
   useEffect(() => {
@@ -50,7 +48,7 @@ function App() {
   useEffect(() => {
     if (takeSnapshot) {
       if (appConfig.isMobile) {
-        updateDownloadImageModal(camera?.createImageDataURL() ?? '');
+        setImageURL(camera?.createImageDataURL() ?? '');
       } else {
         camera?.takeSnapshot();
       }
@@ -58,24 +56,25 @@ function App() {
   }, [takeSnapshot]);
 
   useEffect(() => {
-    if (showDownloadModal) {
+    if (activeModal !== '') {
       setShowModal(true);
     } else {
       setShowModal(false);
     }
-  }, [showDownloadModal]);
+  }, [activeModal]);
 
   const renderApp = () => (
     <AppContext.Provider
       value={{
         imageURL,
         showModal,
-        showDownloadModal,
-        updateDownloadImageModal,
         showOverlay,
         camera,
+        activeModal,
+        setImageURL,
         setTimer,
         setShowModal,
+        setActiveModal,
       }}
     >
       <div className="relative">
@@ -88,8 +87,7 @@ function App() {
       <Popover id="popover">
         <Controls />
       </Popover>
-      {showModal && <Modal />}
-      <Modals />
+      <Modal />
     </AppContext.Provider>
   );
 

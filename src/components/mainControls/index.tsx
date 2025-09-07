@@ -11,7 +11,8 @@ function MainControls() {
   const appContext = useContext(AppContext);
   const showOverlay = appContext?.showOverlay;
   const setTimer = appContext?.setTimer;
-  const updateDownloadImageModal = appContext?.updateDownloadImageModal;
+  const setImageURL = appContext?.setImageURL;
+  const setActiveModal = appContext?.setActiveModal;
   const camera = appContext?.camera;
   const recorder = new VideoRecorder(camera?.canvas ?? null);
 
@@ -20,8 +21,9 @@ function MainControls() {
   };
 
   const takeSnapshot = () => {
-    if (updateDownloadImageModal) {
-      updateDownloadImageModal(camera?.createImageDataURL() ?? '');
+    if (setImageURL && setActiveModal) {
+      setActiveModal('image');
+      setImageURL(camera?.createImageDataURL() ?? '');
     }
     // if (appConfig.isMobile) {
     // } else {

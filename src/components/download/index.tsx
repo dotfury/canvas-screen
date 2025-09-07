@@ -4,14 +4,18 @@ import { AppContext } from '@/context/appContext';
 
 function Download() {
   const appContext = useContext(AppContext);
-  const updateDownloadImageModal = appContext?.updateDownloadImageModal;
+  const setImageURL = appContext?.setImageURL;
+  const setActiveModal = appContext?.setActiveModal;
   const imageURL = appContext?.imageURL;
   // Firefox cannot attach files to share
   const isFF = navigator.userAgent.includes('Firefox');
   const canShowShare = !!navigator.canShare && !isFF;
 
   const clearImage = () => {
-    if (updateDownloadImageModal) updateDownloadImageModal('');
+    if (setImageURL && setActiveModal) {
+      setImageURL('');
+      setActiveModal('');
+    }
   };
 
   const shareImage = async () => {
