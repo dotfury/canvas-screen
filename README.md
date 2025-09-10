@@ -4,7 +4,7 @@ Interactive filters with the camera and HTML Canvas
 
 ## Tech Stack
 
-- React, TypeScript, Tailwind, Vite, GitHub actions
+- React, TypeScript, Tailwind, Vite, GitHub actions - and of course, HTML Canvas
 - PWA (installable, offline)
 
 ## Inspiration
