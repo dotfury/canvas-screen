@@ -1,15 +1,17 @@
 import Camera from '@/utils/Camera';
 import { createContext, useContext } from 'react';
 
+import { modalType } from '@/hooks/modal';
+
 interface AppContextType {
   imageURL: string;
   showModal: boolean;
   showOverlay: boolean;
   camera: Camera | null;
-  activeModal: string;
+  activeModal: modalType | null;
   setTimer: (time: number) => void;
   setShowModal: (display: boolean) => void;
-  setActiveModal: (modal: string) => void;
+  setActiveModal: (modal: modalType | null) => void;
   setImageURL: (url: string) => void;
 }
 

@@ -2,7 +2,8 @@ import { useContext } from 'react';
 import { createPortal } from 'react-dom';
 
 import { AppContext } from '@/context/appContext';
-import Download from '@/components/download';
+import ImageModal from '@/components/imageModal';
+import { modalType } from '@/hooks/modal';
 
 export function Modals() {
   const appContext = useContext(AppContext);
@@ -10,6 +11,6 @@ export function Modals() {
   const PARENT = document.querySelector('#modal') ?? document.body;
 
   {
-    return activeModal === 'image' && <Download />;
+    return activeModal === modalType.IMAGE && <ImageModal />;
   }
 }

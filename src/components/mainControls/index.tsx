@@ -6,6 +6,7 @@ import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
 import videoIcon from '@/assets/icons/video.svg';
+import { modalType } from '@/hooks/modal';
 
 function MainControls() {
   const appContext = useContext(AppContext);
@@ -22,7 +23,7 @@ function MainControls() {
 
   const takeSnapshot = () => {
     if (setImageURL && setActiveModal) {
-      setActiveModal('image');
+      setActiveModal(modalType.IMAGE);
       setImageURL(camera?.createImageDataURL() ?? '');
     }
     // if (appConfig.isMobile) {

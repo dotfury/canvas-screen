@@ -56,7 +56,7 @@ function App() {
   }, [takeSnapshot]);
 
   useEffect(() => {
-    if (activeModal !== '') {
+    if (activeModal !== null) {
       setShowModal(true);
     } else {
       setShowModal(false);
