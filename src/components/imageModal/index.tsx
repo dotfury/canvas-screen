@@ -32,16 +32,16 @@ function ImageModal() {
           Downloaded images will be in your downloads or files folder.
         </p>
         <nav className="download-navigation flex justify-around">
-          <div
+          <button
             className="download-button border-r-0 rounded-bl-md"
             onClick={clearImage}
           >
             Cancel
-          </div>
+          </button>
           {canShowShare && (
-            <div className="download-button border-r-0" onClick={shareImage}>
+            <button className="download-button border-r-0" onClick={shareImage}>
               Share
-            </div>
+            </button>
           )}
           <a
             className="download-button rounded-br-md"

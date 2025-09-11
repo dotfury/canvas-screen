@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
 import appConfig from '@/utils/appConfig';
-import VideoRecorder from '@/utils/VideoRecorder';
 import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
@@ -15,7 +14,6 @@ function MainControls() {
   const setImageURL = appContext?.setImageURL;
   const setActiveModal = appContext?.setActiveModal;
   const camera = appContext?.camera;
-  const recorder = new VideoRecorder(camera?.canvas ?? null);
 
   const setSnapTimer = () => {
     if (setTimer) setTimer(5000);
@@ -26,21 +24,12 @@ function MainControls() {
       setActiveModal(modalType.IMAGE);
       setImageURL(camera?.createImageDataURL() ?? '');
     }
-    // if (appConfig.isMobile) {
-    // } else {
-    //   camera?.takeSnapshot();
-    // }
   };
 
   const takeVideo = () => {
-    recorder.recordCanvas();
-    // if (appConfig.isMobile) {
-    //   if (updateDownloadImageModal) {
-    //     updateDownloadImageModal(camera?.createImageDataURL() ?? '');
-    //   }
-    // } else {
-    //   camera?.takeSnapshot();
-    // }
+    if (setActiveModal) {
+      setActiveModal(modalType.VIDEO);
+    }
   };
 
   const switchCamera = () => camera?.changeFacingMode();

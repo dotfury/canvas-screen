@@ -1,0 +1,44 @@
+import { useContext } from 'react';
+
+import { AppContext } from '@/context/appContext';
+
+function VideoModal() {
+  const appContext = useContext(AppContext);
+  const setActiveModal = appContext?.setActiveModal;
+  const videoRecorder = appContext?.videoRecorder;
+
+  const closeModal = () => {
+    setActiveModal && setActiveModal(null);
+  };
+
+  const recordVideo = () => {
+    if (videoRecorder) {
+      closeModal();
+      videoRecorder.recordCanvas();
+    }
+  };
+
+  {
+    return (
+      <div className="text-[#333] w-fit max-w-4/5 bg-white rounded-md">
+        <p className="m-0 p-2.5">Let's recode a video up to 10 seconds</p>
+        <nav className="download-navigation flex justify-around">
+          <button
+            className="download-button border-r-0 rounded-bl-md"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+          <button
+            className="download-button border-r-0 rounded-br-md"
+            onClick={recordVideo}
+          >
+            Record
+          </button>
+        </nav>
+      </div>
+    );
+  }
+}
+
+export default VideoModal;

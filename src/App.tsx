@@ -2,8 +2,9 @@ import { useEffect } from 'react';
 
 import '@/utils/installPwa';
 import appConfig from '@/utils/appConfig';
+import VideoRecorder from '@/utils/VideoRecorder';
 import { useCamera } from '@/hooks/camera';
-import { useModal } from '@/hooks/modal';
+import { useModal, modalType } from '@/hooks/modal';
 import { useSnapshot } from '@/hooks/snapshot';
 import { AppContext } from '@/context/appContext';
 import MainControls from '@/components/mainControls';
@@ -30,6 +31,8 @@ function App() {
     setImageURL,
   } = useSnapshot();
 
+  const videoRecorder = new VideoRecorder(camera?.canvas ?? null);
+
   useEffect(() => {
     if (appConfig.isMobile) {
       try {
@@ -47,11 +50,8 @@ function App() {
 
   useEffect(() => {
     if (takeSnapshot) {
-      if (appConfig.isMobile) {
-        setImageURL(camera?.createImageDataURL() ?? '');
-      } else {
-        camera?.takeSnapshot();
-      }
+      setActiveModal(modalType.IMAGE);
+      setImageURL(camera?.createImageDataURL() ?? '');
     }
   }, [takeSnapshot]);
 
@@ -70,6 +70,7 @@ function App() {
         showModal,
         showOverlay,
         camera,
+        videoRecorder,
         activeModal,
         setImageURL,
         setTimer,

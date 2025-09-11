@@ -3,6 +3,7 @@ import { useState } from 'react';
 export enum modalType {
   IMAGE = 'image',
   VIDEO = 'video',
+  PREVIEW = 'preview',
 }
 
 export function useModal() {
