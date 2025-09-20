@@ -5,16 +5,16 @@ import { AppContext } from '@/context/appContext';
 function VideoModal() {
   const appContext = useContext(AppContext);
   const setActiveModal = appContext?.setActiveModal;
-  const videoRecorder = appContext?.videoRecorder;
+  const recorder = appContext?.recorder;
 
   const closeModal = () => {
     setActiveModal && setActiveModal(null);
   };
 
   const recordVideo = () => {
-    if (videoRecorder) {
+    if (recorder) {
       closeModal();
-      videoRecorder.recordCanvas();
+      recorder.recordCanvas();
     }
   };
 

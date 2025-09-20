@@ -4,6 +4,12 @@
 
 const VIDEO_DURATION = 5000;
 
+export enum RecorderStatus {
+  STANDBY = 'standby',
+  RECORDING = 'recording',
+  PREVIEW = 'preview',
+}
+
 export default class VideoRecorder {
   private static instance: VideoRecorder;
   static canvas: HTMLCanvasElement | null;
@@ -14,6 +20,10 @@ export default class VideoRecorder {
   stream: MediaStream | null;
   initialized: boolean;
   recordedData: Blob[];
+  _status: RecorderStatus;
+  recordStartCallbacks: Function[];
+  recordEndCallbacks: Function[];
+  _videoURL: string | undefined;
 
   constructor(canvas: HTMLCanvasElement | null) {
     if (!VideoRecorder.instance) {
@@ -22,6 +32,8 @@ export default class VideoRecorder {
 
     VideoRecorder.canvas = canvas;
 
+    this._status = RecorderStatus.STANDBY;
+    this._videoURL = '';
     this.sourceBuffer = null;
     this.mediaSource = new MediaSource();
     this.mediaSource.addEventListener(
@@ -33,8 +45,30 @@ export default class VideoRecorder {
     this.initialized = true;
     this.recordedData = [];
     this.mediaRecorder = null;
+    this.recordStartCallbacks = [];
+    this.recordEndCallbacks = [];
 
     return VideoRecorder.instance;
+  }
+
+  get status() {
+    return this._status;
+  }
+
+  get video() {
+    return this._videoURL;
+  }
+
+  clearPreview() {
+    this._videoURL = '';
+  }
+
+  addStartCallback(f: Function) {
+    this.recordStartCallbacks.push(f);
+  }
+
+  addEndCallback(f: Function) {
+    this.recordEndCallbacks.push(f);
   }
 
   handleSourceOpen() {
@@ -46,6 +80,8 @@ export default class VideoRecorder {
 
   recordCanvas() {
     if (VideoRecorder.canvas) {
+      this._status = RecorderStatus.RECORDING;
+      this.recordStartCallbacks.forEach((f) => f());
       let options = { mimeType: 'video/mp4' };
       this.stream = VideoRecorder.canvas.captureStream();
       this.recordedData = [];
@@ -88,13 +124,15 @@ export default class VideoRecorder {
 
   handleStop() {
     try {
-      this.download();
-      return;
-      const superBuffer = new Blob(this.recordedData, { type: 'video/webm' });
-      console.log('super: ', superBuffer);
+      // create preview URL
+      const superBuffer = new Blob(this.recordedData, { type: 'video/mp4' });
+      this._videoURL = window.URL.createObjectURL(superBuffer);
+      // display preview
+      this._status = RecorderStatus.PREVIEW;
+      this.recordEndCallbacks.forEach((f) => f());
+
       this.stream = null;
       this.mediaRecorder = null;
-      window.open(window.URL.createObjectURL(superBuffer), '_blank');
     } catch (e) {
       console.log(e);
     }
@@ -105,8 +143,7 @@ export default class VideoRecorder {
   }
 
   download() {
-    const blob = new Blob(this.recordedData, { type: 'video/mp4' });
-    const url = window.URL.createObjectURL(blob);
+    const url = this._videoURL ?? '';
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;

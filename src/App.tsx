@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import '@/utils/installPwa';
 import appConfig from '@/utils/appConfig';
-import VideoRecorder from '@/utils/VideoRecorder';
+import { RecorderStatus } from '@/utils/VideoRecorder';
 import { useCamera } from '@/hooks/camera';
 import { useModal, modalType } from '@/hooks/modal';
 import { useSnapshot } from '@/hooks/snapshot';
@@ -11,6 +11,7 @@ import MainControls from '@/components/mainControls';
 import Controls from '@/components/controls';
 import Modal from '@/components/modal';
 import Popover from '@/layout/popover';
+import { useVideoRecorder } from '@/hooks/videoRecorder';
 
 import './App.css';
 const HAS_SEEN_MESSAGE = 'canvas-screen:hasSeenBrowserMessage';
@@ -31,7 +32,7 @@ function App() {
     setImageURL,
   } = useSnapshot();
 
-  const videoRecorder = new VideoRecorder(camera?.canvas ?? null);
+  const { recorder, recorderStatus } = useVideoRecorder(camera?.canvas ?? null);
 
   useEffect(() => {
     if (appConfig.isMobile) {
@@ -63,6 +64,13 @@ function App() {
     }
   }, [activeModal]);
 
+  useEffect(() => {
+    console.log('status: ', recorderStatus);
+    if (recorderStatus === RecorderStatus.PREVIEW) {
+      setActiveModal(modalType.PREVIEW);
+    }
+  }, [recorderStatus]);
+
   const renderApp = () => (
     <AppContext.Provider
       value={{
@@ -70,7 +78,8 @@ function App() {
         showModal,
         showOverlay,
         camera,
-        videoRecorder,
+        recorder,
+        recorderStatus,
         activeModal,
         setImageURL,
         setTimer,

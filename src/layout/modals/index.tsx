@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
 import ImageModal from '@/components/imageModal';
 import VideoModal from '@/components/videoModal';
+import PreviewModal from '@/components/previewModal';
 import { modalType } from '@/hooks/modal';
 
 export function Modals() {
@@ -14,6 +15,8 @@ export function Modals() {
       <ImageModal />
     ) : activeModal === modalType.VIDEO ? (
       <VideoModal />
+    ) : activeModal === modalType.PREVIEW ? (
+      <PreviewModal />
     ) : null;
   }
 }
