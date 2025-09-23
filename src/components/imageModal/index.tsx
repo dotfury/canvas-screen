@@ -2,6 +2,7 @@ import { useContext } from 'react';
 
 import { AppContext } from '@/context/appContext';
 import { shareFile } from '@/utils/share';
+import strings from '@/utils/strings';
 
 function ImageModal() {
   const appContext = useContext(AppContext);
@@ -28,19 +29,17 @@ function ImageModal() {
   {
     return imageURL ? (
       <div className="text-[#333] w-fit max-w-4/5 bg-white rounded-md">
-        <p className="m-0 p-2.5">
-          Downloaded images will be in your downloads or files folder.
-        </p>
+        <p className="m-0 p-2.5">{strings.downloadFileMessage}</p>
         <nav className="download-navigation flex justify-around">
           <button
             className="download-button border-r-0 rounded-bl-md"
             onClick={clearImage}
           >
-            Cancel
+            {strings.buttons.cancel}
           </button>
           {canShowShare && (
             <button className="download-button border-r-0" onClick={shareImage}>
-              Share
+              {strings.buttons.share}
             </button>
           )}
           <a
@@ -49,12 +48,12 @@ function ImageModal() {
             download="image.jpeg"
             onClick={clearImage}
           >
-            Download
+            {strings.buttons.download}
           </a>
         </nav>
       </div>
     ) : (
-      <p className="m-0 p-2.5">Image not found. Please try again.</p>
+      <p className="m-0 p-2.5">{strings.noImageError}</p>
     );
   }
 }

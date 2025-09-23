@@ -2,6 +2,7 @@ import { useContext } from 'react';
 
 import { shareFile } from '@/utils/share';
 import { AppContext } from '@/context/appContext';
+import strings from '@/utils/strings';
 
 function PreviewModal() {
   const appContext = useContext(AppContext);
@@ -31,25 +32,27 @@ function PreviewModal() {
   {
     return (
       <div className="text-[#333] w-fit max-w-4/5 bg-white rounded-md">
-        <p className="m-0 p-2.5"></p>
+        <p className="m-0 p-2.5">
+          {strings.previewText} {strings.downloadFileMessage}
+        </p>
         <video className="p-2.5" src={recorder?.video} controls />
         <nav className="download-navigation flex justify-around">
           <button
             className="download-button border-r-0 rounded-bl-md"
             onClick={closeModal}
           >
-            Cancel
+            {strings.buttons.cancel}
           </button>
           {canShowShare && (
             <button className="download-button border-r-0" onClick={shareVideo}>
-              Share
+              {strings.buttons.share}
             </button>
           )}
           <button
             className="download-button border-r-0 rounded-br-md"
             onClick={saveVideo}
           >
-            Download
+            {strings.buttons.download}
           </button>
         </nav>
       </div>

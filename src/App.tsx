@@ -12,12 +12,13 @@ import Controls from '@/components/controls';
 import Modal from '@/components/modal';
 import Popover from '@/layout/popover';
 import { useVideoRecorder } from '@/hooks/videoRecorder';
+import strings from '@/utils/strings';
 
 import './App.css';
-const HAS_SEEN_MESSAGE = 'canvas-screen:hasSeenBrowserMessage';
+const HAS_SEEN_MESSAGE = strings.storageKey;
 
 const showAlert = () => {
-  alert('Open this application in a dedicated browser for the best experience');
+  alert(strings.webviewAlert);
 };
 
 function App() {
@@ -65,7 +66,6 @@ function App() {
   }, [activeModal]);
 
   useEffect(() => {
-    console.log('status: ', recorderStatus);
     if (recorderStatus === RecorderStatus.PREVIEW) {
       setActiveModal(modalType.PREVIEW);
     }
@@ -101,12 +101,7 @@ function App() {
     </AppContext.Provider>
   );
 
-  const renderError = () => (
-    <p>
-      A camera is required for this application. If on mobile, please open this
-      application in a dedicated browser for the best experience.
-    </p>
-  );
+  const renderError = () => <p>{strings.cameraError}</p>;
 
   return !cameraError ? renderApp() : renderError();
 }

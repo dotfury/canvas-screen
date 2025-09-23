@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 
 import Camera from '@/utils/Camera';
-import VideoRecorder, { recorderStatus } from '@/utils/VideoRecorder';
+import VideoRecorder, { RecorderStatus } from '@/utils/VideoRecorder';
 import { modalType } from '@/hooks/modal';
 
 interface AppContextType {
@@ -10,7 +10,7 @@ interface AppContextType {
   showOverlay: boolean;
   camera: Camera | null;
   recorder: VideoRecorder | null;
-  recorderStatus: recorderStatus;
+  recorderStatus: RecorderStatus;
   activeModal: modalType | null;
   setTimer: (time: number) => void;
   setShowModal: (display: boolean) => void;

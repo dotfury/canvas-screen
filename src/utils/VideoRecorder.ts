@@ -2,6 +2,8 @@
 // ref - https://webrtc.github.io/samples/src/content/capture/canvas-record/
 // ref - https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
 
+import strings from './strings';
+
 const VIDEO_DURATION = 5000;
 
 export enum RecorderStatus {
@@ -75,7 +77,10 @@ export default class VideoRecorder {
     this.sourceBuffer = this.mediaSource.addSourceBuffer(
       'video/webm; codecs="vp8"'
     );
-    console.log('Source buffer: ', this.sourceBuffer);
+  }
+
+  stop() {
+    this.mediaRecorder?.stop();
   }
 
   recordCanvas() {
@@ -89,16 +94,13 @@ export default class VideoRecorder {
       try {
         this.mediaRecorder = new MediaRecorder(this.stream, options);
       } catch (e0) {
-        console.log('Unable to create MediaRecorder with options Object: ', e0);
+        console.log(strings.mediaRecorderError, e0);
         try {
           options = { mimeType: 'video/webm,codecs=vp9' };
           this.mediaRecorder = new MediaRecorder(this.stream, options);
         } catch (e1) {
-          console.log(
-            'Unable to create MediaRecorder with options Object: ',
-            e1
-          );
-          throw 'Unable to create MediaRecorder';
+          console.log(strings.mediaRecorderError, e1);
+          throw strings.mediaRecorderError;
         }
       }
 
@@ -108,15 +110,14 @@ export default class VideoRecorder {
       this.mediaRecorder.start(1000); // collect 100ms of data
 
       setTimeout(() => {
-        this.mediaRecorder?.stop();
+        this.stop();
       }, VIDEO_DURATION);
     } else {
-      throw 'No canvas found, recording aborted';
+      throw strings.noCanvasError;
     }
   }
 
   handleDataAvailable(event: BlobEvent) {
-    console.log('available: ', event.data);
     if (event.data && event.data.size > 0) {
       this.recordedData.push(event.data);
     }
