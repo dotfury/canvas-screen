@@ -91,7 +91,7 @@ export default class VideoRecorder {
       } catch (e0) {
         console.log(strings.mediaRecorderError, e0);
         try {
-          options = { mimeType: 'video/webm,codecs=vp9' };
+          options = { mimeType: 'video/webm;codecs:vp9' };
           this.mediaRecorder = new MediaRecorder(this.stream, options);
         } catch (e1) {
           console.log(strings.mediaRecorderError, e1);
