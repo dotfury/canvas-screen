@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import Camera from '@/utils/Camera';
+import Camera from '@/utils/WebCamera';
 import VideoRecorder, { RecorderStatus } from '@/utils/VideoRecorder';
 import { modalType } from '@/hooks/modal';
 
