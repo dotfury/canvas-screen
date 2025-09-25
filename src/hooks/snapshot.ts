@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { COUNTDOWN_INTERVAL } from '@/utils/constants';
+
 interface UseSnapShotReturn {
   showOverlay: boolean;
   takeSnapshot: boolean;
@@ -16,14 +18,14 @@ export function useSnapshot(): UseSnapShotReturn {
   const [imageURL, setImageURL] = useState<string>('');
 
   const updateTimer = (time: number): void => {
-    const newTime = time - 1000;
+    const newTime = time - COUNTDOWN_INTERVAL;
 
     if (newTime <= 0) {
       setShowOverlay(false);
       setTakeSnapshot(true);
     } else {
       setRemaningTime(newTime);
-      setTimeout(() => updateTimer(newTime), 1000);
+      setTimeout(() => updateTimer(newTime), COUNTDOWN_INTERVAL);
     }
   };
 
@@ -32,7 +34,7 @@ export function useSnapshot(): UseSnapShotReturn {
     setShowOverlay(true);
     setTakeSnapshot(false);
 
-    setTimeout(() => updateTimer(time), 1000);
+    setTimeout(() => updateTimer(time), COUNTDOWN_INTERVAL);
   };
 
   return {

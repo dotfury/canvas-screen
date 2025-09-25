@@ -1,10 +1,5 @@
-// ref - https://github.com/webrtc/samples/blob/gh-pages/src/content/capture/canvas-record/js/main.js
-// ref - https://webrtc.github.io/samples/src/content/capture/canvas-record/
-// ref - https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder
-
 import strings from './strings';
-
-const VIDEO_DURATION = 5000;
+import { VIDEO_DURATION } from './constants';
 
 export enum RecorderStatus {
   STANDBY = 'standby',
@@ -107,7 +102,7 @@ export default class VideoRecorder {
       this.mediaRecorder.onstop = this.handleStop.bind(this);
       this.mediaRecorder.ondataavailable = this.handleDataAvailable.bind(this);
       this.mediaRecorder.onerror = this.handleRecordingError.bind(this);
-      this.mediaRecorder.start(1000); // collect 100ms of data
+      this.mediaRecorder.start(1000);
 
       setTimeout(() => {
         this.stop();

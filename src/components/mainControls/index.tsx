@@ -4,11 +4,13 @@ import { AppContext } from '@/context/appContext';
 import { RecorderStatus } from '@/utils/VideoRecorder';
 import appConfig from '@/utils/appConfig';
 import strings from '@/utils/strings';
+import { IMAGE_COUNTDOWN, VIDEO_DURATION } from '@/utils/constants';
+import { modalType } from '@/hooks/modal';
+import Countdown from '@/components/countdown';
 import cameraIcon from '@/assets/icons/camera.svg';
 import clockIcon from '@/assets/icons/clock.svg';
 import reverseIcon from '@/assets/icons/circle_arrows.svg';
 import videoIcon from '@/assets/icons/video.svg';
-import { modalType } from '@/hooks/modal';
 
 function MainControls() {
   const appContext = useContext(AppContext);
@@ -21,7 +23,7 @@ function MainControls() {
   const camera = appContext?.camera;
 
   const setSnapTimer = () => {
-    if (setTimer) setTimer(5000);
+    if (setTimer) setTimer(IMAGE_COUNTDOWN);
   };
 
   const takeSnapshot = () => {
@@ -65,6 +67,14 @@ function MainControls() {
       {recorderStatus !== RecorderStatus.RECORDING && (
         <>
           <button
+            id="install-app-button"
+            className="standard-button"
+            onClick={installApp}
+            disabled={showOverlay}
+          >
+            {strings.buttons.install}
+          </button>
+          <button
             className="standard-button"
             onClick={takeSnapshot}
             disabled={showOverlay}
@@ -90,9 +100,12 @@ function MainControls() {
         </>
       )}
       {recorderStatus === RecorderStatus.RECORDING && (
-        <button className="standard-button bg-red-600" onClick={stopVideo}>
-          {strings.buttons.stop}
-        </button>
+        <>
+          <button className="standard-button bg-red-600" onClick={stopVideo}>
+            {strings.buttons.stop}
+          </button>
+          <Countdown initialTime={VIDEO_DURATION} />
+        </>
       )}
       <button
         className="standard-button md:hidden"
@@ -100,14 +113,6 @@ function MainControls() {
         popoverTargetAction="toggle"
       >
         {strings.buttons.controls}
-      </button>
-      <button
-        id="install-app-button"
-        className="standard-button"
-        onClick={installApp}
-        disabled={showOverlay}
-      >
-        {strings.buttons.install}
       </button>
     </div>
   );
