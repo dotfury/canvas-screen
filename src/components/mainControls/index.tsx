@@ -20,6 +20,7 @@ function MainControls() {
   const setActiveModal = appContext?.setActiveModal;
   const recorderStatus = appContext?.recorderStatus;
   const recorder = appContext?.recorder;
+  const recorderError = appContext?.recorderError;
   const camera = appContext?.camera;
 
   const setSnapTimer = () => {
@@ -89,14 +90,16 @@ function MainControls() {
           >
             <img src={clockIcon} alt="set timer" />5
           </button>
-          <button
-            className="standard-button"
-            onClick={takeVideo}
-            disabled={showOverlay}
-          >
-            <img src={videoIcon} alt="take video" />
-            {strings.buttons.video}
-          </button>
+          {!recorderError && (
+            <button
+              className="standard-button"
+              onClick={takeVideo}
+              disabled={showOverlay}
+            >
+              <img src={videoIcon} alt="take video" />
+              {strings.buttons.video}
+            </button>
+          )}
         </>
       )}
       {recorderStatus === RecorderStatus.RECORDING && (

@@ -11,6 +11,7 @@ interface AppContextType {
   camera: Camera | null;
   recorder: VideoRecorder | null;
   recorderStatus: RecorderStatus;
+  recorderError: boolean;
   activeModal: modalType | null;
   setTimer: (time: number) => void;
   setShowModal: (display: boolean) => void;

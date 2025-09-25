@@ -33,7 +33,9 @@ function App() {
     setImageURL,
   } = useSnapshot();
 
-  const { recorder, recorderStatus } = useVideoRecorder(camera?.canvas ?? null);
+  const { recorder, recorderStatus, recorderError } = useVideoRecorder(
+    camera?.canvas ?? null
+  );
 
   useEffect(() => {
     if (appConfig.isMobile) {
@@ -80,6 +82,7 @@ function App() {
         camera,
         recorder,
         recorderStatus,
+        recorderError,
         activeModal,
         setImageURL,
         setTimer,
