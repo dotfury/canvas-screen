@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Camera from '@/utils/Camera';
+import Camera from '@/utils/Cameraz';
 
 export function useCamera(): [Camera | null, boolean] {
   const [cameraError, setCameraError] = useState<boolean>(false);
