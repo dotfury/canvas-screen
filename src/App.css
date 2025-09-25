@@ -24,7 +24,7 @@
   }
 
   button.standard-button {
-    @apply transition my-1.5 cursor-pointer bg-black/25 p-1 rounded-sm lowercase hover:ring-[#535bf2] hover:ring-1 flex justify-center items-center gap-1;
+    @apply transition my-1.5 cursor-pointer bg-black/25 p-1 rounded-sm lowercase hover:ring-[#535bf2] hover:ring-1 flex justify-center items-center gap-1 text-xs md:text-sm;
   }
 
   button.standard-button img {
