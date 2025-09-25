@@ -2,32 +2,38 @@ import { useEffect } from 'react';
 
 import '@/utils/installPwa';
 import appConfig from '@/utils/appConfig';
+import { RecorderStatus } from '@/utils/VideoRecorder';
+import strings from '@/utils/strings';
 import { useCamera } from '@/hooks/camera';
+import { useModal, modalType } from '@/hooks/modal';
 import { useSnapshot } from '@/hooks/snapshot';
+import { useVideoRecorder } from '@/hooks/videoRecorder';
 import { AppContext } from '@/context/appContext';
+import Popover from '@/layout/popover';
 import MainControls from '@/components/mainControls';
 import Controls from '@/components/controls';
-import Download from '@/components/download';
-import Popover from '@/layout/popover';
+import Modal from '@/components/modal';
 
 import './App.css';
-const HAS_SEEN_MESSAGE = 'canvas-screen:hasSeenBrowserMessage';
+const HAS_SEEN_MESSAGE = strings.storageKey;
 
 const showAlert = () => {
-  alert('Open this application in a dedicated browser for the best experience');
+  alert(strings.webviewAlert);
 };
 
 function App() {
   const [camera, cameraError] = useCamera();
+  const { showModal, setShowModal, activeModal, setActiveModal } = useModal();
   const {
     imageURL,
-    showDownloadModal,
     showOverlay,
     takeSnapshot,
     remainingTime,
     setTimer,
-    updateDownloadImageModal,
+    setImageURL,
   } = useSnapshot();
+
+  const { recorder, recorderStatus } = useVideoRecorder(camera?.canvas ?? null);
 
   useEffect(() => {
     if (appConfig.isMobile) {
@@ -46,23 +52,39 @@ function App() {
 
   useEffect(() => {
     if (takeSnapshot) {
-      if (appConfig.isMobile) {
-        updateDownloadImageModal(camera?.createImageDataURL() ?? '');
-      } else {
-        camera?.takeSnapshot();
-      }
+      setActiveModal(modalType.IMAGE);
+      setImageURL(camera?.createImageDataURL() ?? '');
     }
   }, [takeSnapshot]);
+
+  useEffect(() => {
+    if (activeModal !== null) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }, [activeModal]);
+
+  useEffect(() => {
+    if (recorderStatus === RecorderStatus.PREVIEW) {
+      setActiveModal(modalType.PREVIEW);
+    }
+  }, [recorderStatus]);
 
   const renderApp = () => (
     <AppContext.Provider
       value={{
         imageURL,
-        showDownloadModal,
-        updateDownloadImageModal,
+        showModal,
         showOverlay,
         camera,
+        recorder,
+        recorderStatus,
+        activeModal,
+        setImageURL,
         setTimer,
+        setShowModal,
+        setActiveModal,
       }}
     >
       <div className="relative">
@@ -75,16 +97,11 @@ function App() {
       <Popover id="popover">
         <Controls />
       </Popover>
-      <Download />
+      <Modal />
     </AppContext.Provider>
   );
 
-  const renderError = () => (
-    <p>
-      A camera is required for this application. If on mobile, please open this
-      application in a dedicated browser for the best experience.
-    </p>
-  );
+  const renderError = () => <p>{strings.cameraError}</p>;
 
   return !cameraError ? renderApp() : renderError();
 }

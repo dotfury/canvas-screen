@@ -4,8 +4,13 @@ Interactive filters with the camera and HTML Canvas
 
 ## Tech Stack
 
-- React, TypeScript, Tailwind, Vite, GitHub actions
+- React, TypeScript, Tailwind, Vite, GitHub actions - and of course, HTML Canvas
 - PWA (installable, offline)
+
+## Inspiration
+
+- [Frontend Masters: Vanilla JavaScript Projects](https://frontendmasters.com/courses/javascript-projects/)
+- [The Coding Train: Coding Challenge 164: Bending Time Slitscan](https://www.youtube.com/watch?v=hckvHFDGiJk)
 
 ## Attribution
 
@@ -13,3 +18,4 @@ Interactive filters with the camera and HTML Canvas
 [Clock icon](https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_clock-invert.svg) -[license](http://opensource.org/licenses/mit-license.php)\
 [Reverse icon](https://commons.wikimedia.org/wiki/File:Arcticons-white_emoji_anticlockwise_downwards_and_upwards_open_circle_arrows.svg) -
 [license](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
+[Video Camera icon](https://commons.wikimedia.org/wiki/File:Video-solid-white.svg) - [license](https://creativecommons.org/licenses/by-sa/4.0)

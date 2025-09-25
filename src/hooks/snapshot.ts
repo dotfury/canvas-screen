@@ -1,31 +1,31 @@
 import { useState } from 'react';
 
+import { COUNTDOWN_INTERVAL } from '@/utils/constants';
+
 interface UseSnapShotReturn {
-  showDownloadModal: boolean;
   showOverlay: boolean;
   takeSnapshot: boolean;
   remainingTime: number;
   imageURL: string;
   setTimer: (time: number) => void;
-  updateDownloadImageModal: (url: string) => void;
+  setImageURL: (url: string) => void;
 }
 
 export function useSnapshot(): UseSnapShotReturn {
-  const [showDownloadModal, setShowDownloadModal] = useState<boolean>(false);
   const [showOverlay, setShowOverlay] = useState<boolean>(false);
   const [takeSnapshot, setTakeSnapshot] = useState<boolean>(false);
   const [remainingTime, setRemaningTime] = useState<number>(0);
   const [imageURL, setImageURL] = useState<string>('');
 
   const updateTimer = (time: number): void => {
-    const newTime = time - 1000;
+    const newTime = time - COUNTDOWN_INTERVAL;
 
     if (newTime <= 0) {
       setShowOverlay(false);
       setTakeSnapshot(true);
     } else {
       setRemaningTime(newTime);
-      setTimeout(() => updateTimer(newTime), 1000);
+      setTimeout(() => updateTimer(newTime), COUNTDOWN_INTERVAL);
     }
   };
 
@@ -34,25 +34,15 @@ export function useSnapshot(): UseSnapShotReturn {
     setShowOverlay(true);
     setTakeSnapshot(false);
 
-    setTimeout(() => updateTimer(time), 1000);
-  };
-
-  const updateDownloadImageModal = (url: string): void => {
-    if (url) {
-      setImageURL(url);
-      setShowDownloadModal(true);
-    } else {
-      setShowDownloadModal(false);
-    }
+    setTimeout(() => updateTimer(time), COUNTDOWN_INTERVAL);
   };
 
   return {
     imageURL,
-    showDownloadModal,
     showOverlay,
     takeSnapshot,
     remainingTime,
     setTimer,
-    updateDownloadImageModal,
+    setImageURL,
   };
 }

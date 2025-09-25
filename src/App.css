@@ -27,6 +27,10 @@
     @apply transition my-1.5 cursor-pointer bg-black/25 p-1 rounded-sm lowercase hover:ring-[#535bf2] hover:ring-1 flex justify-center items-center gap-1;
   }
 
+  button.standard-button img {
+    @apply w-5 h-5;
+  }
+
   .standard-button.active {
     @apply ring-white ring-1;
   }
@@ -37,6 +41,14 @@
 
   .download-button {
     @apply bg-white border-solid border-1 border-[#999] text-[#646cff] cursor-pointer flex-1 p-2.5 text-center font-semibold;
+  }
+
+  #modal {
+    @apply fixed w-full h-full top-0 left-0 right-0 bottom-0 bg-black/90 hidden;
+  }
+
+  #modal.modal-active {
+    @apply flex justify-center items-center;
   }
 
   button:disabled,
