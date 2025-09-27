@@ -11,7 +11,7 @@ export default class VideoRecorder {
   private static instance: VideoRecorder;
   static canvas: HTMLCanvasElement | null;
 
-  mediaSource: MediaSource;
+  mediaSource: MediaSource | any;
   sourceBuffer: SourceBuffer | null;
   mediaRecorder: MediaRecorder | null;
   stream: MediaStream | null;
@@ -32,7 +32,7 @@ export default class VideoRecorder {
     this._status = RecorderStatus.STANDBY;
     this._videoURL = '';
     this.sourceBuffer = null;
-    this.mediaSource = new MediaSource();
+    this.mediaSource = this.getMediaSource();
     this.mediaSource.addEventListener(
       'sourceopen',
       this.handleSourceOpen,
@@ -54,6 +54,18 @@ export default class VideoRecorder {
 
   get video() {
     return this._videoURL;
+  }
+
+  getMediaSource() {
+    if ('ManagedMediaSource' in window && window.ManagedMediaSource) {
+      return new (window.ManagedMediaSource as any)();
+    }
+
+    if (window.MediaSource) {
+      return new window.MediaSource();
+    }
+
+    throw 'No MediaSource API available';
   }
 
   clearPreview() {
