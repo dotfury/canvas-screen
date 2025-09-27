@@ -35,7 +35,7 @@ function PreviewModal() {
         <p className="m-0 p-2.5">
           {strings.previewText} {strings.downloadFileMessage}
         </p>
-        <video className="p-2.5" src={recorder?.video} controls />
+        <video className="p-2.5" src={recorder?.video} controls playsInline />
         <nav className="download-navigation flex justify-around">
           <button
             className="download-button border-r-0 rounded-bl-md"
