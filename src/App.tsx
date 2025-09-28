@@ -10,6 +10,7 @@ import { useSnapshot } from '@/hooks/snapshot';
 import { useVideoRecorder } from '@/hooks/videoRecorder';
 import { AppContext } from '@/context/appContext';
 import Popover from '@/layout/popover';
+import Loading from '@/layout/loading/loading';
 import MainControls from '@/components/mainControls';
 import Controls from '@/components/controls';
 import Modal from '@/components/modal';
@@ -22,7 +23,7 @@ const showAlert = () => {
 };
 
 function App() {
-  const [camera, cameraError] = useCamera();
+  const [camera, cameraError, cameraLoading] = useCamera();
   const { showModal, setShowModal, activeModal, setActiveModal } = useModal();
   const {
     imageURL,
@@ -90,6 +91,7 @@ function App() {
         setActiveModal,
       }}
     >
+      {cameraLoading && <Loading />}
       <div className="relative">
         <canvas />
         {showOverlay && (

@@ -25,4 +25,5 @@ export default {
     'Downloaded files will be in your downloads or files folder.',
   noImageError: 'Image not found. Please try again.',
   recordVideoMessage: "Let's record a video up to 15 seconds",
+  loading: '...Loading',
 };
