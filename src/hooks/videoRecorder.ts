@@ -3,7 +3,15 @@ import { useState } from 'react';
 import VideoRecorder, { RecorderStatus } from '@/utils/VideoRecorder';
 
 export function useVideoRecorder(canvas: HTMLCanvasElement | null) {
-  const [recorderError, setRecorderError] = useState<boolean>(false);
+  if (
+    'ManagedMediaSource' in window === false &&
+    'MediaSource' in window === false
+  ) {
+    return {
+      recorder: null,
+      recorderStatus: RecorderStatus.STANDBY,
+    };
+  }
 
   try {
     const recorder = new VideoRecorder(canvas);
@@ -24,15 +32,11 @@ export function useVideoRecorder(canvas: HTMLCanvasElement | null) {
     return {
       recorder,
       recorderStatus,
-      recorderError,
     };
   } catch (e) {
-    setRecorderError(true);
-
     return {
       recorder: null,
       recorderStatus: RecorderStatus.STANDBY,
-      recorderError,
     };
   }
 }

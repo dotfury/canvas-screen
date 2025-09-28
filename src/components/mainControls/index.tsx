@@ -20,7 +20,7 @@ function MainControls() {
   const setActiveModal = appContext?.setActiveModal;
   const recorderStatus = appContext?.recorderStatus;
   const recorder = appContext?.recorder;
-  const recorderError = appContext?.recorderError;
+  const recorderError = appContext?.recorder === null;
   const camera = appContext?.camera;
 
   const setSnapTimer = () => {
