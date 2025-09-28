@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import Camera from '@/utils/WebCamera';
 
-export function useCamera(): [Camera | null, boolean] {
+export function useCamera(): [Camera | null, boolean, boolean] {
   const [cameraError, setCameraError] = useState<boolean>(false);
   const [camera, setCamera] = useState<Camera | null>(null);
+  const [cameraLoading, setCameraLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const setup = async () => {
@@ -11,6 +12,7 @@ export function useCamera(): [Camera | null, boolean] {
         const canvas = document.querySelector('canvas')!;
         const camera = new Camera(canvas);
 
+        camera.addVideoStartCallback(() => setCameraLoading(false));
         await camera.init();
         camera.startVideo();
 
@@ -23,5 +25,5 @@ export function useCamera(): [Camera | null, boolean] {
     setup();
   }, []);
 
-  return [camera, cameraError];
+  return [camera, cameraError, cameraLoading];
 }

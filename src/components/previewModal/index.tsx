@@ -32,7 +32,7 @@ function PreviewModal() {
   {
     return (
       <div className="text-[#333] w-fit max-w-4/5 bg-white rounded-md">
-        <p className="m-0 p-2.5">
+        <p className="m-0 p-2.5 pb-0">
           {strings.previewText} {strings.downloadFileMessage}
         </p>
         <video className="p-2.5" src={recorder?.video} controls playsInline />

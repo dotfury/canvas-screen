@@ -34,6 +34,7 @@ export default class Camera {
   width: number;
   currentEffect: string;
   facingMode: FacingMode;
+  videoStartCallbacks: Function[];
 
   constructor(canvas: HTMLCanvasElement) {
     if (!Camera.instance) {
@@ -51,6 +52,7 @@ export default class Camera {
     })!;
     this.offscreenCanvas = null;
     this.offscreenContext = null;
+    this.videoStartCallbacks = [];
 
     return Camera.instance;
   }
@@ -77,6 +79,10 @@ export default class Camera {
     return this.dataCanvas;
   }
 
+  addVideoStartCallback(f: Function) {
+    this.videoStartCallbacks.push(f);
+  }
+
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
       audio: false,
@@ -100,6 +106,7 @@ export default class Camera {
     video.playsInline = true;
 
     await video.play();
+    this.videoStartCallbacks.forEach((fn) => fn());
 
     return video;
   }
