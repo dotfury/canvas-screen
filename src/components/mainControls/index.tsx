@@ -110,13 +110,15 @@ function MainControls() {
           <Countdown initialTime={VIDEO_DURATION} />
         </>
       )}
-      <button
-        className="standard-button md:hidden"
-        popoverTarget="popover"
-        popoverTargetAction="toggle"
-      >
-        {strings.buttons.controls}
-      </button>
+      {appConfig.hasPopover && (
+        <button
+          className="standard-button md:hidden"
+          popoverTarget="popover"
+          popoverTargetAction="toggle"
+        >
+          {strings.buttons.controls}
+        </button>
+      )}
     </div>
   );
 }
