@@ -14,6 +14,7 @@ interface AsciiConfig {
   lightColor: string;
   font: string;
   flow: boolean;
+  monochrome: boolean;
 }
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
@@ -31,6 +32,7 @@ export const config: AsciiConfig = {
   lightColor: '#ffffff',
   font: 'sans-serif',
   flow: false,
+  monochrome: false,
 };
 
 // reuse outputs memory
@@ -43,6 +45,24 @@ const characters = ']N@#W$9876543210?!abc;:+=-,._ ';
 const density = [...characters.split('')];
 const densityCopy = [...density, ...'[)(&%^*`~defABCDEF¥|><'.split('')];
 const charLength = characters.length;
+
+function getFillColor(fill: number): string {
+  if (config.monochrome) {
+    if (fill < config.dark) {
+      return config.darkColor;
+    }
+
+    return config.lightColor;
+  }
+
+  if (fill < config.dark) {
+    return config.darkColor;
+  } else if (fill < config.light) {
+    return config.midColor;
+  }
+
+  return config.lightColor;
+}
 
 export default function ascii(
   dataContext: CanvasRenderingContext2D,
@@ -63,12 +83,7 @@ export default function ascii(
     for (let j = 0; j < innerLength; j++) {
       const fill = outputs[i][j];
 
-      dataContext.fillStyle =
-        fill < config.dark
-          ? config.darkColor
-          : fill < config.light
-            ? config.midColor
-            : config.lightColor;
+      dataContext.fillStyle = getFillColor(fill);
 
       // protect against NaN
       const charIndex = Math.floor(map(fill, 0, 255, charLength, 0)) || 0;

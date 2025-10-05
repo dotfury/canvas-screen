@@ -12,6 +12,7 @@ interface PixelateConfig {
   midColor: string;
   lightColor: string;
   shape: string;
+  monochrome: boolean;
 }
 
 export type ColorTypes = 'darkColor' | 'midColor' | 'lightColor';
@@ -28,10 +29,29 @@ export const config: PixelateConfig = {
   midColor: '#999999',
   lightColor: '#ffffff',
   shape: 'square',
+  monochrome: false,
 };
 
 // reuse outputs memory
 let outputs: number[][] = [];
+
+function getFillColor(fill: number): string {
+  if (config.monochrome) {
+    if (fill < config.dark) {
+      return config.darkColor;
+    }
+
+    return config.lightColor;
+  }
+
+  if (fill < config.dark) {
+    return config.darkColor;
+  } else if (fill < config.light) {
+    return config.midColor;
+  }
+
+  return config.lightColor;
+}
 
 export default function pixelate(
   dataContext: CanvasRenderingContext2D,
@@ -52,12 +72,7 @@ export default function pixelate(
       // 0 - 255
       const fill = outputs[i][j];
 
-      dataContext.fillStyle =
-        fill < config.dark
-          ? config.darkColor
-          : fill < config.light
-            ? config.midColor
-            : config.lightColor;
+      dataContext.fillStyle = getFillColor(fill);
 
       if (config.shape === 'square') {
         dataContext.fillRect(
