@@ -20,7 +20,7 @@ export type NumberTypes = 'dark' | 'light';
 export type ShapeTypes = 'square' | 'circle';
 
 export const config: PixelateConfig = {
-  minSize: AppConfig.isMobile ? 5 : 3,
+  minSize: 3,
   maxSize: 20,
   size: 5,
   dark: 125,
