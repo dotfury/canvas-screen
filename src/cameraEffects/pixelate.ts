@@ -1,5 +1,4 @@
 import { getPixelOutputs } from '@/utils/pixel';
-import AppConfig from '@/utils/appConfig.ts';
 
 // allow editing options
 interface PixelateConfig {
