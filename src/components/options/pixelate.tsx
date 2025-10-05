@@ -16,16 +16,23 @@ function PixelateOptions() {
   const [darkThreshold, setDarkThreshold] = useState<number>(config.dark);
   const [lightThreshold, setLightThreshold] = useState<number>(config.light);
   const [shape, setShape] = useState<string>(config.shape);
+  const [monochrome, setMonochrome] = useState<boolean>(config.monochrome);
 
   const colorOptions: {
     label: string;
     value: string;
     key: ColorTypes;
-  }[] = [
-    { label: 'Dark Color', value: darkColor, key: 'darkColor' },
-    { label: 'Middle Color', value: midColor, key: 'midColor' },
-    { label: 'Light Color', value: lightColor, key: 'lightColor' },
-  ];
+  }[] =
+    monochrome === true
+      ? [
+          { label: 'Dark Color', value: darkColor, key: 'darkColor' },
+          { label: 'Light Color', value: lightColor, key: 'lightColor' },
+        ]
+      : [
+          { label: 'Dark Color', value: darkColor, key: 'darkColor' },
+          { label: 'Middle Color', value: midColor, key: 'midColor' },
+          { label: 'Light Color', value: lightColor, key: 'lightColor' },
+        ];
 
   const colorsMap = {
     darkColor: setDarkColor,
@@ -37,10 +44,13 @@ function PixelateOptions() {
     label: string;
     value: number;
     key: NumberTypes;
-  }[] = [
-    { label: 'Dark Threshold', value: darkThreshold, key: 'dark' },
-    { label: 'Light Threshold', value: lightThreshold, key: 'light' },
-  ];
+  }[] =
+    monochrome === true
+      ? [{ label: 'Dark Threshold', value: darkThreshold, key: 'dark' }]
+      : [
+          { label: 'Dark Threshold', value: darkThreshold, key: 'dark' },
+          { label: 'Light Threshold', value: lightThreshold, key: 'light' },
+        ];
 
   const thresholdMap = {
     dark: setDarkThreshold,
@@ -74,6 +84,12 @@ function PixelateOptions() {
     setShape(value);
   };
 
+  const handleMonochrome = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.checked;
+    config.monochrome = value;
+    setMonochrome(value);
+  };
+
   return (
     <>
       <fieldset>
@@ -84,6 +100,15 @@ function PixelateOptions() {
           max={config.maxSize}
           value={pixelation}
           onChange={handleSlider}
+          disabled={appContext?.showOverlay}
+        />
+      </fieldset>
+      <fieldset>
+        <legend>Monochrome</legend>
+        <input
+          type="checkbox"
+          onChange={handleMonochrome}
+          checked={monochrome}
           disabled={appContext?.showOverlay}
         />
       </fieldset>
