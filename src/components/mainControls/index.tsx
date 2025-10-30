@@ -73,7 +73,7 @@ function MainControls() {
 
   return (
     <div className="flex gap-2 mx-1">
-      {cameraCount > 1 && (
+      {(appConfig.isMobile || cameraCount > 1) && (
         <button
           className="standard-button"
           onClick={switchCamera}
