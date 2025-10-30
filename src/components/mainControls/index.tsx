@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { AppContext } from '@/context/appContext';
 import { RecorderStatus } from '@/utils/VideoRecorder';
@@ -22,6 +22,23 @@ function MainControls() {
   const recorder = appContext?.recorder;
   const recorderError = appContext?.recorder === null;
   const camera = appContext?.camera;
+  const [cameraCount, setCameraCount] = useState<number>(1);
+
+  useEffect(() => {
+    async function getCameraCount() {
+      let deviceList = [];
+      if (!navigator.mediaDevices?.enumerateDevices) {
+        console.log('enumerateDevices() not supported.');
+      } else {
+        const result = await navigator.mediaDevices.enumerateDevices();
+        deviceList = result.filter(({ kind }) => kind === 'videoinput');
+      }
+
+      setCameraCount(deviceList.length);
+    }
+
+    getCameraCount();
+  }, []);
 
   const setSnapTimer = () => {
     if (setTimer) setTimer(IMAGE_COUNTDOWN);
@@ -56,7 +73,7 @@ function MainControls() {
 
   return (
     <div className="flex gap-2 mx-1">
-      {appConfig.isMobile && (
+      {cameraCount > 1 && (
         <button
           className="standard-button"
           onClick={switchCamera}
