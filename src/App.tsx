@@ -89,7 +89,7 @@ function App() {
       }}
     >
       {cameraLoading && <Loading />}
-      <div className="relative">
+      <div className="relative flex flex-col">
         <canvas />
         {showOverlay && (
           <div className="snapshot-timer">{String(remainingTime / 1000)}</div>
