@@ -3,12 +3,14 @@ interface GridConfig {
   minWidth: number;
   maxWidth: number;
   width: number;
+  interlace: boolean;
 }
 
 export const config: GridConfig = {
   minWidth: 50,
   maxWidth: 300,
   width: 100,
+  interlace: false,
 };
 
 let history: ImageBitmap[] = [];
@@ -51,13 +53,27 @@ export default async function grid(
   dataContext.translate(xOffset * 0.75, yOffset / 2);
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {
-      dataContext.drawImage(
-        history[currentFrame],
-        j * config.width + xOffset * j,
-        i * aspectHeight + yOffset * i,
-        config.width,
-        aspectHeight
-      );
+      if (config.interlace) {
+        dataContext.drawImage(
+          history[currentFrame],
+          j * config.width + xOffset * j,
+          i * aspectHeight + yOffset * i,
+          config.width,
+          aspectHeight,
+          j * config.width + xOffset * j,
+          i * aspectHeight + yOffset * i,
+          config.width,
+          aspectHeight
+        );
+      } else {
+        dataContext.drawImage(
+          history[currentFrame],
+          j * config.width + xOffset * j,
+          i * aspectHeight + yOffset * i,
+          config.width,
+          aspectHeight
+        );
+      }
 
       if (length >= minFrames) {
         currentFrame++;
