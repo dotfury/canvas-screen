@@ -16,7 +16,7 @@
 
 @layer base {
   canvas {
-    @apply w-full sm:w-auto;
+    @apply w-full sm:w-[90%];
   }
 
   body {
@@ -48,7 +48,7 @@
   }
 
   #modal.modal-active {
-    @apply flex justify-center items-center;
+    @apply flex justify-center items-center z-10;
   }
 
   button:disabled,
@@ -105,6 +105,36 @@
   @media (display-mode: browser) {
     #install-app-button {
       @apply block;
+    }
+  }
+
+  .options-container {
+    @apply flex-1 pl-2 pb-12 h-full overflow-y-scroll;
+
+    .sticky {
+      display: none;
+    }
+  }
+
+  .preview-container {
+    @apply text-[#333] w-fit max-w-4/5 bg-white rounded-md;
+  }
+
+  @media (orientation: landscape) {
+    .options-container {
+      @apply flex-1 pl-2 pb-0 lg:overflow-hidden overflow-y-scroll h-[calc(100vh-60px)] relative;
+
+      .sticky {
+        display: block;
+      }
+    }
+
+    .preview-container {
+      @apply h-[calc(100vh-60px)];
+
+      video {
+        @apply h-[calc(100%-80px)] justify-self-center;
+      }
     }
   }
 }
