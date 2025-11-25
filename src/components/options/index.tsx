@@ -28,8 +28,11 @@ function Options({ currentEffect }: Props) {
   }, [currentEffect]);
 
   return (
-    <div className="flex-1 pl-2 pb-12 h-full overflow-scroll md:h-auto md:overflow-hidden">
+    <div className="options-container">
       {optionsComponent}
+      {currentEffect !== EFFECTS.STANDARD && (
+        <div className="sticky left-0 bottom-0 w-full h-2 bg-gradient-to-t from-black/30 to-transparent lg:hidden" />
+      )}
     </div>
   );
 }

@@ -31,7 +31,7 @@ function PreviewModal() {
 
   {
     return (
-      <div className="text-[#333] w-fit max-w-4/5 bg-white rounded-md">
+      <div className="preview-container">
         <p className="m-0 p-2.5 pb-0">
           {strings.previewText} {strings.downloadFileMessage}
         </p>
