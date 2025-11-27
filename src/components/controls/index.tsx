@@ -20,7 +20,7 @@ function Controls() {
   return (
     <>
       <div className="md:flex md:flex-1 md:gap-2">
-        <div className="flex pl-2 gap-2 flex-1 md:block">
+        <div className="flex pl-2 gap-2 flex-1 lg:block">
           {effectsList.map((effectName) => {
             const activeClassName = effect === effectName ? 'active' : '';
 

@@ -36,7 +36,7 @@
   }
 
   .snapshot-timer {
-    @apply absolute top-0 left-0 bg-black/50 w-full h-full flex justify-center items-center text-5xl font-bold md:h-11/12;
+    @apply absolute top-0 left-0 bg-black/50 w-full h-full flex justify-center items-center text-5xl font-bold md:h-11/12 max-h-[480px] max-w-[640px];
   }
 
   .download-button {
@@ -120,7 +120,15 @@
     @apply text-[#333] w-fit max-w-4/5 bg-white rounded-md;
   }
 
+  main {
+    @apply relative flex flex-col;
+  }
+
   @media (orientation: landscape) {
+    main {
+      @apply sm:w-[50%];
+    }
+
     .options-container {
       @apply flex-1 pl-2 pb-0 lg:overflow-hidden overflow-y-scroll h-[calc(100vh-60px)] relative;
 

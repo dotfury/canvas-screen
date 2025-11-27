@@ -129,7 +129,7 @@ function MainControls() {
       )}
       {appConfig.hasPopover && (
         <button
-          className="standard-button md:hidden"
+          className="standard-button lg:hidden"
           popoverTarget="popover"
           popoverTargetAction="toggle"
         >
