@@ -16,7 +16,7 @@
 
 @layer base {
   canvas {
-    @apply w-full sm:w-[90%];
+    @apply w-full sm:w-[90%] sm:max-w-[640px];
   }
 
   body {
@@ -120,7 +120,8 @@
     @apply text-[#333] w-fit max-w-4/5 bg-white rounded-md;
   }
 
-  @media (orientation: landscape) {
+  body.landscape-primary,
+  body.landscape-secondary {
     .options-container {
       @apply flex-1 pl-2 pb-0 lg:overflow-hidden overflow-y-scroll h-[calc(100vh-60px)] relative;
 
