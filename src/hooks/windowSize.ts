@@ -24,7 +24,7 @@ function useWindowSize(minWidth: number): {
 
   return {
     currentWidth,
-    isMobileWidth: currentWidth <= minWidth,
+    isMobileWidth: currentWidth < minWidth,
   };
 }
 

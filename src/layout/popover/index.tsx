@@ -9,7 +9,7 @@ type Props = {
 };
 
 function Popover({ id, children }: Props) {
-  const { isMobileWidth } = useWindowSize(768);
+  const { isMobileWidth } = useWindowSize(1024);
   const [renderMobileComponent, setRenderMobileComponent] =
     useState(isMobileWidth);
   const popover: any = useRef(null);
