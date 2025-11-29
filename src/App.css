@@ -36,7 +36,7 @@
   }
 
   .snapshot-timer {
-    @apply absolute top-0 left-0 bg-black/50 w-full h-full flex justify-center items-center text-5xl font-bold md:h-11/12 max-h-[480px] max-w-[640px];
+    @apply absolute top-0 left-0 bg-black/50 flex justify-center items-center text-5xl font-bold;
   }
 
   .download-button {
@@ -53,7 +53,7 @@
 
   button:disabled,
   input:disabled {
-    @apply cursor-not-allowed;
+    @apply cursor-not-allowed opacity-60;
   }
 
   footer img,
@@ -129,8 +129,12 @@
       @apply sm:w-[50%];
     }
 
+    [popover] {
+      @apply h-1/2 top-[calc(100%-50%)];
+    }
+
     .options-container {
-      @apply flex-1 pl-2 pb-0 lg:overflow-hidden overflow-y-scroll h-[calc(100vh-60px)] relative;
+      @apply flex-1 pb-10 lg:overflow-hidden overflow-y-scroll relative;
 
       .sticky {
         display: block;
