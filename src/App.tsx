@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import '@/utils/installPwa';
 import appConfig from '@/utils/appConfig';
@@ -23,6 +23,7 @@ const showAlert = () => {
 };
 
 function App() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [camera, cameraError, cameraLoading] = useCamera();
   const { showModal, setShowModal, activeModal, setActiveModal } = useModal();
   const {
@@ -90,9 +91,17 @@ function App() {
     >
       {cameraLoading && <Loading />}
       <main>
-        <canvas />
+        <canvas ref={canvasRef} />
         {showOverlay && (
-          <div className="snapshot-timer">{String(remainingTime / 1000)}</div>
+          <div
+            className="snapshot-timer"
+            style={{
+              width: canvasRef.current?.clientWidth,
+              height: canvasRef.current?.clientHeight,
+            }}
+          >
+            {String(remainingTime / 1000)}
+          </div>
         )}
         <MainControls />
       </main>

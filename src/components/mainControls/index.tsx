@@ -132,6 +132,7 @@ function MainControls() {
           className="standard-button lg:hidden"
           popoverTarget="popover"
           popoverTargetAction="toggle"
+          disabled={showOverlay}
         >
           {strings.buttons.controls}
         </button>
