@@ -99,13 +99,14 @@ export default class VideoRecorder {
     if (VideoRecorder.canvas) {
       this._status = RecorderStatus.RECORDING;
       this.recordStartCallbacks.forEach((f) => f());
-      let options = { mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2' };
+      let options = { mimeType: 'video/mp4' };
       this.stream = VideoRecorder.canvas.captureStream();
       if (VideoRecorder.audio) {
         this.stream.addTrack(VideoRecorder.audio);
       }
       this.recordedData = [];
       try {
+        options = { mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2' };
         this.mediaRecorder = new MediaRecorder(this.stream, options);
       } catch (e0) {
         console.log(strings.mediaRecorderError, e0);
