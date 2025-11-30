@@ -18,6 +18,8 @@ export function useCamera(): [Camera | null, boolean, boolean] {
 
         setCamera(camera);
       } catch (error: any) {
+        alert(error);
+        alert(error.message);
         setCameraError(true);
       }
     };
