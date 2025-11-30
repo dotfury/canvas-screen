@@ -114,7 +114,7 @@ export default class VideoRecorder {
       this.mediaRecorder.onstop = this.handleStop.bind(this);
       this.mediaRecorder.ondataavailable = this.handleDataAvailable.bind(this);
       this.mediaRecorder.onerror = this.handleRecordingError.bind(this);
-      this.mediaRecorder.start(1000);
+      this.mediaRecorder.start();
 
       setTimeout(() => {
         this.stop();
