@@ -1,5 +1,5 @@
-import strings from './strings';
-import { VIDEO_DURATION } from './constants';
+import strings from '@/utils/strings';
+import { VIDEO_DURATION } from '@/utils/constants';
 
 export enum RecorderStatus {
   STANDBY = 'standby',
@@ -10,6 +10,7 @@ export enum RecorderStatus {
 export default class VideoRecorder {
   private static instance: VideoRecorder;
   static canvas: HTMLCanvasElement | null;
+  static audio: MediaStreamTrack | null;
 
   mediaSource: MediaSource | any;
   sourceBuffer: SourceBuffer | null;
@@ -22,12 +23,16 @@ export default class VideoRecorder {
   recordEndCallbacks: Function[];
   _videoURL: string | undefined;
 
-  constructor(canvas: HTMLCanvasElement | null) {
+  constructor(
+    canvas: HTMLCanvasElement | null,
+    audio: MediaStreamTrack | null
+  ) {
     if (!VideoRecorder.instance) {
       VideoRecorder.instance = this;
     }
 
     VideoRecorder.canvas = canvas;
+    VideoRecorder.audio = audio;
 
     this._status = RecorderStatus.STANDBY;
     this._videoURL = '';
@@ -82,7 +87,7 @@ export default class VideoRecorder {
 
   handleSourceOpen() {
     this.sourceBuffer = this.mediaSource.addSourceBuffer(
-      'video/webm; codecs="vp8"'
+      'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
     );
   }
 
@@ -94,10 +99,12 @@ export default class VideoRecorder {
     if (VideoRecorder.canvas) {
       this._status = RecorderStatus.RECORDING;
       this.recordStartCallbacks.forEach((f) => f());
-      let options = { mimeType: 'video/mp4' };
+      let options = { mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2' };
       this.stream = VideoRecorder.canvas.captureStream();
+      if (VideoRecorder.audio) {
+        this.stream.addTrack(VideoRecorder.audio);
+      }
       this.recordedData = [];
-
       try {
         this.mediaRecorder = new MediaRecorder(this.stream, options);
       } catch (e0) {
