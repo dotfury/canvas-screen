@@ -106,7 +106,6 @@ export default class VideoRecorder {
       }
       this.recordedData = [];
       try {
-        options = { mimeType: 'video/mp4; codecs="avc1.424028, mp4a.40.2' };
         this.mediaRecorder = new MediaRecorder(this.stream, options);
       } catch (e0) {
         console.log(strings.mediaRecorderError, e0);
