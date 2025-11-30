@@ -2,7 +2,10 @@ import { useState } from 'react';
 
 import VideoRecorder, { RecorderStatus } from '@/utils/VideoRecorder';
 
-export function useVideoRecorder(canvas: HTMLCanvasElement | null) {
+export function useVideoRecorder(
+  canvas: HTMLCanvasElement | null,
+  audio: MediaStreamTrack | null
+) {
   if (
     'ManagedMediaSource' in window === false &&
     'MediaSource' in window === false
@@ -14,7 +17,7 @@ export function useVideoRecorder(canvas: HTMLCanvasElement | null) {
   }
 
   try {
-    const recorder = new VideoRecorder(canvas);
+    const recorder = new VideoRecorder(canvas, audio);
     const [recorderStatus, setRecorderStatus] = useState<RecorderStatus>(
       recorder.status
     );

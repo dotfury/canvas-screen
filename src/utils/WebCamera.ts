@@ -35,6 +35,7 @@ export default class Camera {
   currentEffect: string;
   facingMode: FacingMode;
   videoStartCallbacks: Function[];
+  audioStream: MediaStreamTrack[];
 
   constructor(canvas: HTMLCanvasElement) {
     if (!Camera.instance) {
@@ -53,6 +54,7 @@ export default class Camera {
     this.offscreenCanvas = null;
     this.offscreenContext = null;
     this.videoStartCallbacks = [];
+    this.audioStream = [];
 
     return Camera.instance;
   }
@@ -79,19 +81,24 @@ export default class Camera {
     return this.dataCanvas;
   }
 
+  get audio(): MediaStreamTrack | null {
+    return this.audioStream[0];
+  }
+
   addVideoStartCallback(f: Function) {
     this.videoStartCallbacks.push(f);
   }
 
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
-      audio: false,
+      audio: true,
       video: {
         facingMode: this.facingMode,
       },
     });
 
     const video = document.createElement('video');
+    this.audioStream = avStream.getAudioTracks();
 
     try {
       // modern browsers
