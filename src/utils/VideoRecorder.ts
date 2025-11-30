@@ -87,7 +87,7 @@ export default class VideoRecorder {
 
   handleSourceOpen() {
     this.sourceBuffer = this.mediaSource.addSourceBuffer(
-      'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+      'video/webm; codecs="vp8"'
     );
   }
 
