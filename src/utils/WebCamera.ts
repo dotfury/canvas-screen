@@ -1,4 +1,5 @@
 import { EFFECTS } from '@/utils/effectList';
+import appConfig from '@/utils/appConfig';
 import pixelate from '@/cameraEffects/pixelate';
 import ascii, { asciiCleanup } from '@/cameraEffects/ascii';
 import grid, { gridCleanup } from '@/cameraEffects/grid';
@@ -21,6 +22,9 @@ const CLEANUP_MAP: Record<string, any> = {
 const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID, EFFECTS.SLITSCAN];
 
 type FacingMode = 'user' | 'environment';
+
+const isMobileFF =
+  appConfig.isMobile && navigator.userAgent.includes('Firefox');
 
 export default class Camera {
   private static instance: Camera;
@@ -91,14 +95,14 @@ export default class Camera {
 
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
+      audio: !isMobileFF,
       video: {
         facingMode: this.facingMode,
       },
     });
 
     const video = document.createElement('video');
-    // this.audioStream = avStream.getAudioTracks();
+    this.audioStream = avStream.getAudioTracks();
 
     try {
       // modern browsers
