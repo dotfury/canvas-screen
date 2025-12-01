@@ -98,7 +98,7 @@ export default class Camera {
     });
 
     const video = document.createElement('video');
-    this.audioStream = avStream.getAudioTracks();
+    // this.audioStream = avStream.getAudioTracks();
 
     try {
       // modern browsers
