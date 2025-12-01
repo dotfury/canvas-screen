@@ -3,14 +3,14 @@ import { useContext } from 'react';
 import { shareFile } from '@/utils/share';
 import { AppContext } from '@/context/appContext';
 import strings from '@/utils/strings';
+import appConfig from '@/utils/appConfig';
 
 function PreviewModal() {
   const appContext = useContext(AppContext);
   const setActiveModal = appContext?.setActiveModal;
   const recorder = appContext?.recorder;
   // Firefox cannot attach files to share
-  const isFF = navigator.userAgent.includes('Firefox');
-  const canShowShare = !!navigator.canShare && !isFF;
+  const canShowShare = !!navigator.canShare && !appConfig.isFF;
 
   const closeModal = () => {
     setActiveModal && setActiveModal(null);

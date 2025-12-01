@@ -23,8 +23,7 @@ const NEEDS_OFFSCREEN: String[] = [EFFECTS.GRID, EFFECTS.SLITSCAN];
 
 type FacingMode = 'user' | 'environment';
 
-const isMobileFF =
-  appConfig.isMobile && navigator.userAgent.includes('Firefox');
+const isMobileFF = appConfig.isMobile && appConfig.isFF;
 
 export default class Camera {
   private static instance: Camera;
@@ -95,7 +94,7 @@ export default class Camera {
 
   async getVideo(): Promise<HTMLVideoElement> {
     const avStream = await navigator.mediaDevices.getUserMedia({
-      audio: !isMobileFF,
+      audio: !isMobileFF, // mobile FF audio issue
       video: {
         facingMode: this.facingMode,
       },

@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { AppContext } from '@/context/appContext';
 import { shareFile } from '@/utils/share';
 import strings from '@/utils/strings';
+import appConfig from '@/utils/appConfig';
 
 function ImageModal() {
   const appContext = useContext(AppContext);
@@ -10,8 +11,7 @@ function ImageModal() {
   const setActiveModal = appContext?.setActiveModal;
   const imageURL = appContext?.imageURL;
   // Firefox cannot attach files to share
-  const isFF = navigator.userAgent.includes('Firefox');
-  const canShowShare = !!navigator.canShare && !isFF;
+  const canShowShare = !!navigator.canShare && !appConfig.isFF;
 
   const clearImage = () => {
     if (setImageURL && setActiveModal) {
