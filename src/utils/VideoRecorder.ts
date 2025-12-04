@@ -99,7 +99,11 @@ export default class VideoRecorder {
     if (VideoRecorder.canvas) {
       this._status = RecorderStatus.RECORDING;
       this.recordStartCallbacks.forEach((f) => f());
-      let options = { mimeType: 'video/mp4' };
+      let options = {
+        mimeType: 'video/mp4',
+        audioBitsPerSecond: 128000,
+        videoBitsPerSecond: 2500000,
+      };
       this.stream = VideoRecorder.canvas.captureStream();
       if (VideoRecorder.audio) {
         this.stream.addTrack(VideoRecorder.audio);
@@ -110,7 +114,7 @@ export default class VideoRecorder {
       } catch (e0) {
         console.log(strings.mediaRecorderError, e0);
         try {
-          options = { mimeType: 'video/webm;codecs:vp9' };
+          options = { ...options, mimeType: 'video/webm;codecs:vp9' };
           this.mediaRecorder = new MediaRecorder(this.stream, options);
         } catch (e1) {
           console.log(strings.mediaRecorderError, e1);

@@ -16,8 +16,17 @@ function Countdown({ initialTime }: { initialTime: number }) {
     setTimeout(() => updateTimer(newTime), COUNTDOWN_INTERVAL);
   };
 
+  const millisToMinutesAndSeconds = (millis: number): string => {
+    const minutes = Math.floor(millis / 60000);
+    const seconds = ((millis % 60000) / 1000).toFixed(0);
+
+    return `${String(minutes).padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+  };
+
   return (
-    <div className="p-1 my-1.5 bg-black/25 rounded-sm flex items-center justify-center">{`${String(time / COUNTDOWN_INTERVAL).padStart(2, '0')}:00`}</div>
+    <div className="p-1 my-1.5 bg-black/25 rounded-sm flex items-center justify-center">
+      {millisToMinutesAndSeconds(time)}
+    </div>
   );
 }
 

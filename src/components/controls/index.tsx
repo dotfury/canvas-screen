@@ -31,7 +31,11 @@ function Controls() {
               disabled={appContext?.showOverlay}
             >
               {effectsList.map((effectName) => {
-                return <option value={effectName}>{effectName}</option>;
+                return (
+                  <option value={effectName} key={effectName}>
+                    {effectName}
+                  </option>
+                );
               })}
             </select>
           </fieldset>
