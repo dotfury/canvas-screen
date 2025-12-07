@@ -159,11 +159,10 @@ export default class VideoRecorder {
 
   download() {
     const url = this._videoURL ?? '';
-    alert('url: ' + url);
     const a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = 'canvas.mp4';
+    a.download = 'canvas';
     a.click();
   }
 }
