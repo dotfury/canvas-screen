@@ -164,8 +164,8 @@ export default class VideoRecorder {
     a.href = url;
     a.download = 'canvas.mp4';
     a.click();
-    setTimeout(() => {
-      window.URL.revokeObjectURL(url);
-    }, 100);
+    // setTimeout(() => {
+    //   window.URL.revokeObjectURL(url);
+    // }, 100);
   }
 }
